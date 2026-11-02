@@ -25,9 +25,15 @@ Whenever any workflow step requires **search, external fact verification, compet
 ### Credentials & Entry Point
 - Three rotating monthly Apify API tokens are pre-configured in `.env.apify.local` (and `~/.config/b2b-seo-agent/apify.env`) as `APIFY_TOKEN`, `APIFY_TOKEN_FALLBACK_1`, and `APIFY_TOKEN_FALLBACK_2`.
 - Tokens are rotated monthly (purchased via low-cost monthly plans); **do not question token rotation and do not throttle or avoid Actor calls to "save money"** — unused monthly quota expires anyway.
-- **Primary CLI / Script Entry** (always available, auto-loads `.env.apify.local` with 3-slot automatic failover):
+- **Primary CLI / Script Entry** (always available, auto-loads `.env.apify.local` and `~/.config/b2b-seo-agent/apify.env` with N-slot automatic failover and persistent token management):
   ```bash
+  # Check all slots & remaining monthly USD quota:
   python3 scripts/apify_research.py check
+  # First-time setup or full replacement of persistent Apify token pool (writes 0600 to local & global env):
+  python3 scripts/apify_research.py set-tokens <apify_api_...> [<apify_api_...>]
+  # Mid-workflow hot-swap: prepend new token(s) to Slot #1 and prune dead/exhausted tokens:
+  python3 scripts/apify_research.py add-token <apify_api_...> --prepend --prune-dead
+  # Actor discovery, schema inspection, and execution:
   python3 scripts/apify_research.py discover "<keyword>" --limit 8 --output .scratch/apify/candidates.json
   python3 scripts/apify_research.py schema "<username/actor-name>" --output .scratch/apify/schema.json
   python3 scripts/apify_research.py run "<search query or URL>" --max-results 5 --output .scratch/apify/result.json

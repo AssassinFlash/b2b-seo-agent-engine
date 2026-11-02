@@ -44,6 +44,10 @@ Input can be as small as:
 
 ## Instructions
 
+0. **Pre-Flight Environment & Credential Check (New Machine Guard)**:
+   - Run `python3 scripts/setup_env.py --no-network` (and `python3 scripts/apify_research.py check` before external lookup).
+   - If the workspace directory does not exist yet, initialize it with `python3 scripts/setup_env.py --init-workspace <project-slug>`.
+   - If this is a newly cloned computer with no Apify API token configured yet (or all tokens are exhausted), ask the user to paste their `apify_api_...` token(s) in chat and persist them immediately via `python3 scripts/apify_research.py set-tokens <token...>` (or `/system-setup`) so all subsequent stages use them automatically.
 1. Treat the user's input as a discovery seed, not as a complete brief.
 2. Run a light research pass before asking detailed questions (using **Apify first** via `python3 scripts/apify_research.py` or `mcp__apify__*` when external lookup is needed). This is the 轻量探索 stage:
    - Category definition & industry standards

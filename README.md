@@ -1,10 +1,10 @@
 # B2B SEO & GEO Agent Engine (`v3.4`)
 
 [![Version](https://img.shields.io/badge/release-v3.4.0-c9a962?style=flat-square)](#)
-[![Skills](https://img.shields.io/badge/Claude_Skills-42_Modular_Skills-0f766e?style=flat-square)](#3-repository-topology--skill-graph)
-[![Subagents](https://img.shields.io/badge/Specialized_Agents-5_Agents-1d4ed8?style=flat-square)](#3-repository-topology--skill-graph)
+[![Skills](https://img.shields.io/badge/Claude_Skills-43_Modular_Skills-0f766e?style=flat-square)](#5-repository-topology--skill-graph)
+[![Subagents](https://img.shields.io/badge/Specialized_Agents-5_Agents-1d4ed8?style=flat-square)](#5-repository-topology--skill-graph)
 [![QA Gates](https://img.shields.io/badge/Hard_QA_Gates-4_Sequential_Gates_%2B_PreToolUse_Hook-b91c1c?style=flat-square)](#4-deterministic-harness-guardrails-vs-model-judgment)
-[![Tests](https://img.shields.io/badge/Test_Suite-102_Passing_(unittest_%2B_pytest)-15803d?style=flat-square)](#7-verification--test-suite)
+[![Tests](https://img.shields.io/badge/Test_Suite-106_Passing_(unittest_%2B_pytest)-15803d?style=flat-square)](#7-verification--test-suite)
 [![License: MIT](https://img.shields.io/badge/License-MIT-374151?style=flat-square)](./LICENSE)
 
 > **An Agent-Native, Evidence-Bounded B2B Technical Content & Generative Engine Optimization (GEO) Operating System.**  
@@ -144,7 +144,8 @@ A core design principle of `v3.4` is **strict separation of concerns between cod
 │   │   ├── publish-package-qa.md
 │   │   ├── publish-readiness-agent.md
 │   │   └── performance-review-strategist.md
-│   └── skills/                          # 42 modular skills + 12 deep reference playbooks
+│   └── skills/                          # 43 modular skills + 12 deep reference playbooks
+│       ├── system-setup/                # New-machine doctor & persistent Apify token hot-swap
 │       ├── profile-discover/            # Discovery & April Dunford Status-Quo Alternatives
 │       ├── article-cluster/             # 50+ Pain-Point SEO Cards & Cannibalization Guard
 │       ├── article-intent-research/     # Live PAA, Autocomplete, Reddit & SERP Consensus Target
@@ -154,9 +155,11 @@ A core design principle of `v3.4` is **strict separation of concerns between cod
 │       ├── article-draft/               # One-shot continuous pass + Numeric Control Vector
 │       ├── article-html-visuals/        # Zero-JS CSP Scoped HTML5 interactive components
 │       ├── voice-and-humanization/      # 24 AI-writing anti-patterns + B2B forensic syntax
-│       └── ... (42 skills total)
+│       └── ... (43 skills total)
 ├── templates/                           # 24 standardized Markdown/JSON artifact templates
 ├── scripts/                             # Deterministic validators, assemblers & hooks
+│   ├── setup_env.py                     # Zero-dependency environment doctor & bootstrapper
+│   ├── apify_research.py                # Apify Actor runner + persistent token-pool manager
 │   ├── hooks/publish_gate.py            # PreToolUse physical publish gate
 │   ├── validate_publish.py              # End-to-end pre-publish artifact & CSP validator
 │   ├── assemble_publish_draft.py        # Merges enriched draft + HTML5 visuals + {{CITE}} index
@@ -168,25 +171,34 @@ A core design principle of `v3.4` is **strict separation of concerns between cod
 ├── content-workspace/                   # End-to-end showcase workspaces
 │   ├── example-metal-divider/           # Architectural stainless steel screens showcase
 │   └── sunriver-inverter/               # Commercial hybrid solar inverter showcase
-└── tests/                               # 41 unittest + 61 pytest deterministic test cases
+└── tests/                               # 43 unittest + 63 pytest deterministic test cases
 ```
 
 ---
 
-## 6. Quickstart
+## 6. Quickstart & Cross-Machine Setup
 
-### 1. Start a New B2B Project Workspace
+### 1. First-Time Setup on Any Computer (`/system-setup`)
+After cloning onto a new machine, either paste your Apify API key(s) directly in chat (`/system-setup apify_api_...`) or run the zero-dependency bootstrapper:
+```bash
+# Auto-install missing Python deps (PyYAML), verify hooks, and save persistent Apify token(s) (chmod 600):
+python3 scripts/setup_env.py --fix --set-apify-tokens apify_api_YOUR_KEY_1 apify_api_YOUR_KEY_2
+```
+- Tokens are persisted with `0600` permissions to **both** `~/.config/b2b-seo-agent/apify.env` (machine-wide across all future sessions and projects) and `.env.apify.local` (repo-local, git-ignored).
+- **Mid-Workflow Token Hot-Swap**: Whenever a token expires or exhausts its monthly quota mid-task, simply paste a new `apify_api_...` key in chat (or run `python3 scripts/apify_research.py add-token <new_key> --prepend --prune-dead`) — the agent hot-swaps the primary slot, prunes dead keys, and resumes the current stage without losing progress.
+
+### 2. Start a New B2B Project Workspace
 Invoke `/profile-discover` inside Claude Code with a brief description of your business:
 ```text
 /profile-discover "We manufacture custom architectural 304/316 stainless steel screens for hotels and commercial interiors."
 ```
 
-### 2. Inspect Pipeline Status or Advance Safely at Any Time
+### 3. Inspect Pipeline Status or Advance Safely at Any Time
 ```text
 /workflow-status content-workspace/example-metal-divider metal-room-divider-design-guide
 ```
 
-### 3. Assemble & Preview a Completed Article in the Host Theme Shell
+### 4. Assemble & Preview a Completed Article in the Host Theme Shell
 ```bash
 # Assemble publish-ready-body.md and index {{CITE: ...}} external tool slots
 python3 scripts/assemble_publish_draft.py content-workspace/example-metal-divider metal-room-divider-design-guide

@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
-"""Project-local Apify research entry point; Python standard library only.
+"""Project-local Apify research & persistent token-pool manager; Python standard library only.
 
-Loads tokens from project `.env.apify.local` or `~/.config/b2b-seo-agent/apify.env`
-(supporting both APIFY_TOKEN_FALLBACK_1/2 and APIFY_TOKEN_SPARE1/2), automatically
-selects an authenticated slot, and supports:
-  - check: verify all configured token slots
+Loads tokens from project `.env.apify.local`, `~/.config/b2b-seo-agent/apify.env`,
+or `~/.config/b2b-seo-agent/apify.env` (supporting APIFY_TOKEN, APIFY_TOKEN_FALLBACK_1..9,
+and APIFY_TOKEN_SPARE1..9), automatically selects an authenticated slot with remaining
+monthly USD quota, and supports:
+  - check: verify all configured token slots and show masked tokens + remaining USD quota
+  - set-tokens: overwrite persistent token pool with 1..N tokens (writes 0600 to global + local env)
+  - add-token: append/promote 1..N tokens into the persistent pool (optionally --prune-dead)
+  - remove-token: remove a token by slot index (1, 2, ...) or token substring/suffix
+  - prune-dead: test all slots and automatically remove invalid (401/403) or exhausted tokens
   - discover: search Apify Actor Store for specialized actors
   - schema: inspect an Actor's default build input schema
-  - run: run apify/rag-web-browser (or any --actor with --input-json) and fetch dataset
+  - run: run apify/rag-web-browser (or any --actor / --preset with --input-json) and fetch dataset
 """
 
 from __future__ import annotations
@@ -26,31 +31,60 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "https://api.apify.com/v2"
-SLOT_KEYS = (
+LOCAL_ENV_PATH = ROOT / ".env.apify.local"
+GLOBAL_ENV_PATH = Path.home() / ".config" / "b2b-seo-agent" / "apify.env"
+LEGACY_GLOBAL_ENV_PATH = Path.home() / ".config" / "b2b-seo-agent" / "apify.env"
+
+SLOT_KEYS: tuple[tuple[str, ...], ...] = (
     ("APIFY_TOKEN",),
     ("APIFY_TOKEN_FALLBACK_1", "APIFY_TOKEN_SPARE1"),
     ("APIFY_TOKEN_FALLBACK_2", "APIFY_TOKEN_SPARE2"),
+    ("APIFY_TOKEN_FALLBACK_3", "APIFY_TOKEN_SPARE3"),
+    ("APIFY_TOKEN_FALLBACK_4", "APIFY_TOKEN_SPARE4"),
+    ("APIFY_TOKEN_FALLBACK_5", "APIFY_TOKEN_SPARE5"),
+    ("APIFY_TOKEN_FALLBACK_6", "APIFY_TOKEN_SPARE6"),
+    ("APIFY_TOKEN_FALLBACK_7", "APIFY_TOKEN_SPARE7"),
+    ("APIFY_TOKEN_FALLBACK_8", "APIFY_TOKEN_SPARE8"),
+    ("APIFY_TOKEN_FALLBACK_9", "APIFY_TOKEN_SPARE9"),
 )
 
 
-def _load_env_file(env_file: Path) -> None:
+def mask_token(token: str) -> str:
+    t = token.strip()
+    if len(t) <= 14:
+        return "***"
+    return f"{t[:10]}...{t[-4:]}"
+
+
+def _read_env_dict(env_file: Path) -> dict[str, str]:
+    out: dict[str, str] = {}
     if not env_file.exists():
-        return
-    if env_file.stat().st_mode & 0o077:
-        os.chmod(env_file, 0o600)
-    for line in env_file.read_text(encoding="utf-8").splitlines():
+        return out
+    try:
+        if env_file.stat().st_mode & 0o077:
+            os.chmod(env_file, 0o600)
+    except OSError:
+        pass
+    for line in env_file.read_text(encoding="utf-8", errors="replace").splitlines():
         line_s = line.strip()
         if line_s and not line_s.startswith("#") and "=" in line_s:
             key, value = line_s.split("=", 1)
             k = key.strip()
             v = value.strip().strip("'\"")
-            if v and k not in os.environ:
-                os.environ[k] = v
+            if k and v:
+                out[k] = v
+    return out
 
 
-def load_tokens() -> list[tuple[int, str]]:
-    _load_env_file(ROOT / ".env.apify.local")
-    _load_env_file(Path.home() / ".config" / "b2b-seo-agent" / "apify.env")
+def _load_env_file(env_file: Path, override: bool = False) -> None:
+    for k, v in _read_env_dict(env_file).items():
+        if override or k not in os.environ:
+            os.environ[k] = v
+
+
+def load_tokens(allow_empty: bool = False) -> list[tuple[int, str]]:
+    for env_path in (LOCAL_ENV_PATH, GLOBAL_ENV_PATH, LEGACY_GLOBAL_ENV_PATH):
+        _load_env_file(env_path)
     tokens: list[tuple[int, str]] = []
     seen: set[str] = set()
     for idx, candidates in enumerate(SLOT_KEYS, start=1):
@@ -60,11 +94,66 @@ def load_tokens() -> list[tuple[int, str]]:
                 tokens.append((idx, val))
                 seen.add(val)
                 break
-    if not tokens:
+    if not tokens and not allow_empty:
         raise RuntimeError(
-            "Missing Apify credentials: configure .env.apify.local or ~/.config/b2b-seo-agent/apify.env"
+            "Missing Apify credentials: run `python3 scripts/apify_research.py set-tokens <apify_api_...>` "
+            "or invoke `/system-setup` to persist your Apify API key(s)."
         )
     return tokens
+
+
+def write_persistent_tokens(token_list: list[str], sync_global: bool = True) -> dict:
+    """Persist deduplicated token list into .env.apify.local and ~/.config/b2b-seo-agent/apify.env with chmod 600."""
+    cleaned: list[str] = []
+    seen: set[str] = set()
+    for raw in token_list:
+        for part in re.split(r"[\s,;]+", raw.strip()):
+            t = part.strip().strip("'\"")
+            if not t:
+                continue
+            if t not in seen:
+                cleaned.append(t)
+                seen.add(t)
+
+    lines = [
+        "# Persistent Apify API Token Pool (auto-managed by scripts/apify_research.py)",
+        "# Permissions: 0600 (owner read/write only). Never commit to Git.",
+    ]
+    for i, tok in enumerate(cleaned):
+        if i == 0:
+            lines.append(f"APIFY_TOKEN={tok}")
+        else:
+            lines.append(f"APIFY_TOKEN_FALLBACK_{i}={tok}")
+            lines.append(f"APIFY_TOKEN_SPARE{i}={tok}")
+    content = "\n".join(lines) + "\n"
+
+    written_paths: list[str] = []
+    targets = [LOCAL_ENV_PATH]
+    if sync_global:
+        targets.append(GLOBAL_ENV_PATH)
+        if LEGACY_GLOBAL_ENV_PATH.exists():
+            targets.append(LEGACY_GLOBAL_ENV_PATH)
+
+    for target in targets:
+        try:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(content, encoding="utf-8")
+            os.chmod(target, 0o600)
+            written_paths.append(str(target))
+        except OSError:
+            continue
+
+    # Refresh in-process environment variables so immediate check/run uses the updated pool
+    for candidates in SLOT_KEYS:
+        for k in candidates:
+            os.environ.pop(k, None)
+    _load_env_file(LOCAL_ENV_PATH, override=True)
+
+    return {
+        "configured_slots": len(cleaned),
+        "masked_tokens": [mask_token(t) for t in cleaned],
+        "persisted_to": written_paths,
+    }
 
 
 class ApiError(RuntimeError):
@@ -108,8 +197,15 @@ def api(token: str, path: str, payload: dict | None = None):
 
 def check_slot_quota(token: str) -> dict:
     """Verify token authentication and check /users/me/limits for remaining monthly USD quota."""
-    api(token, "/users/me")
-    info: dict = {"http_status": 200, "authenticated": True, "quota_exhausted": False}
+    me = (api(token, "/users/me") or {}).get("data") or {}
+    info: dict = {
+        "http_status": 200,
+        "authenticated": True,
+        "quota_exhausted": False,
+        "masked_token": mask_token(token),
+    }
+    if me.get("username"):
+        info["username"] = me.get("username")
     try:
         limits_data = (api(token, "/users/me/limits") or {}).get("data") or {}
         current = limits_data.get("current") or {}
@@ -140,7 +236,11 @@ def select_token(tokens: list[tuple[int, str]]) -> tuple[int, str]:
             if exc.status not in (401, 403, 402, 429):
                 raise
             failures.append({"slot": slot, "http_status": exc.status})
-    raise RuntimeError("All Apify token slots failed or exhausted quota: " + json.dumps(failures))
+    raise RuntimeError(
+        "All Apify token slots failed or exhausted quota: "
+        + json.dumps(failures)
+        + ". Paste a fresh Apify token in chat or run `python3 scripts/apify_research.py add-token <new_token> --prune-dead`."
+    )
 
 
 def api_with_transient_retry(token: str, path: str, payload: dict | None = None, retries: int = 3):
@@ -256,10 +356,45 @@ def save_compact_summary(json_path: Path, items: list | dict) -> Path:
     return summary_path
 
 
+def _verify_all_tokens(tokens: list[tuple[int, str]]) -> list[dict]:
+    results = []
+    for slot, token in tokens:
+        try:
+            q = check_slot_quota(token)
+            results.append({"slot": slot, **q})
+        except ApiError as exc:
+            results.append({
+                "slot": slot,
+                "http_status": exc.status,
+                "authenticated": False,
+                "masked_token": mask_token(token),
+            })
+    return results
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("check", help="Verify all configured Apify token slots without printing secrets")
+
+    set_tok = sub.add_parser("set-tokens", help="Overwrite persistent Apify token pool (writes 0600 to local & global env)")
+    set_tok.add_argument("tokens", nargs="+", help="One or more Apify API tokens (e.g. apify_api_...)")
+    set_tok.add_argument("--local-only", action="store_true", help="Write only to repo .env.apify.local")
+    set_tok.add_argument("--no-verify", action="store_true", help="Skip live API verification after writing")
+
+    add_tok = sub.add_parser("add-token", help="Add or promote token(s) into the persistent Apify token pool")
+    add_tok.add_argument("tokens", nargs="+", help="One or more new Apify API tokens")
+    add_tok.add_argument("--prepend", action="store_true", help="Place new token(s) at Slot #1 (primary)")
+    add_tok.add_argument("--prune-dead", action="store_true", help="Automatically remove invalid or exhausted existing tokens")
+    add_tok.add_argument("--local-only", action="store_true", help="Write only to repo .env.apify.local")
+    add_tok.add_argument("--no-verify", action="store_true", help="Skip live API verification")
+
+    rm_tok = sub.add_parser("remove-token", help="Remove a token by slot number (1, 2, ...) or token suffix/substring")
+    rm_tok.add_argument("target", help="Slot number (e.g. '1') or token suffix/substring")
+    rm_tok.add_argument("--local-only", action="store_true", help="Write only to repo .env.apify.local")
+
+    prune = sub.add_parser("prune-dead", help="Test all slots and remove invalid (401/403) or quota-exhausted tokens")
+    prune.add_argument("--local-only", action="store_true", help="Write only to repo .env.apify.local")
 
     discover = sub.add_parser("discover", help="Search Apify Actor Store for task-specific actors")
     discover.add_argument("query")
@@ -284,19 +419,73 @@ def main(argv: list[str] | None = None) -> int:
     run.add_argument("--browser", action="store_true", help="Use browser-playwright mode in rag-web-browser")
     run.add_argument("--output", type=Path, required=True)
     run.add_argument("--resume", help="Resume waiting on an existing runId")
-    run.add_argument("--slot", type=int, choices=(1, 2, 3), help="Force a specific credential slot")
+    run.add_argument("--slot", type=int, choices=tuple(range(1, len(SLOT_KEYS) + 1)), help="Force a specific credential slot")
 
     args = parser.parse_args(argv)
+
+    if args.command == "set-tokens":
+        meta = write_persistent_tokens(args.tokens, sync_global=not args.local_only)
+        tokens = load_tokens(allow_empty=True)
+        checks = [] if args.no_verify else _verify_all_tokens(tokens)
+        print(json.dumps({**meta, "slots": checks}, ensure_ascii=False, indent=2))
+        return 0 if (args.no_verify or any(r.get("authenticated") and not r.get("quota_exhausted") for r in checks)) else 1
+
+    if args.command == "add-token":
+        existing = [tok for _, tok in load_tokens(allow_empty=True)]
+        if args.prune_dead and existing:
+            alive: list[str] = []
+            for tok in existing:
+                try:
+                    q = check_slot_quota(tok)
+                    if not q.get("quota_exhausted"):
+                        alive.append(tok)
+                except ApiError:
+                    continue
+            existing = alive
+        combined = (list(args.tokens) + existing) if args.prepend else (existing + list(args.tokens))
+        meta = write_persistent_tokens(combined, sync_global=not args.local_only)
+        tokens = load_tokens(allow_empty=True)
+        checks = [] if args.no_verify else _verify_all_tokens(tokens)
+        print(json.dumps({**meta, "slots": checks}, ensure_ascii=False, indent=2))
+        return 0 if (args.no_verify or any(r.get("authenticated") and not r.get("quota_exhausted") for r in checks)) else 1
+
+    if args.command == "remove-token":
+        existing = load_tokens(allow_empty=True)
+        target = args.target.strip()
+        kept: list[str] = []
+        removed: list[str] = []
+        is_slot_num = target.isdigit() and 1 <= int(target) <= len(SLOT_KEYS)
+        for slot, tok in existing:
+            matched = (int(target) == slot) if is_slot_num else (len(target) >= 4 and target in tok)
+            if matched:
+                removed.append(mask_token(tok))
+            else:
+                kept.append(tok)
+        meta = write_persistent_tokens(kept, sync_global=not args.local_only)
+        print(json.dumps({"removed": removed, **meta}, ensure_ascii=False, indent=2))
+        return 0
+
+    if args.command == "prune-dead":
+        existing = load_tokens(allow_empty=True)
+        alive: list[str] = []
+        pruned: list[dict] = []
+        for slot, tok in existing:
+            try:
+                q = check_slot_quota(tok)
+                if q.get("quota_exhausted"):
+                    pruned.append({"slot": slot, "masked_token": mask_token(tok), "reason": "quota_exhausted"})
+                else:
+                    alive.append(tok)
+            except ApiError as exc:
+                pruned.append({"slot": slot, "masked_token": mask_token(tok), "reason": f"http_{exc.status}"})
+        meta = write_persistent_tokens(alive, sync_global=not args.local_only)
+        print(json.dumps({"pruned": pruned, **meta}, ensure_ascii=False, indent=2))
+        return 0
+
     tokens = load_tokens()
 
     if args.command == "check":
-        results = []
-        for slot, token in tokens:
-            try:
-                q = check_slot_quota(token)
-                results.append({"slot": slot, **q})
-            except ApiError as exc:
-                results.append({"slot": slot, "http_status": exc.status, "authenticated": False})
+        results = _verify_all_tokens(tokens)
         print(json.dumps(results, ensure_ascii=False))
         return 0 if any(r["authenticated"] and not r.get("quota_exhausted") for r in results) else 1
 

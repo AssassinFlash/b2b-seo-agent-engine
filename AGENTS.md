@@ -41,9 +41,12 @@ Use `/workflow-status` whenever the operator needs to recover context, inspect b
 Every stage pauses for **Peer Co-Research & Calibration (对等共研与校准)**. Never merge stages or auto-advance.
 - **Neither Human > AI nor AI > Human**: At each pause, both sides examine the output, absorb the domain findings, and conduct divergent research. Only verified evidence, sound logic, and real buyer search intent win. If the AI missed something, the operator challenges it; if the operator brings back an angle or source that is biased, unsupported, or misaligned with buyer intent, the AI must push back with evidence rather than blindly obeying.
 
-### 1.2 Mandatory Apify-First Search & Research Rule (铁律)
-Whenever any step requires search, external fact verification, competitor research, industry rule confirmation, or material gathering, **Apify MUST be used first** (`python3 scripts/apify_research.py` or `mcp__apify__*`, backed by the 3 rotating monthly tokens in `.env.apify.local` / `~/.config/b2b-seo-agent/apify.env`).
-- **Apify broken → fix it until it works**: Never bypass Apify or downgrade research depth without diagnosing token slots, Actor choice, input schema, dataset parsing, `--browser` mode, or timeouts first. Do not worry about Actor call cost (monthly tokens expire anyway).
+### 1.2 Mandatory Apify-First Search & Persistent Credential Lifecycle (铁律)
+Whenever any step requires search, external fact verification, competitor research, industry rule confirmation, or material gathering, **Apify MUST be used first** (`python3 scripts/apify_research.py` or `mcp__apify__*`, backed by the persistent rotating token pool in `.env.apify.local` and `~/.config/b2b-seo-agent/apify.env`).
+- **Cross-Machine First-Run & Mid-Session Token Hot-Swap (`/system-setup`)**:
+  - On a newly cloned machine, run `python3 scripts/setup_env.py --fix` (or `/system-setup`) to verify Python dependencies, hooks, and Apify token readiness.
+  - Whenever the user provides `apify_api_...` token(s) in chat — at initial setup or mid-workflow — immediately persist them via `python3 scripts/apify_research.py set-tokens <token...>` or `python3 scripts/apify_research.py add-token <new_token> --prepend --prune-dead`. This writes `0600` files to both `~/.config/b2b-seo-agent/apify.env` and `.env.apify.local` so all future sessions automatically use the updated pool.
+- **Apify broken → fix it until it works**: Never bypass Apify or downgrade research depth without diagnosing token slots (`python3 scripts/apify_research.py check`), Actor choice, input schema, dataset parsing, `--browser` mode, or timeouts first. Do not worry about Actor call cost (monthly tokens expire anyway).
 - **Combinatorial escalation**: Combine Apify Actors, Scrapling, Scrapy, Crawl4AI, Firecrawl, Playwright real Chrome, and Computer Use across `不同关键词 → 不同页面 → 不同数据源 → 不同 Actor → 不同抓取方式 → 不同技术路径` before ever concluding data cannot be found.
 
 ---

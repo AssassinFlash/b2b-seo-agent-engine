@@ -39,9 +39,15 @@ Every stage stops so the operator and the AI can examine the output together, ab
 - If the operator brings back a link, hypothesis, or direction that is one-sided, unsupported, or misaligned with real search intent, the AI **must push back with evidence and logic** rather than blindly obeying and stuffing it into the artifact.
 - Advance only after both sides have debated any disagreements and reached consensus.
 
-### 1.2 Mandatory Apify-First Search & Research Rule (铁律)
-Whenever any step requires search, external fact verification, competitor research, industry rule confirmation, or material gathering, **Apify MUST be used first** (`python3 scripts/apify_research.py` or `mcp__apify__*`, backed by the 3 rotating monthly tokens in `.env.apify.local` / `~/.config/b2b-seo-agent/apify.env`).
-- **Apify broken → fix it until it works**: Never bypass Apify or downgrade research depth without diagnosing token slots, Actor choice, input schema, dataset parsing, `--browser` mode, or timeouts first. Do not worry about Actor call cost (monthly tokens expire anyway).
+### 1.2 Mandatory Apify-First Search & Persistent Credential Lifecycle (铁律)
+Whenever any step requires search, external fact verification, competitor research, industry rule confirmation, or material gathering, **Apify MUST be used first** (`python3 scripts/apify_research.py` or `mcp__apify__*`, backed by the persistent rotating token pool in `.env.apify.local` and `~/.config/b2b-seo-agent/apify.env`).
+- **Cross-Machine First-Run & Mid-Session Token Hot-Swap (`/system-setup`)**:
+  - On a newly cloned machine, run `python3 scripts/setup_env.py --fix` (or `/system-setup`) to verify Python dependencies, hooks, and Apify token readiness.
+  - Whenever the user pastes one or more `apify_api_...` tokens in chat — whether during initial setup or mid-workflow to add/replace a key — **immediately persist them** via:
+    - Initial setup / full replacement: `python3 scripts/apify_research.py set-tokens <token1> [<token2> ...]`
+    - Mid-workflow hot-swap / adding a key & pruning expired ones: `python3 scripts/apify_research.py add-token <new_token> --prepend --prune-dead`
+  - Both commands write with `0600` permissions to `~/.config/b2b-seo-agent/apify.env` (machine-wide across all future sessions and projects) AND `.env.apify.local` (repo-local), and verify live USD quota (`remainingUsd`) per slot.
+- **Apify broken → fix it until it works**: Never bypass Apify or downgrade research depth without diagnosing token slots (`python3 scripts/apify_research.py check`), Actor choice, input schema, dataset parsing, `--browser` mode, or timeouts first. Do not worry about Actor call cost (monthly tokens expire anyway).
 - **Combinatorial escalation**: Combine Apify Actors, Scrapling, Scrapy, Crawl4AI, Firecrawl, Playwright real Chrome, and Computer Use. Never conclude "not found" because a single crawler or page failed; pivot across `不同关键词 → 不同页面 → 不同数据源 → 不同 Actor → 不同抓取方式 → 不同技术路径`.
 
 Drafting uses **Imitate → Inject → Differentiate** as a numeric steering model. `/article-draft` must choose exact working percentages for the current article before writing, and the three values must total 100. Stronger benchmark fit means heavier imitation; stronger proprietary evidence or buyer risk means heavier injection/differentiation.
