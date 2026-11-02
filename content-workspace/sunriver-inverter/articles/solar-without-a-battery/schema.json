@@ -1,0 +1,91 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Is It a Mistake to Run Solar Panels Without a Battery?",
+      "description": "Yes, you can run solar without a battery. But the inverter on your quote decides whether adding one later is a $3,000 retrofit or a $9,000 do-over.",
+      "author": { "@type": "Organization", "name": "Sunriver Electric" },
+      "publisher": { "@type": "Organization", "name": "Sunriver Electric", "url": "https://sunriver-energy.example.com/" },
+      "datePublished": "2026-06-24",
+      "dateModified": "2026-06-24",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://sunriver-energy.example.com/solar-without-a-battery/" },
+      "keywords": [
+        "solar without a battery",
+        "solar system without battery",
+        "battery-ready inverter",
+        "solar inverter without battery",
+        "hybrid inverter without battery",
+        "solar battery later",
+        "retrofit solar battery",
+        "grid-tied vs hybrid solar",
+        "SAJ H2 hybrid inverter",
+        "SAJ R6 string inverter",
+        "SAJ HS3 all-in-one ESS"
+      ],
+      "wordCount": 2970,
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is it a mistake to run solar panels without a battery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No — if your inverter is battery-ready. For most homeowners on a stable grid with net metering, going battery-free is the smart call. The real mistake is buying an inverter that cannot accept a battery later without being replaced."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does battery-ready solar actually mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Battery-ready means the inverter you install today can natively accept a battery without being replaced. For SAJ's lineup, the H2 hybrid inverter runs grid-tied today with no battery and integrates a 180–800 V LiFePO4 stack when you decide to add storage."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I know if I actually need a solar battery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You probably don't need a battery if your grid is stable, you have net metering, and you have no major electrification plans in the next five years. You probably do need one if you have frequent outages, time-of-use rates, net billing, or you're planning a heat pump, EV, or induction range."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it more costly to add a battery to solar later?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It can be, especially if the original inverter is not battery-ready. Adding a battery to a pure grid-tied string inverter typically costs $4,000–$9,000 more than installing a hybrid inverter from day one, because you need either an AC-coupled retrofit with a second inverter or a full inverter swap."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which is best for solar without a battery: grid-tied or hybrid?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It depends on your five-year plan. A grid-tied string inverter (Path A) is cheapest today but locks you out of cheap battery integration later. A battery-ready hybrid inverter (Path B) costs more upfront but preserves the option to add a battery without replacing the inverter. An all-in-one ESS (Path C) is best if you need backup and battery today."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I connect a backup generator to charge my SAJ hybrid inverter or ESS batteries?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — SAJ hybrid inverters and all-in-one ESS units can use a backup generator, but only if the generator output is frequency-stable and the inverter is configured for generator synchronization. Portable generators with unstable voltage and frequency often fail to synchronize, so this should be treated as a compatibility check, not assumed by default."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the number one question to ask a solar installer before signing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ask: 'If I add a battery in three years, what changes in this quote — exactly which line items, and what will the all-in cost look like?' A confident installer will give a 30-second answer with specific inverter model, battery port specs, and labor scope. A vague answer is a red flag."
+          }
+        }
+      ]
+    }
+  ]
+}

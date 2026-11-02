@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Three Solar Storage Configurations</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        solar: {
+                            yellow: '#ffb703',
+                            orange: '#fb8500',
+                            dark: '#070a13',
+                            card: '#0f1424',
+                            border: '#1f293d',
+                            green: '#10b981',
+                            red: '#ef4444',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #070a13;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(251, 133, 0, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(255, 183, 3, 0.05) 0px, transparent 50%);
+        }
+    </style>
+</head>
+<body class="font-sans text-slate-200 p-2 flex flex-col items-center justify-start">
+
+    <!-- Card Wrapper -->
+    <div class="w-full max-w-5xl bg-solar-card/90 border border-solar-border rounded-xl p-6 shadow-2xl">
+        <!-- Header -->
+        <div class="mb-6 border-b border-solar-border pb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+            <div>
+                <h1 class="text-xl md:text-2xl font-bold bg-gradient-to-r from-solar-yellow to-solar-orange bg-clip-text text-transparent">
+                    The Three Solar Storage Configurations
+                </h1>
+                <p class="text-xs text-slate-400 mt-0.5">
+                    Compare the physical hardware and battery expansion capabilities of Path A, B, and C side-by-side.
+                </p>
+            </div>
+            <div class="bg-solar-orange/10 border border-solar-orange/30 rounded-full px-3 py-1 text-[10px] font-mono text-solar-orange">
+                Pathway Comparison
+            </div>
+        </div>
+
+        <!-- 3-Column Layout -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Path A: Grid-Tied -->
+            <div class="bg-[#05070e] border border-solar-border/60 rounded-xl p-5 flex flex-col items-center">
+                <span class="bg-slate-800 text-slate-300 font-mono text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                    Path A
+                </span>
+                <h2 class="text-base font-bold text-slate-200 mt-2">Grid-Tied String</h2>
+                <p class="text-[11px] text-slate-500">Solar Only (No Storage Plan)</p>
+                
+                <!-- Diagram -->
+                <div class="w-full bg-solar-card/45 border border-solar-border/20 rounded-lg p-2 my-4 flex items-center justify-center h-32">
+                    <svg viewBox="0 0 200 120" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Solar Panel -->
+                        <rect x="15" y="15" width="45" height="30" rx="3" fill="#1f293d" stroke="#fb8500" stroke-width="1.2"/>
+                        <path d="M20 20h8v8H20zm12 0h8v8H32zm-12 12h8v8H20zm12 0h8v8H32z" fill="#070a13" opacity="0.3"/>
+                        <text x="37.5" y="55" fill="#8b949e" font-size="7" font-family="Outfit" text-anchor="middle">Solar panels</text>
+
+                        <!-- String Inverter -->
+                        <rect x="125" y="15" width="60" height="30" rx="4" fill="#0f1424" stroke="#fb8500" stroke-width="1.2"/>
+                        <text x="155" y="32" fill="#f0f6fc" font-size="8" font-family="Outfit" text-anchor="middle" font-weight="600">SAJ R6</text>
+                        <text x="155" y="40" fill="#8b949e" font-size="6" font-family="Space Mono" text-anchor="middle">String Inverter</text>
+
+                        <!-- Home & Grid -->
+                        <rect x="125" y="75" width="60" height="30" rx="4" fill="#0f1424" stroke="#3b82f6" stroke-width="1.2"/>
+                        <text x="155" y="92" fill="#f0f6fc" font-size="8" font-family="Outfit" text-anchor="middle" font-weight="600">Grid & Loads</text>
+
+                        <!-- Battery Area (Dashed X Box) -->
+                        <rect x="15" y="75" width="45" height="30" rx="3" fill="none" stroke="#da3633" stroke-width="1" stroke-dasharray="3,3"/>
+                        <path d="M25 82l25 16M50 82l-25 16" stroke="#da3633" stroke-width="1.5"/>
+                        <text x="37.5" y="115" fill="#da3633" font-size="7" font-family="Outfit" text-anchor="middle" font-weight="600">No Battery Port</text>
+
+                        <!-- Connection lines -->
+                        <path d="M60 30h65" stroke="#10b981" stroke-width="1.2"/>
+                        <path d="M155 45v30" stroke="#3b82f6" stroke-width="1.2"/>
+                    </svg>
+                </div>
+
+                <!-- Structured Specs -->
+                <div class="w-full text-xs space-y-2 border-t border-solar-border pt-3">
+                    <div class="flex justify-between">
+                        <span class="text-slate-500 font-mono text-[10px]">INVERTER</span>
+                        <span class="text-slate-300 font-semibold">Grid-Tied String</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500 font-mono text-[10px]">BATTERY PORT</span>
+                        <span class="text-solar-red font-semibold">None (Locked Out)</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500 font-mono text-[10px]">BACKUP POWER</span>
+                        <span class="text-slate-400">None (Shuts off)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Path B: Battery-Ready -->
+            <div class="bg-[#05070e] border border-solar-border/60 rounded-xl p-5 flex flex-col items-center">
+                <span class="bg-solar-orange/20 text-solar-orange font-mono text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                    Path B
+                </span>
+                <h2 class="text-base font-bold text-solar-yellow mt-2">Battery-Ready Hybrid</h2>
+                <p class="text-[11px] text-slate-500">Hybrid (Storage Deferred)</p>
+                
+                <!-- Diagram -->
+                <div class="w-full bg-solar-card/45 border border-solar-border/20 rounded-lg p-2 my-4 flex items-center justify-center h-32">
+                    <svg viewBox="0 0 200 120" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Solar Panel -->
+                        <rect x="15" y="15" width="45" height="30" rx="3" fill="#1f293d" stroke="#ffb703" stroke-width="1.2"/>
+                        <path d="M20 20h8v8H20zm12 0h8v8H32zm-12 12h8v8H20zm12 0h8v8H32z" fill="#070a13" opacity="0.3"/>
+                        <text x="37.5" y="55" fill="#8b949e" font-size="7" font-family="Outfit" text-anchor="middle">Solar panels</text>
+
+                        <!-- Hybrid Inverter -->
+                        <rect x="125" y="15" width="60" height="32" rx="4" fill="#0f1424" stroke="#10b981" stroke-width="1.5"/>
+                        <text x="155" y="28" fill="#f0f6fc" font-size="8" font-family="Outfit" text-anchor="middle" font-weight="600">SAJ H2</text>
+                        <text x="155" y="38" fill="#10b981" font-size="6" font-family="Space Mono" text-anchor="middle">Hybrid Inverter</text>
+
+                        <!-- Home & Grid -->
+                        <rect x="125" y="75" width="60" height="30" rx="4" fill="#0f1424" stroke="#3b82f6" stroke-width="1.2"/>
+                        <text x="155" y="92" fill="#f0f6fc" font-size="8" font-family="Outfit" text-anchor="middle" font-weight="600">Grid & Loads</text>
+
+                        <!-- Future Battery Stack (Dotted) -->
+                        <rect x="15" y="75" width="45" height="32" rx="3" fill="none" stroke="#fb8500" stroke-width="1" stroke-dasharray="3,3"/>
+                        <rect x="20" y="80" width="35" height="5" fill="#fb8500" opacity="0.2" rx="1"/>
+                        <rect x="20" y="88" width="35" height="5" fill="#fb8500" opacity="0.2" rx="1"/>
+                        <text x="37.5" y="115" fill="#fb8500" font-size="7" font-family="Outfit" text-anchor="middle" font-weight="600">Future Battery</text>
+
+                        <!-- Connection lines -->
+                        <path d="M60 30h65" stroke="#10b981" stroke-width="1.2"/>
+                        <path d="M155 47v28" stroke="#3b82f6" stroke-width="1.2"/>
+                        <path d="M125 35H37.5v40" stroke="#fb8500" stroke-width="0.8" stroke-dasharray="2,2"/>
+                    </svg>
+                </div>
+
+                <!-- Structured Specs -->
+                <div class="w-full text-xs space-y-2 border-t border-solar-border pt-3">
+                    <div class="flex justify-between">
+                        <span class="text-slate-500 font-mono text-[10px]">INVERTER</span>
+                        <span class="text-slate-300 font-semibold">DC-Coupled Hybrid</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500 font-mono text-[10px]">BATTERY PORT</span>
+                        <span class="text-solar-green font-semibold">Pre-wired (Ready)</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500 font-mono text-[10px]">BACKUP POWER</span>
+                        <span class="text-slate-300">Supported (Deferred)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Path C: All-in-One -->
+            <div class="bg-[#05070e] border border-solar-border/60 rounded-xl p-5 flex flex-col items-center">
+                <span class="bg-solar-green/20 text-solar-green font-mono text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                    Path C
+                </span>
+                <h2 class="text-base font-bold text-solar-green mt-2">All-in-One ESS</h2>
+                <p class="text-[11px] text-slate-500">Integrated Storage & UPS</p>
+                
+                <!-- Diagram -->
+                <div class="w-full bg-solar-card/45 border border-solar-border/20 rounded-lg p-2 my-4 flex items-center justify-center h-32">
+                    <svg viewBox="0 0 200 120" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Solar Panel -->
+                        <rect x="15" y="15" width="45" height="30" rx="3" fill="#1f293d" stroke="#ffb703" stroke-width="1.2"/>
+                        <path d="M20 20h8v8H20zm12 0h8v8H32zm-12 12h8v8H20zm12 0h8v8H32z" fill="#070a13" opacity="0.3"/>
+                        <text x="37.5" y="55" fill="#8b949e" font-size="7" font-family="Outfit" text-anchor="middle">Solar panels</text>
+
+                        <!-- All-in-One ESS Tower -->
+                        <rect x="125" y="15" width="60" height="60" rx="4" fill="#0f1424" stroke="#ffb703" stroke-width="1.5"/>
+                        <rect x="131" y="21" width="48" height="15" fill="#10b981" opacity="0.15" rx="1" stroke="#10b981" stroke-width="0.5"/>
+                        <text x="155" y="31" fill="#f0f6fc" font-size="7" font-family="Outfit" text-anchor="middle" font-weight="600">Hybrid Inv</text>
+                        <rect x="131" y="42" width="48" height="27" fill="#ffb703" opacity="0.1" rx="1" stroke="#ffb703" stroke-width="0.5"/>
+                        <rect x="136" y="47" width="38" height="4" fill="#ffb703" opacity="0.5" rx="0.5"/>
+                        <rect x="136" y="55" width="38" height="4" fill="#ffb703" opacity="0.5" rx="0.5"/>
+                        <text x="155" y="85" fill="#f0f6fc" font-size="8" font-family="Outfit" text-anchor="middle" font-weight="600">SAJ HS3</text>
+
+                        <!-- Home & Grid -->
+                        <rect x="15" y="75" width="55" height="30" rx="4" fill="#0f1424" stroke="#3b82f6" stroke-width="1.2"/>
+                        <text x="42.5" y="92" fill="#f0f6fc" font-size="8" font-family="Outfit" text-anchor="middle" font-weight="600">Grid/Loads</text>
+
+                        <!-- Connection lines -->
+                        <path d="M60 30h65" stroke="#10b981" stroke-width="1.2"/>
+                        <path d="M125 90H70" stroke="#3b82f6" stroke-width="1.2"/>
+                    </svg>
+                </div>
+
+                <!-- Structured Specs -->
+                <div class="w-full text-xs space-y-2 border-t border-solar-border pt-3">
+                    <div class="flex justify-between">
+                        <span class="text-slate-500 font-mono text-[10px]">INVERTER</span>
+                        <span class="text-slate-300 font-semibold">Integrated ESS</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500 font-mono text-[10px]">BATTERY PORT</span>
+                        <span class="text-solar-green font-semibold">Built-in Battery</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500 font-mono text-[10px]">BACKUP POWER</span>
+                        <span class="text-solar-green font-semibold">Yes (<20ms Switch)</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+</body>
+</html>

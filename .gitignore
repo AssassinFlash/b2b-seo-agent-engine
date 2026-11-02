@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.DS_Store
+.playwright-cli/
+.playwright-mcp/
+
+
+# kimi-claude-bridge generated
+.kimi/
+
+# Playwright persistent profile for Google PAA extraction
+.playwright-profile/
+
+# Local Apify credentials and raw scratch outputs (never commit)
+.env.apify.local*
+.scratch/
+

@@ -1,0 +1,17 @@
+{
+  "projectSlug": "example-metal-divider",
+  "profileStatus": "locked",
+  "lockedProfile": true,
+  "currentStage": "article-publish-pack",
+  "nextCommand": "/article-review",
+  "lastUpdated": "2026-06-18T09:30:00Z",
+  "activeArticle": "metal-room-divider-design-guide",
+  "articles": [
+    {
+      "slug": "metal-room-divider-design-guide",
+      "status": "published",
+      "currentStage": "article-publish-pack",
+      "lastUpdated": "2026-06-18T09:30:00Z"
+    }
+  ]
+}

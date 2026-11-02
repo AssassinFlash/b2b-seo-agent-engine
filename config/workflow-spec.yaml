@@ -1,0 +1,206 @@
+workflow:
+  name: b2b-seo-agent-system-v3
+  version: 3.0.0
+  invocation_model:
+    description: 'All workflow entrypoints are user-invocable skills located at `.claude/skills/<skill-name>/SKILL.md`.
+      They are invoked through the Skill tool with a slash-style name (e.g. `/profile-discover`)
+      and an optional argument string exposed inside the skill as `$ARGUMENTS`.
+
+      '
+    default_argument: content-workspace/<project-slug> [article-slug]
+    note: 'The slash prefix is only a naming convention; there is no `.claude/commands/`
+      directory in this project.
+
+      '
+constants:
+  benchmark_candidate_pool_size: 5
+  benchmark_selected_count: 3
+  success_formula_mandatory_dimensions: 15
+  success_formula_optional_dimensions: 5
+  success_formula_prose_craft_dimension: 1
+  success_formula_total_dimensions: 21
+  content_type_library_categories: 6
+  intent_research_minimum_channels: 3
+  qa_gates:
+  - truth-qa
+  - information-gain-qa
+  - benchmark-drift-qa
+  - reader-qa
+stages:
+- name: profile-discover
+  command: /profile-discover
+  category: profile
+  args: content-workspace/<project-slug>
+  next: /profile-answer
+  description: Convert vague business seed into a draft profile and source library.
+- name: profile-answer
+  command: /profile-answer
+  category: profile
+  args: content-workspace/<project-slug>
+  next:
+    conditional: true
+    if_more_questions: /profile-answer
+    else: /article-cluster
+  description: Ask clarification questions until the profile is actionable and enough
+    keyword data exists for topic discovery.
+- name: article-cluster
+  command: /article-cluster
+  category: profile
+  args: content-workspace/<project-slug>
+  next: /profile-research-deep
+  description: Build a data-driven topic pool from keyword data, generate Deep SEO
+    Cards, and let the user pick the first article before the profile is locked.
+- name: profile-research-deep
+  command: /profile-research-deep
+  category: profile
+  args: content-workspace/<project-slug>
+  next: /profile-lock
+  description: Deep research on the selected first-article topic, using the approved
+    profile, source library, and topic card.
+- name: profile-lock
+  command: /profile-lock
+  category: profile
+  args: content-workspace/<project-slug>
+  next: /article-intent-research
+  description: Lock the project profile and first article; gate for all article production
+    work.
+- name: article-intent-research
+  command: /article-intent-research
+  category: article
+  args: content-workspace/<project-slug> <article-slug>
+  next: /article-benchmark
+  description: Build a verifiable search-intent/H2 candidate pool from live channels.
+- name: article-benchmark
+  command: /article-benchmark
+  category: article
+  args: content-workspace/<project-slug> <article-slug>
+  next: /article-benchmark-extract
+  description: Build a broad content-type library and select 3 primary exemplars.
+- name: article-benchmark-extract
+  command: /article-benchmark-extract
+  category: article
+  args: content-workspace/<project-slug> <article-slug>
+  next: /article-evidence-opinions
+  description: Extract the Success Formula from selected benchmarks.
+- name: article-evidence-opinions
+  command: /article-evidence-opinions
+  category: article
+  args: content-workspace/<project-slug> <article-slug>
+  next: /article-skeleton
+  description: Build evidence-opinion packs from benchmarks and factory E-E-A-T.
+- name: article-skeleton
+  command: /article-skeleton
+  category: article
+  args: content-workspace/<project-slug> <article-slug>
+  next: /article-arc
+  description: Create the article skeleton and section contracts.
+- name: article-arc
+  command: /article-arc
+  category: article
+  args: content-workspace/<project-slug> <article-slug>
+  next: /article-draft
+  description: Define the narrative arc and reader journey.
+- name: article-draft
+  command: /article-draft
+  category: article
+  args: content-workspace/<project-slug> <article-slug>
+  next: /article-truth-qa
+  description: Produce the first full draft.
+- name: article-truth-qa
+  command: /article-truth-qa
+  category: qa
+  args: content-workspace/<project-slug> <article-slug>
+  next: /article-information-gain-qa
+  description: Gate 1 — verify every factual claim.
+- name: article-information-gain-qa
+  command: /article-information-gain-qa
+  category: qa
+  args: content-workspace/<project-slug> <article-slug>
+  next: /article-benchmark-qa
+  description: Gate 2 — verify information gain beyond benchmarks.
+- name: article-benchmark-qa
+  command: /article-benchmark-qa
+  category: qa
+  args: content-workspace/<project-slug> <article-slug>
+  next: /article-reader-qa
+  description: Gate 3 — detect benchmark drift.
+- name: article-reader-qa
+  command: /article-reader-qa
+  category: qa
+  args: content-workspace/<project-slug> <article-slug>
+  next: /article-enrich
+  description: Gate 4 — reader-level quality review.
+- name: article-enrich
+  command: /article-enrich
+  category: article
+  args: content-workspace/<project-slug> <article-slug>
+  next: /article-visual
+  description: Enrich draft with image placeholders and HTML expression blocks only.
+- name: article-visual
+  command: /article-visual
+  category: article
+  args: content-workspace/<project-slug> <article-slug>
+  next: /article-resources
+  description: Produce executable visual spec for multimodal AI to search and synthesize
+    assets.
+- name: article-resources
+  command: /article-resources
+  category: article
+  args: content-workspace/<project-slug> <article-slug>
+  next: /article-faq
+  description: Design curiosity-driven resource cards at emotional turning points,
+    reader-stage routing boxes, and inline link coverage map.
+- name: article-faq
+  command: /article-faq
+  category: article
+  args: content-workspace/<project-slug> <article-slug>
+  next: /article-publish-pack
+  description: Generate friction-targeted FAQ groups with conclusion-first answers
+    and objection-to-CTA handling.
+- name: article-publish-pack
+  command: /article-publish-pack
+  category: article
+  args: content-workspace/<project-slug> <article-slug>
+  next: /article-next
+  description: Package the article for publishing.
+- name: article-next
+  command: /article-next
+  category: article
+  args: content-workspace/<project-slug>
+  next: follows state.json
+  description: Pick the next article or stage based on state.
+- name: article-review
+  command: /article-review
+  category: post-publish
+  args: content-workspace/<project-slug> <article-slug>
+  next: n/a
+  description: 30/60/90-day performance review.
+- name: workflow-status
+  command: /workflow-status
+  category: diagnostic
+  args: '[content-workspace/<project-slug>] [article-slug]'
+  next: n/a
+  description: Read-only status and blocker recovery.
+- name: article-repair
+  command: /article-repair
+  category: repair
+  args: content-workspace/<project-slug> <article-slug>
+  next: re-run blocking gate(s)
+  description: Diagnose and repair a blocked article.
+retired_commands:
+  /article-keywords:
+    replaced_by: /article-skeleton
+    reason: Keyword universe and mapping merged into skeleton creation.
+  /article-evidence:
+    replaced_by: /article-evidence-opinions
+    reason: Factory E-E-A-T and evidence harvesting reframed as evidence-opinion packs.
+  /article-outline:
+    replaced_by: /article-skeleton
+    reason: Outline merged into skeleton creation.
+  /article-section-contracts:
+    replaced_by: /article-skeleton
+    reason: Section contracts embedded in skeleton.md.
+constraints:
+  article_work_requires_locked_profile: true
+  publish_requires_all_qa_gates_pass: true
+  benchmark_must_transform_to_profile_role: true

@@ -1,0 +1,16 @@
+#,Keyword / Phrase,Type,Primary H2,Volume / Intent
+1,solar without a battery,Primary keyword,H2-01,Informational + consideration
+2,solar system without battery,Primary variant,H2-01,Informational
+3,battery-ready inverter,Entity,H2-02,Informational
+4,do I need a solar battery,PAA question,H2-03,Informational
+5,add battery to solar later,Long-tail,H2-04,Informational + consideration
+6,grid-tied vs hybrid solar,Comparison,H2-05,Comparison
+7,solar quote red flags,Long-tail,H2-06,Consideration
+8,questions to ask solar installer,PAA question,H2-07,Informational + transactional
+9,choose solar inverter for future battery,Long-tail,H2-08,Consideration
+10,SAJ H2 hybrid inverter,Brand + product,H2-02 / H2-05 / H2-08,Transactional
+11,SAJ R6 string inverter,Brand + product,H2-05 / H2-08,Transactional
+12,SAJ HS3 all-in-one ESS,Brand + product,H2-05 / H2-08,Transactional
+13,retrofit solar battery cost,Long-tail,H2-04,Informational
+14,hybrid inverter without battery,Long-tail,H2-02 / H2-05,Informational
+15,solar panel without battery,Primary variant,H2-01,Informational

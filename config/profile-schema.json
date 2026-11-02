@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/b2b-seo-agent-system/profile-schema.json",
+  "title": "B2B SEO Locked Project Profile Schema",
+  "description": "Canonical project-profile.json contract produced by /profile-lock and consumed by QA and publish stages.",
+  "type": "object",
+  "required": [
+    "projectSlug",
+    "companyName",
+    "canonicalDomain"
+  ],
+  "properties": {
+    "projectSlug": {
+      "type": "string"
+    },
+    "companyName": {
+      "type": "string"
+    },
+    "canonicalDomain": {
+      "type": "string"
+    },
+    "hostBlogEngine": {
+      "type": "string",
+      "description": "Target blog rendering stack, e.g., 'wordpress-livecanvas-windpress-arch-dark-gold', 'wordpress-shortcodes', or 'mdx-astro'."
+    },
+    "proseMeasureCh": {
+      "type": "integer",
+      "default": 68,
+      "description": "Max prose column width in ch units (e.g., 68ch on #md-blog-single)."
+    },
+    "allowedMaterials": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Strict whitelist of materials the brand actually manufactures (e.g., ['Stainless Steel 304', 'Stainless Steel 316'])."
+    },
+    "forbiddenTerms": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Customer-facing vocabulary words forbidden by the project glossary (e.g., ['product', 'products', 'order', 'cart'] when 'pattern' and 'inquiry' are mandated)."
+    },
+    "preferredTerms": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Mapping of forbidden/discouraged term -> canonical glossary term (e.g., {'product': 'pattern', 'order': 'inquiry'})."
+    },
+    "author": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "jobTitle": { "type": "string" },
+        "url": { "type": "string" },
+        "knowsAbout": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "reviewedBy": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "jobTitle": { "type": "string" },
+        "url": { "type": "string" }
+      }
+    },
+    "designTokens": {
+      "type": "object",
+      "properties": {
+        "bg": { "type": "string" },
+        "bgDeep": { "type": "string" },
+        "accent": { "type": "string" },
+        "accentDark": { "type": "string" },
+        "fontDisplay": { "type": "string" },
+        "fontSans": { "type": "string" }
+      }
+    }
+  },
+  "additionalProperties": true
+}

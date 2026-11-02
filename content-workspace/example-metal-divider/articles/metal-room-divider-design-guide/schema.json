@@ -1,0 +1,60 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://archmetal-screens.example.com/metal-room-divider-design-guide/#article",
+      "headline": "Metal Room Divider Design Guide for Commercial Interiors",
+      "description": "Specify custom stainless steel metal room dividers with Grade 304 vs 316 exposure boundaries, PVD finish rules, and concealed mounting tolerances.",
+      "url": "https://archmetal-screens.example.com/metal-room-divider-design-guide/",
+      "datePublished": "2026-06-18",
+      "dateModified": "2026-06-18",
+      "author": {
+        "@type": "Person",
+        "@id": "https://archmetal-screens.example.com/about-us/#lead-fabricator",
+        "name": "Lin Wei",
+        "jobTitle": "Lead Architectural Metalwork Engineer",
+        "url": "https://archmetal-screens.example.com/about-us/"
+      },
+      "reviewedBy": {
+        "@type": "Person",
+        "@id": "https://archmetal-screens.example.com/manufacturing-process/#qc-director",
+        "name": "Zhang Hao",
+        "jobTitle": "PVD & Laser Fabrication QC Director",
+        "url": "https://archmetal-screens.example.com/manufacturing-process/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://archmetal-screens.example.com/#organization",
+        "name": "Metal Divider",
+        "url": "https://archmetal-screens.example.com/"
+      },
+      "about": [
+        {
+          "@type": "Thing",
+          "name": "Stainless Steel",
+          "sameAs": "https://en.wikipedia.org/wiki/Stainless_steel"
+        },
+        {
+          "@type": "Thing",
+          "name": "Laser Cutting",
+          "sameAs": "https://en.wikipedia.org/wiki/Laser_cutting"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://archmetal-screens.example.com/metal-room-divider-design-guide/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can a 4-meter laser-cut metal room divider be installed without cutting into existing marble flooring?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — by using a top-hung structural header beam paired with a concealed 3M VHB + compression silicone bottom shoe instead of core-drilled floor pins. This keeps lateral deflection under 2.0 mm while preserving stone slabs and underfloor heating loops."
+          }
+        }
+      ]
+    }
+  ]
+}

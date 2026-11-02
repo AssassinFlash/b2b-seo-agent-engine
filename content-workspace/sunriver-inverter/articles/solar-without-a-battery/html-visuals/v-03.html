@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Net Metering vs. Net Billing Calculator</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        solar: {
+                            yellow: '#ffb703',
+                            orange: '#fb8500',
+                            dark: '#070a13',
+                            card: '#0f1424',
+                            border: '#1f293d',
+                            green: '#10b981',
+                            red: '#ef4444',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #070a13;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(251, 133, 0, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(255, 183, 3, 0.05) 0px, transparent 50%);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #070a13;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f293d;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #fb8500;
+        }
+        /* Custom Range Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #1f293d;
+            border-radius: 9999px;
+            outline: none;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #fb8500;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(251, 133, 0, 0.8);
+            transition: all 0.2s ease;
+        }
+        input[type=range]::-webkit-slider-thumb:hover {
+            background: #ffb703;
+            transform: scale(1.3);
+            box-shadow: 0 0 15px rgba(255, 183, 3, 1);
+        }
+    </style>
+</head>
+<body class="font-sans text-slate-200 min-h-screen p-4 md:p-8 flex flex-col items-center justify-center">
+
+    <div class="w-full max-w-5xl bg-solar-card/85 backdrop-blur-md border border-solar-border rounded-2xl p-6 md:p-8 shadow-2xl">
+        <!-- Header -->
+        <div class="mb-8 border-b border-solar-border pb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-solar-yellow to-solar-orange bg-clip-text text-transparent">
+                    Net Metering vs. Net Billing (NEM 3.0)
+                </h1>
+                <p class="text-sm text-slate-400 mt-1">
+                    Visualize how utility tariff changes slash daytime export value, and how a battery recovers it.
+                </p>
+            </div>
+            <div class="bg-solar-orange/10 border border-solar-orange/30 rounded-full px-4 py-1.5 text-xs font-mono text-solar-orange">
+                Interactive Credit Calculator
+            </div>
+        </div>
+
+        <!-- Grid Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Left Panel: Sliders & Controls (5 cols) -->
+            <div class="lg:col-span-5 flex flex-col gap-6">
+                <h2 class="text-lg font-semibold text-solar-yellow border-l-2 border-solar-orange pl-3">
+                    System Parameters
+                </h2>
+
+                <!-- Slider 1: Solar Gen -->
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between text-sm font-medium">
+                        <span>Solar Generation</span>
+                        <span class="font-mono text-solar-yellow"><span id="val-solar">40</span> kWh/day</span>
+                    </div>
+                    <input type="range" id="input-solar" min="10" max="80" value="40">
+                    <span class="text-xs text-slate-500">Total electricity your solar panels produce in a day.</span>
+                </div>
+
+                <!-- Slider 2: Self Consumption -->
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between text-sm font-medium">
+                        <span>Daytime Self-Consumption</span>
+                        <span class="font-mono text-solar-yellow"><span id="val-self">15</span> kWh/day</span>
+                    </div>
+                    <input type="range" id="input-self" min="5" max="40" value="15">
+                    <span class="text-xs text-slate-500">Power consumed in your house immediately as it is generated.</span>
+                </div>
+
+                <!-- Calculated Export Info Box -->
+                <div class="bg-solar-border/30 rounded-xl p-4 border border-solar-border flex justify-between items-center">
+                    <div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wider font-mono">Surplus Exported to Grid</div>
+                        <div class="text-lg font-semibold text-slate-200 mt-1"><span id="val-export">25</span> kWh/day</div>
+                    </div>
+                    <div class="text-3xl">🔌</div>
+                </div>
+
+                <!-- Slider 3: Electricity Rate -->
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between text-sm font-medium">
+                        <span>Retail Electricity Rate</span>
+                        <span class="font-mono text-solar-yellow">$<span id="val-rate">0.35</span> /kWh</span>
+                    </div>
+                    <input type="range" id="input-rate" min="0.15" max="0.50" step="0.01" value="0.35">
+                </div>
+
+                <!-- Slider 4: Net Billing Compensation Rate -->
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between text-sm font-medium">
+                        <span>NEM 3.0 Export Compensation Ratio</span>
+                        <span class="font-mono text-solar-yellow"><span id="val-ratio">25</span>%</span>
+                    </div>
+                    <input type="range" id="input-ratio" min="10" max="50" value="25">
+                    <span class="text-xs text-slate-500">Under Net Billing, export credits drop to a fraction of retail.</span>
+                </div>
+            </div>
+
+            <!-- Right Panel: Visualizations & Charts (7 cols) -->
+            <div class="lg:col-span-7 flex flex-col gap-6">
+                <div class="bg-solar-border/10 border border-solar-border/60 rounded-xl p-4 grid grid-cols-3 gap-4 text-center">
+                    <div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wider font-mono">Net Metering (1:1)</div>
+                        <div class="text-lg font-bold text-solar-green mt-1" id="credit-nm">$8.75</div>
+                    </div>
+                    <div class="border-l border-r border-solar-border">
+                        <div class="text-xs text-slate-400 uppercase tracking-wider font-mono">Net Billing (No Battery)</div>
+                        <div class="text-lg font-bold text-solar-red mt-1" id="credit-nb">$2.19</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wider font-mono">Value Lost (75%)</div>
+                        <div class="text-lg font-bold text-solar-orange mt-1" id="credit-lost">-$6.56</div>
+                    </div>
+                </div>
+
+                <!-- Canvas for Chart -->
+                <div class="bg-solar-border/20 border border-solar-border/40 rounded-xl p-4 flex-grow flex items-center justify-center" style="min-height: 280px;">
+                    <canvas id="comparisonChart" class="w-full h-full"></canvas>
+                </div>
+
+                <!-- Summary Takeaway Card -->
+                <div class="bg-solar-yellow/5 border border-solar-yellow/20 rounded-xl p-4 flex gap-3 items-start">
+                    <span class="text-solar-yellow text-xl">💡</span>
+                    <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                        <strong>NEM 3.0 Takeaway:</strong> Under Net Metering, the grid acts as a free, 100% efficient battery. Under Net Billing, exporting solar without a battery loses <span class="text-solar-orange font-semibold font-mono" id="takeaway-pct">75%</span> of its value. Installing a <strong>SAJ H2 battery-ready inverter</strong> lets you store that surplus locally, avoiding the export trap and saving the full retail value.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const inputSolar = document.getElementById('input-solar');
+        const inputSelf = document.getElementById('input-self');
+        const inputRate = document.getElementById('input-rate');
+        const inputRatio = document.getElementById('input-ratio');
+
+        const valSolar = document.getElementById('val-solar');
+        const valSelf = document.getElementById('val-self');
+        const valExport = document.getElementById('val-export');
+        const valRate = document.getElementById('val-rate');
+        const valRatio = document.getElementById('val-ratio');
+
+        const creditNm = document.getElementById('credit-nm');
+        const creditNb = document.getElementById('credit-nb');
+        const creditLost = document.getElementById('credit-lost');
+        const takeawayPct = document.getElementById('takeaway-pct');
+
+        // Initialize Chart.js
+        const ctx = document.getElementById('comparisonChart').getContext('2d');
+        
+        // Custom Gradients for Bars
+        const nmGrad = ctx.createLinearGradient(0, 0, 0, 300);
+        nmGrad.addColorStop(0, '#10b981'); // Emerald green start
+        nmGrad.addColorStop(1, '#047857'); // Emerald green end
+
+        const nbGrad = ctx.createLinearGradient(0, 0, 0, 300);
+        nbGrad.addColorStop(0, '#f87171'); // Red start
+        nbGrad.addColorStop(1, '#dc2626'); // Red end
+
+        const batGrad = ctx.createLinearGradient(0, 0, 0, 300);
+        batGrad.addColorStop(0, '#fb923c'); // Orange start
+        batGrad.addColorStop(1, '#ea580c'); // Orange end
+
+        const comparisonChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Net Metering (1:1)', 'Net Billing (No Battery)', 'Net Billing (With Battery)'],
+                datasets: [{
+                    label: 'Daily Export Credit Value ($)',
+                    data: [0, 0, 0],
+                    backgroundColor: [nmGrad, nbGrad, batGrad],
+                    borderColor: ['#059669', '#b91c1c', '#c2410c'],
+                    borderWidth: 2,
+                    borderRadius: 8,
+                    barThickness: 45
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return ` Daily Credit: $${context.raw.toFixed(2)}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.05)'
+                        },
+                        ticks: {
+                            color: '#8b949e',
+                            font: {
+                                family: 'Space Mono'
+                            },
+                            callback: function(value) {
+                                return '$' + value.toFixed(2);
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#f0f6fc',
+                            font: {
+                                family: 'Outfit',
+                                weight: '500'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        function updateValues() {
+            let solar = parseFloat(inputSolar.value);
+            let self = parseFloat(inputSelf.value);
+            
+            // Constrain self-consumption to solar generation
+            if (self > solar) {
+                self = solar;
+                inputSelf.value = self;
+            }
+            
+            // Update labels
+            valSolar.innerText = solar;
+            valSelf.innerText = self;
+            
+            let exported = solar - self;
+            valExport.innerText = exported;
+            
+            let rate = parseFloat(inputRate.value);
+            valRate.innerText = rate.toFixed(2);
+            
+            let ratio = parseInt(inputRatio.value);
+            valRatio.innerText = ratio;
+
+            // Calculations
+            let nmValue = exported * rate;
+            let nbValue = exported * (rate * (ratio / 100));
+            let lostValue = nmValue - nbValue;
+            let batterySavings = exported * rate * 0.95; // 5% round trip battery loss
+
+            // Update DOM text
+            creditNm.innerText = `$${nmValue.toFixed(2)}`;
+            creditNb.innerText = `$${nbValue.toFixed(2)}`;
+            creditLost.innerText = `-$${lostValue.toFixed(2)}`;
+            takeawayPct.innerText = `${(100 - ratio)}%`;
+
+            // Update Chart.js
+            comparisonChart.data.datasets[0].data = [
+                nmValue,
+                nbValue,
+                batterySavings
+            ];
+            comparisonChart.update();
+        }
+
+        // Event listeners
+        inputSolar.addEventListener('input', updateValues);
+        inputSelf.addEventListener('input', updateValues);
+        inputRate.addEventListener('input', updateValues);
+        inputRatio.addEventListener('input', updateValues);
+
+        // Run on load
+        updateValues();
+
+        // Self-Running Demo Mode (runs when ?demo=true is present)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('demo') === 'true') {
+            // Adjust styles slightly for crisp recording
+            document.body.style.margin = '0';
+            document.body.style.padding = '0';
+            document.body.style.overflow = 'hidden';
+            document.body.style.display = 'block';
+            document.body.style.minHeight = 'auto';
+            
+            const container = document.querySelector('.max-w-5xl');
+            if (container) {
+                container.style.margin = '0';
+                container.style.borderRadius = '0';
+                container.style.border = 'none';
+                container.style.maxWidth = 'none';
+                container.style.width = '100%';
+            }
+            
+            let time = 0;
+            function animateDemo() {
+                time += 0.025; // Slow, smooth oscillation speed
+                
+                // Animate Solar Generation smoothly between 30 and 70
+                inputSolar.value = Math.round(50 + 20 * Math.sin(time));
+                // Animate Daytime Self-Consumption smoothly between 10 and 25
+                inputSelf.value = Math.round(17.5 + 7.5 * Math.cos(time * 0.9));
+                // Animate Net Billing Export Ratio smoothly between 15% and 40%
+                inputRatio.value = Math.round(27.5 + 12.5 * Math.sin(time * 0.6));
+                // Animate Retail Electricity Rate smoothly between $0.25 and $0.45
+                inputRate.value = (0.35 + 0.10 * Math.sin(time * 0.4)).toFixed(2);
+                
+                updateValues();
+                requestAnimationFrame(animateDemo);
+            }
+            // Delay start slightly to let page initialization complete
+            setTimeout(() => {
+                requestAnimationFrame(animateDemo);
+            }, 800);
+        }
+    </script>
+</body>
+</html>

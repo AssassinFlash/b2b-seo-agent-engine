@@ -1,0 +1,378 @@
+schema_version: 1.0.0
+project_level_artifacts:
+  required:
+  - project-profile.md
+  - project-profile.json
+  - topic-cluster.md
+  - state.json
+  optional:
+  - project-profile.draft.md
+  - project-profile.research.md
+  - source-library/README.md
+  - memory/draft-retrospective-<article-slug>.md
+  - knowledge/fact-library.json
+  - knowledge/site-link-graph.json
+  - wordpress-preview-check.md
+  - schema.json
+article_level_artifacts:
+  required:
+  - articles/<article-slug>/topic-card.md
+  - articles/<article-slug>/intent-research.md
+  - articles/<article-slug>/content-type-library.md
+  - articles/<article-slug>/benchmark-candidates.md
+  - articles/<article-slug>/benchmark-success-formula.md
+  - articles/<article-slug>/benchmark-asset-ledger.md
+  - articles/<article-slug>/evidence-opinion-pack.md
+  - articles/<article-slug>/skeleton.md
+  - articles/<article-slug>/narrative-arc.md
+  - articles/<article-slug>/draft.md
+  - articles/<article-slug>/truth-qa.md
+  - articles/<article-slug>/information-gain-qa.md
+  - articles/<article-slug>/benchmark-drift-audit.md
+  - articles/<article-slug>/reader-qa.md
+  - articles/<article-slug>/enriched-draft.md
+  - articles/<article-slug>/image-plan.md
+  - articles/<article-slug>/visual-spec.md
+  - articles/<article-slug>/resources.md
+  - articles/<article-slug>/faq.md
+  - articles/<article-slug>/publish-package.md
+  - articles/<article-slug>/keyword-record.csv
+  optional:
+  - articles/<article-slug>/repair-plan.md
+  - articles/<article-slug>/visual-asset-candidates.md
+  - articles/<article-slug>/visual-asset-candidates.json
+  - articles/<article-slug>/visual-fit-review.md
+  - articles/<article-slug>/html-visual-plan.md
+  - articles/<article-slug>/html-visuals/<visual-id>.html
+  - articles/<article-slug>/visual-render-check.md
+  - articles/<article-slug>/performance-review.md
+  - articles/<article-slug>/benchmarks/<source>-raw-observations.md
+  - articles/<article-slug>/evidence-handoff-summary.md
+  - articles/<article-slug>/h2-heading-strategy.md
+  - articles/<article-slug>/knowledge-gap-register.md
+  - articles/<article-slug>/upstream-revision-suggestions.md
+  - articles/<article-slug>/title-options.md
+  - articles/<article-slug>/publish-ready-body.md
+  - articles/<article-slug>/preview-in-host-theme.html
+  - articles/<article-slug>/wordpress-preview-check.md
+  - articles/<article-slug>/schema.json
+stages:
+  profile-discover:
+    required_inputs: []
+    required_outputs:
+    - project-profile.draft.md
+    - state.json
+    optional_outputs:
+    - source-library/README.md
+  profile-answer:
+    required_inputs:
+    - project-profile.draft.md
+    - state.json
+    required_outputs:
+    - project-profile.draft.md
+    - state.json
+    optional_outputs: []
+  article-cluster:
+    required_inputs:
+    - project-profile.draft.md
+    - state.json
+    - source-library/*.csv
+    required_outputs:
+    - topic-cluster.md
+    - articles/<article-slug>/topic-card.md
+    - state.json
+    optional_outputs: []
+  profile-research-deep:
+    required_inputs:
+    - project-profile.draft.md
+    - topic-cluster.md
+    - articles/<article-slug>/topic-card.md
+    - state.json
+    required_outputs:
+    - project-profile.research.md
+    - state.json
+    optional_outputs:
+    - source-library/README.md
+  profile-lock:
+    required_inputs:
+    - project-profile.draft.md
+    - topic-cluster.md
+    - project-profile.research.md
+    - articles/<article-slug>/topic-card.md
+    - state.json
+    required_outputs:
+    - project-profile.md
+    - project-profile.json
+    - state.json
+    optional_outputs: []
+  article-intent-research:
+    required_inputs:
+    - project-profile.md
+    - state.json
+    - articles/<article-slug>/topic-card.md
+    required_outputs:
+    - articles/<article-slug>/intent-research.md
+    - state.json
+    optional_outputs: []
+  article-benchmark:
+    required_inputs:
+    - project-profile.md
+    - project-profile.json
+    - state.json
+    - articles/<article-slug>/topic-card.md
+    - articles/<article-slug>/intent-research.md
+    required_outputs:
+    - articles/<article-slug>/content-type-library.md
+    - articles/<article-slug>/benchmark-candidates.md
+    - state.json
+    optional_outputs: []
+  article-benchmark-extract:
+    required_inputs:
+    - project-profile.md
+    - state.json
+    - articles/<article-slug>/benchmark-candidates.md
+    required_outputs:
+    - articles/<article-slug>/benchmark-success-formula.md
+    - articles/<article-slug>/benchmark-asset-ledger.md
+    - state.json
+    optional_outputs:
+    - articles/<article-slug>/benchmarks/<source>-raw-observations.md
+  article-evidence-opinions:
+    required_inputs:
+    - project-profile.md
+    - state.json
+    - articles/<article-slug>/benchmark-success-formula.md
+    required_outputs:
+    - articles/<article-slug>/evidence-opinion-pack.md
+    - state.json
+    optional_outputs:
+    - articles/<article-slug>/evidence-handoff-summary.md
+    - articles/<article-slug>/knowledge-gap-register.md
+    - articles/<article-slug>/upstream-revision-suggestions.md
+  article-skeleton:
+    required_inputs:
+    - project-profile.md
+    - state.json
+    - articles/<article-slug>/topic-card.md
+    - articles/<article-slug>/intent-research.md
+    - articles/<article-slug>/content-type-library.md
+    - articles/<article-slug>/benchmark-candidates.md
+    - articles/<article-slug>/benchmark-success-formula.md
+    - articles/<article-slug>/evidence-opinion-pack.md
+    required_outputs:
+    - articles/<article-slug>/skeleton.md
+    - state.json
+    optional_outputs:
+    - articles/<article-slug>/h2-heading-strategy.md
+  article-arc:
+    required_inputs:
+    - project-profile.md
+    - project-profile.json
+    - state.json
+    - articles/<article-slug>/skeleton.md
+    - articles/<article-slug>/evidence-opinion-pack.md
+    - articles/<article-slug>/benchmark-success-formula.md
+    required_outputs:
+    - articles/<article-slug>/narrative-arc.md
+    - state.json
+    optional_outputs: []
+  article-draft:
+    required_inputs:
+    - project-profile.md
+    - state.json
+    - articles/<article-slug>/skeleton.md
+    - articles/<article-slug>/narrative-arc.md
+    - articles/<article-slug>/evidence-opinion-pack.md
+    - articles/<article-slug>/benchmark-success-formula.md
+    required_outputs:
+    - articles/<article-slug>/draft.md
+    - state.json
+    optional_outputs:
+    - memory/draft-retrospective-<article-slug>.md
+  article-truth-qa:
+    required_inputs:
+    - articles/<article-slug>/draft.md
+    - articles/<article-slug>/evidence-opinion-pack.md
+    required_outputs:
+    - articles/<article-slug>/truth-qa.md
+    - state.json
+    optional_outputs: []
+  article-information-gain-qa:
+    required_inputs:
+    - articles/<article-slug>/draft.md
+    - articles/<article-slug>/benchmark-success-formula.md
+    required_outputs:
+    - articles/<article-slug>/information-gain-qa.md
+    - state.json
+    optional_outputs: []
+  article-benchmark-qa:
+    required_inputs:
+    - articles/<article-slug>/draft.md
+    - articles/<article-slug>/benchmark-success-formula.md
+    - articles/<article-slug>/benchmark-asset-ledger.md
+    required_outputs:
+    - articles/<article-slug>/benchmark-drift-audit.md
+    - state.json
+    optional_outputs: []
+  article-reader-qa:
+    required_inputs:
+    - articles/<article-slug>/draft.md
+    - articles/<article-slug>/skeleton.md
+    required_outputs:
+    - articles/<article-slug>/reader-qa.md
+    - state.json
+    optional_outputs: []
+  article-enrich:
+    required_inputs:
+    - project-profile.md
+    - state.json
+    - articles/<article-slug>/draft.md
+    - articles/<article-slug>/truth-qa.md
+    - articles/<article-slug>/information-gain-qa.md
+    - articles/<article-slug>/benchmark-drift-audit.md
+    - articles/<article-slug>/reader-qa.md
+    - articles/<article-slug>/skeleton.md
+    - articles/<article-slug>/evidence-opinion-pack.md
+    required_outputs:
+    - articles/<article-slug>/enriched-draft.md
+    - articles/<article-slug>/image-plan.md
+    - state.json
+    optional_outputs:
+    - articles/<article-slug>/visual-asset-candidates.md
+    - articles/<article-slug>/visual-asset-candidates.json
+    - articles/<article-slug>/visual-fit-review.md
+    - articles/<article-slug>/html-visual-plan.md
+    - articles/<article-slug>/html-visuals/<visual-id>.html
+    - articles/<article-slug>/visual-render-check.md
+  article-visual:
+    required_inputs:
+    - project-profile.md
+    - state.json
+    - articles/<article-slug>/enriched-draft.md
+    - articles/<article-slug>/skeleton.md
+    - articles/<article-slug>/evidence-opinion-pack.md
+    required_outputs:
+    - articles/<article-slug>/visual-spec.md
+    - state.json
+    optional_outputs:
+    - articles/<article-slug>/visual/
+    - articles/<article-slug>/html-visuals/
+    - content-workspace/<project-slug>/visual-library/
+  article-resources:
+    required_inputs:
+    - project-profile.md
+    - state.json
+    - articles/<article-slug>/enriched-draft.md
+    - articles/<article-slug>/visual-spec.md
+    - articles/<article-slug>/skeleton.md
+    - articles/<article-slug>/evidence-opinion-pack.md
+    required_outputs:
+    - articles/<article-slug>/resources.md
+    - state.json
+  article-faq:
+    required_inputs:
+    - project-profile.md
+    - state.json
+    - articles/<article-slug>/enriched-draft.md
+    - articles/<article-slug>/visual-spec.md
+    - articles/<article-slug>/resources.md
+    - articles/<article-slug>/skeleton.md
+    - articles/<article-slug>/evidence-opinion-pack.md
+    - articles/<article-slug>/intent-research.md
+    required_outputs:
+    - articles/<article-slug>/faq.md
+    - state.json
+  article-publish-pack:
+    required_inputs:
+    - project-profile.md
+    - project-profile.json
+    - state.json
+    - articles/<article-slug>/enriched-draft.md
+    - articles/<article-slug>/truth-qa.md
+    - articles/<article-slug>/information-gain-qa.md
+    - articles/<article-slug>/benchmark-drift-audit.md
+    - articles/<article-slug>/reader-qa.md
+    - articles/<article-slug>/image-plan.md
+    - articles/<article-slug>/resources.md
+    - articles/<article-slug>/faq.md
+    - articles/<article-slug>/visual-spec.md
+    required_outputs:
+    - articles/<article-slug>/publish-package.md
+    - articles/<article-slug>/keyword-record.csv
+    - state.json
+    optional_outputs:
+    - articles/<article-slug>/publish-ready-body.md
+    - articles/<article-slug>/preview-in-host-theme.html
+    - articles/<article-slug>/wordpress-preview-check.md
+    - articles/<article-slug>/schema.json
+    - articles/<article-slug>/visual-render-check.md
+    - articles/<article-slug>/title-options.md
+  article-next:
+    required_inputs:
+    - state.json
+    required_outputs:
+    - state.json
+    optional_outputs: []
+  article-review:
+    required_inputs:
+    - state.json
+    - topic-cluster.md
+    - articles/<article-slug>/topic-card.md
+    - articles/<article-slug>/keyword-record.csv
+    required_outputs:
+    - articles/<article-slug>/performance-review.md
+    - state.json
+    optional_outputs:
+    - topic-cluster.md
+  workflow-status:
+    required_inputs:
+    - state.json
+    required_outputs: []
+    optional_outputs: []
+  article-repair:
+    required_inputs:
+    - project-profile.md
+    - state.json
+    - articles/<article-slug>/draft.md
+    - articles/<article-slug>/benchmark-success-formula.md
+    - articles/<article-slug>/skeleton.md
+    - articles/<article-slug>/narrative-arc.md
+    - articles/<article-slug>/evidence-opinion-pack.md
+    required_outputs:
+    - articles/<article-slug>/repair-plan.md
+    - articles/<article-slug>/draft.md
+    - state.json
+    optional_outputs: []
+qa_gates:
+- name: truth-qa
+  artifact: articles/<article-slug>/truth-qa.md
+  blocking_statuses:
+  - BLOCK
+  - blocked
+  - fail
+  - failed
+- name: information-gain-qa
+  artifact: articles/<article-slug>/information-gain-qa.md
+  blocking_statuses:
+  - BLOCK
+  - blocked
+  - fail
+  - failed
+- name: benchmark-drift-qa
+  artifact: articles/<article-slug>/benchmark-drift-audit.md
+  blocking_statuses:
+  - BLOCK
+  - blocked
+  - fail
+  - failed
+- name: reader-qa
+  artifact: articles/<article-slug>/reader-qa.md
+  blocking_statuses:
+  - BLOCK
+  - blocked
+  - fail
+  - failed
+publish_blockers:
+- lockedProfile must be true
+- all qa_gate artifacts must exist
+- no qa_gate artifact contains a blocking status

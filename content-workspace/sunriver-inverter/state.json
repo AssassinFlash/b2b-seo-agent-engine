@@ -1,0 +1,42 @@
+{
+  "projectSlug": "sunriver-inverter",
+  "profileStatus": "locked",
+  "lockedProfile": true,
+  "currentStage": "article-publish-pack",
+  "nextCommand": "/article-next",
+  "lastUpdated": "2026-06-26T06:10:54Z",
+  "activeArticle": "solar-without-a-battery",
+  "benchmarkStatus": "success-formula-extracted",
+  "intentResearch": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/intent-research.md",
+  "contentTypeLibrary": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/content-type-library.md",
+  "evidenceHandoffSummary": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/evidence-handoff-summary.md",
+  "h2HeadingStrategy": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/h2-heading-strategy.md",
+  "knowledgeGapRegister": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/knowledge-gap-register.md",
+  "articles": [
+    {
+      "slug": "solar-without-a-battery",
+      "status": "published",
+      "currentStage": "article-publish-pack",
+      "lastUpdated": "2026-06-26T06:10:54Z",
+      "intentResearch": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/intent-research.md",
+      "contentTypeLibrary": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/content-type-library.md",
+      "evidenceHandoffSummary": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/evidence-handoff-summary.md",
+      "h2HeadingStrategy": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/h2-heading-strategy.md",
+      "knowledgeGapRegister": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/knowledge-gap-register.md",
+      "nextCommand": "/article-next",
+      "draft": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/draft.md",
+      "truthQa": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/truth-qa.md",
+      "informationGainQa": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/information-gain-qa.md",
+      "benchmarkDriftAudit": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/benchmark-drift-audit.md",
+      "readerQa": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/reader-qa.md",
+      "enrichedDraft": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/enriched-draft.md",
+      "imagePlan": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/image-plan.md",
+      "visualSpec": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/visual-spec.md",
+      "resources": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/resources.md",
+      "faq": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/faq.md",
+      "publishPackage": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/publish-package.md",
+      "keywordRecord": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/keyword-record.csv",
+      "assetUploadChecklist": "content-workspace/sunriver-inverter/articles/solar-without-a-battery/asset-upload-checklist.md"
+    }
+  ]
+}

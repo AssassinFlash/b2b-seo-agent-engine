@@ -1,0 +1,333 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/b2b-seo-agent-system/state-schema.json",
+  "title": "B2B SEO Agent Workflow State",
+  "description": "Canonical state.json schema for the v3 skill-only workflow.",
+  "type": "object",
+  "required": [
+    "projectSlug",
+    "profileStatus",
+    "lockedProfile",
+    "currentStage",
+    "nextCommand",
+    "lastUpdated"
+  ],
+  "properties": {
+    "projectSlug": {
+      "type": "string",
+      "description": "URL-safe project identifier."
+    },
+    "profileStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "researched",
+        "locked"
+      ],
+      "description": "Lifecycle stage of the project profile."
+    },
+    "lockedProfile": {
+      "type": "boolean",
+      "description": "Gate: article stages require true."
+    },
+    "currentStage": {
+      "type": "string",
+      "description": "The last completed or active workflow stage command name without leading slash."
+    },
+    "nextCommand": {
+      "type": "string",
+      "description": "Recommended next safe command, including leading slash."
+    },
+    "lastUpdated": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}",
+      "description": "ISO-8601 date or timestamp of the last state update."
+    },
+    "website": {
+      "type": "string",
+      "description": "Optional canonical project website URL."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional operator or workflow notes."
+    },
+    "activeArticle": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Slug of the currently selected article, or null."
+    },
+    "benchmarkStatus": {
+      "type": "string",
+      "description": "Transient status set during benchmark stages.",
+      "examples": [
+        "awaiting-user-selection",
+        "success-formula-extracted"
+      ]
+    },
+    "evidenceHandoffSummary": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Path to the optional evidence-handoff-summary.md artifact produced by /article-evidence-opinions."
+    },
+    "h2HeadingStrategy": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Path to the optional h2-heading-strategy.md artifact produced by /article-skeleton."
+    },
+    "titleOptions": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Path to the optional title-options.md artifact produced by /article-title (runs inside /article-publish-pack)."
+    },
+    "intentResearch": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Path to the intent-research.md artifact produced by /article-intent-research."
+    },
+    "contentTypeLibrary": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Path to the content-type-library.md artifact produced by /article-benchmark."
+    },
+    "knowledgeGapRegister": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Path to the optional knowledge-gap-register.md artifact."
+    },
+    "upstreamRevisionSuggestions": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Path to the optional upstream-revision-suggestions.md artifact produced when /article-evidence-opinions forces corrections in upstream artifacts."
+    },
+    "lastReviewed": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of the last article review."
+    },
+    "factLibrary": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Path to knowledge/fact-library.json managed by sync_draft_born_claims.py."
+    },
+    "siteLinkGraph": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Path to knowledge/site-link-graph.json managed by update_link_graph.py."
+    },
+    "articles": {
+      "type": "array",
+      "description": "List of articles tracked in this project.",
+      "items": {
+        "type": "object",
+        "required": [
+          "slug",
+          "status"
+        ],
+        "properties": {
+          "slug": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "idea",
+              "topic-card",
+              "intent-research",
+              "benchmarking",
+              "drafting",
+              "qa",
+              "enriching",
+              "visual",
+              "resources",
+              "faq",
+              "handoff-draft",
+              "published"
+            ]
+          },
+          "currentStage": {
+            "type": "string"
+          },
+          "lastUpdated": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "evidenceHandoffSummary": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "h2HeadingStrategy": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "titleOptions": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "intentResearch": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "contentTypeLibrary": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "knowledgeGapRegister": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "upstreamRevisionSuggestions": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "resources": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Path to the optional resources.md artifact produced by /article-resources."
+          },
+          "faq": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Path to the optional faq.md artifact produced by /article-faq."
+          },
+          "visualSpec": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Path to the visual-spec.md artifact produced by /article-visual."
+          },
+          "assetUploadChecklist": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Path to the asset-upload-checklist.md artifact produced by /article-visual."
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

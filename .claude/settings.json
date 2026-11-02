@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -f \"${CLAUDE_PROJECT_DIR:-.}/scripts/hooks/publish_gate.py\" ]; then python3 \"${CLAUDE_PROJECT_DIR:-.}/scripts/hooks/publish_gate.py\"; elif [ -f \"b2b-seo-agent-system-v3-skills/scripts/hooks/publish_gate.py\" ]; then python3 \"b2b-seo-agent-system-v3-skills/scripts/hooks/publish_gate.py\"; fi",
+            "timeout": 15,
+            "statusMessage": "Checking the publish gate"
+          }
+        ]
+      }
+    ]
+  }
+}

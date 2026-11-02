@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAJ Solar Inverter - Curated B2B Featured Visual Asset Library</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #070a13;
+            --bg-card: rgba(16, 22, 37, 0.85);
+            --bg-card-hover: rgba(26, 34, 54, 0.95);
+            --accent-primary: #ffb703;
+            --accent-secondary: #fb8500;
+            --accent-glow: #023047;
+            --text-main: #f0f6fc;
+            --text-muted: #8b949e;
+            --text-justification: #e1e8ed;
+            --border-color: rgba(48, 54, 61, 0.8);
+            --border-hover: rgba(251, 133, 0, 0.5);
+            --shadow-neon: 0 0 20px rgba(251, 133, 0, 0.2);
+            --shadow-neon-hover: 0 0 35px rgba(251, 133, 0, 0.45);
+            --font-outfit: 'Outfit', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+            --badge-official: #238636;
+            --badge-reviews: #1f6feb;
+            --badge-comm: #8957e5;
+            --badge-social: #da3633;
+            --badge-contrast: #d29922;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 5% 5%, rgba(251, 133, 0, 0.08) 0px, transparent 40%),
+                radial-gradient(at 95% 95%, rgba(255, 183, 3, 0.08) 0px, transparent 40%);
+            color: var(--text-main);
+            font-family: var(--font-outfit);
+            min-height: 100vh;
+            padding: 3rem 2rem;
+            line-height: 1.6;
+        }
+
+        header {
+            max-width: 1400px;
+            margin: 0 auto 3rem auto;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2.5rem;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            max-width: 900px;
+            margin-bottom: 1.5rem;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .counter {
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            color: var(--accent-primary);
+            background: rgba(251, 133, 0, 0.12);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            border: 1px solid rgba(251, 133, 0, 0.25);
+            display: inline-block;
+        }
+
+        .back-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-link:hover {
+            color: var(--accent-primary);
+        }
+
+        .controls {
+            max-width: 1400px;
+            margin: 0 auto 2.5rem auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(22, 27, 34, 0.6);
+            padding: 0.4rem;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.65rem 1.3rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: var(--font-outfit);
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-btn.active {
+            color: var(--bg-dark);
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            font-weight: 600;
+            box-shadow: var(--shadow-neon);
+        }
+
+        .search-container {
+            position: relative;
+            min-width: 320px;
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(22, 27, 34, 0.8);
+            border: 1px solid var(--border-color);
+            padding: 0.7rem 1rem 0.7rem 2.8rem;
+            border-radius: 10px;
+            color: var(--text-main);
+            font-family: var(--font-outfit);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-secondary);
+            box-shadow: 0 0 12px rgba(251, 133, 0, 0.25);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-neon-hover);
+        }
+
+        .card-media {
+            height: 240px;
+            background: #0d1117;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-media iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .media-placeholder {
+            text-align: center;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .placeholder-icon {
+            font-size: 2.5rem;
+            color: var(--accent-primary);
+            opacity: 0.8;
+        }
+
+        .placeholder-text {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .card-body {
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            gap: 1.25rem;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0.25rem 0.65rem;
+            border-radius: 6px;
+            color: #ffffff;
+            font-family: var(--font-mono);
+        }
+
+        .badge-official { background-color: var(--badge-official); }
+        .badge-reviews { background-color: var(--badge-reviews); }
+        .badge-comm { background-color: var(--badge-comm); }
+        .badge-social { background-color: var(--badge-social); }
+        .badge-contrast { background-color: var(--badge-contrast); }
+
+        .cid-badge {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent-primary);
+            background: rgba(255, 183, 3, 0.1);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 3.5rem;
+        }
+
+        .justification-box {
+            background: rgba(251, 133, 0, 0.06);
+            border-left: 3px solid var(--accent-secondary);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .justification-title {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.35rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .justification-desc {
+            font-size: 0.92rem;
+            color: var(--text-justification);
+            line-height: 1.5;
+        }
+
+        .section-header {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            margin-bottom: 0.5rem;
+        }
+
+        .timestamps-list {
+            list-style: none;
+            font-size: 0.85rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .timestamps-list li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .timestamps-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .time-marker {
+            font-family: var(--font-mono);
+            color: var(--accent-primary);
+            font-weight: 700;
+            background: rgba(251, 133, 0, 0.15);
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .time-marker:hover {
+            background: var(--accent-secondary);
+            color: var(--bg-dark);
+        }
+
+        .card-action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .slot-badge {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .btn-visit {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: var(--bg-dark);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-visit:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-neon);
+            opacity: 0.95;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1.5rem 1rem;
+            }
+            header {
+                margin-bottom: 2rem;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-container {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <h1>SAJ Solar Inverter — Curated B2B Visual Library</h1>
+                <p class="subtitle">A handpicked, strategically curated collection of B2B visual assets supporting the "Solar Without a Battery" article. Focused on official prospectus schematics, physical wiring ports, distributor networks, and competitor contrast.</p>
+            </div>
+            <a href="visual-material-library.html" class="back-link">
+                ← View Master Library (195 candidates)
+            </a>
+        </div>
+        <div class="header-stats">
+            <span class="counter" id="item-counter">Curated Selection: 18 Premium Assets</span>
+        </div>
+    </header>
+
+    <div class="controls">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="filterCategory('all', this)">All</button>
+            <button class="tab-btn" onclick="filterCategory('Official Tech Proof', this)">Official Tech Proof</button>
+            <button class="tab-btn" onclick="filterCategory('Technical Reviews', this)">Technical Reviews</button>
+            <button class="tab-btn" onclick="filterCategory('Distributors & Commercial', this)">Distributors & Commercial</button>
+            <button class="tab-btn" onclick="filterCategory('Community & Social', this)">Community & Social</button>
+            <button class="tab-btn" onclick="filterCategory('Competitor Contrast', this)">Competitor Contrast</button>
+        </div>
+        
+        <div class="search-container">
+            <span class="search-icon">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path fill-rule="evenodd" d="M11.5 7a4.499 4.499 0 11-8.998 0A4.499 4.499 0 0111.5 7zm-.82 4.74a6 6 0 111.06-1.06l3.04 3.04a.75.75 0 11-1.06 1.06l-3.04-3.04z" clip-rule="evenodd"/>
+                </svg>
+            </span>
+            <input type="text" id="search-box" class="search-input" placeholder="Search curated assets..." onkeyup="handleSearch()">
+        </div>
+    </div>
+
+    <main class="grid" id="grid" data-current-filter="all">
+
+        <div class="card" data-category="Community & Social">
+            <div class="card-media">
+                
+            <div class="media-placeholder">
+                <span class="placeholder-icon">📄</span>
+                <span class="placeholder-text">Reddit r/SolarDIY Source Document</span>
+            </div>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                    <span class="badge badge-social">Community & Social</span>
+                    <span class="cid-badge">comp-reddit-solardiy</span>
+                </div>
+                <h3 class="card-title">Reddit SolarDIY thread explaining load interruptions and active bypass outputs.</h3>
+                
+                <div class="justification-box">
+                    <div class="justification-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+                            <path d="M8 15A7 7 0 118 1a7 7 0 010 14zm0-1.5a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM7.25 9H6.5a.75.75 0 010-1.5h.75V6.25a.75.75 0 011.5 0V7.5h.75a.75.75 0 010 1.5H8.75v1.25a.75.75 0 01-1.5 0V9z"/>
+                        </svg>
+                        B2B Editorial Justification
+                    </div>
+                    <p class="justification-desc">Highlights real installer/user friction regarding cloud-cover bypass and load-shedding. Used to build credibility by showing we address practical challenges faced by actual DIY installers.</p>
+                </div>
+                
+                <h4 class="section-header">Community Post Content</h4><ul class="timestamps-list"><li><span>Reddit SolarDIY thread explaining load interruptions and active bypass outputs.</span></li></ul>
+                
+                <div class="card-action-bar">
+                    <span class="slot-badge">Maps to v-02, v-04</span>
+                    <a href="https://www.reddit.com/r/SolarDIY/comments/1ffk9yx/grid_tied_hybrid_inverters_cant_operate_on_their/" target="_blank" class="btn-visit">View Source</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" data-category="Community & Social">
+            <div class="card-media">
+                
+            <div class="media-placeholder">
+                <span class="placeholder-icon">📄</span>
+                <span class="placeholder-text">Reddit r/solar Ireland Source Document</span>
+            </div>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                    <span class="badge badge-social">Community & Social</span>
+                    <span class="cid-badge">dist-saj-reddit</span>
+                </div>
+                <h3 class="card-title">Reddit post showcasing outdoor installation weather limits for SAJ products.</h3>
+                
+                <div class="justification-box">
+                    <div class="justification-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+                            <path d="M8 15A7 7 0 118 1a7 7 0 010 14zm0-1.5a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM7.25 9H6.5a.75.75 0 010-1.5h.75V6.25a.75.75 0 011.5 0V7.5h.75a.75.75 0 010 1.5H8.75v1.25a.75.75 0 01-1.5 0V9z"/>
+                        </svg>
+                        B2B Editorial Justification
+                    </div>
+                    <p class="justification-desc">Real-world outdoor installation photo in Ireland. Demonstrates the IP65 rating under actual harsh weathering conditions, validating corporate durability claims.</p>
+                </div>
+                
+                <h4 class="section-header">Community Post Content</h4><ul class="timestamps-list"><li><span>Reddit post showcasing outdoor installation weather limits for SAJ products.</span></li></ul>
+                
+                <div class="card-action-bar">
+                    <span class="slot-badge">Maps to v-08</span>
+                    <a href="https://www.reddit.com/r/solar/comments/1jjrdhd/saj_inverter_and_battery_installed_out_the_side" target="_blank" class="btn-visit">View Source</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" data-category="Competitor Contrast">
+            <div class="card-media">
+                
+            <div class="media-placeholder">
+                <span class="placeholder-icon">📄</span>
+                <span class="placeholder-text">Ningbo Deye Inverter Technology Source Document</span>
+            </div>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                    <span class="badge badge-contrast">Competitor Contrast</span>
+                    <span class="cid-badge">comp-deye-approved-list</span>
+                </div>
+                <h3 class="card-title">Official Deye PDF detailing approved low-voltage battery modules.</h3>
+                
+                <div class="justification-box">
+                    <div class="justification-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+                            <path d="M8 15A7 7 0 118 1a7 7 0 010 14zm0-1.5a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM7.25 9H6.5a.75.75 0 010-1.5h.75V6.25a.75.75 0 011.5 0V7.5h.75a.75.75 0 010 1.5H8.75v1.25a.75.75 0 01-1.5 0V9z"/>
+                        </svg>
+                        B2B Editorial Justification
+                    </div>
+                    <p class="justification-desc">Official battery compatibility matrix. Highlights the complexity of competitor battery handshake requirements, making SAJ's battery-ready flexibility stand out.</p>
+                </div>
+                
+                <h4 class="section-header">Recommended Video Captures</h4><ul class="timestamps-list"><li><span class="time-marker">Page 1</span> <span>Supported battery brands and communication protocol codes.</span></li></ul>
+                
+                <div class="card-action-bar">
+                    <span class="slot-badge">Maps to v-02, v-05</span>
+                    <a href="https://www.deyeinverter.com/deyeinverter/2024/01/04/deyeapprovedbatterylistdy-lv48-0076.pdf" target="_blank" class="btn-visit">View Source</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" data-category="Competitor Contrast">
+            <div class="card-media">
+                
+            <div class="media-placeholder">
+                <span class="placeholder-icon">📄</span>
+                <span class="placeholder-text">Clean Energy Reviews Forum Source Document</span>
+            </div>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                    <span class="badge badge-contrast">Competitor Contrast</span>
+                    <span class="cid-badge">comp-forum-deye-review</span>
+                </div>
+                <h3 class="card-title">Clean Energy Reviews off-grid forum thread regarding Deye SUN-8K hybrid inverters.</h3>
+                
+                <div class="justification-box">
+                    <div class="justification-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+                            <path d="M8 15A7 7 0 118 1a7 7 0 010 14zm0-1.5a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM7.25 9H6.5a.75.75 0 010-1.5h.75V6.25a.75.75 0 011.5 0V7.5h.75a.75.75 0 010 1.5H8.75v1.25a.75.75 0 01-1.5 0V9z"/>
+                        </svg>
+                        B2B Editorial Justification
+                    </div>
+                    <p class="justification-desc">Forum review detailing Deye vs Sol-Ark. Useful for highlighting the internal fan noise and heat dissipation concerns in competitor designs.</p>
+                </div>
+                
+                
+                
+                <div class="card-action-bar">
+                    <span class="slot-badge">Maps to v-05</span>
+                    <a href="https://forum.cleanenergyreviews.info/t/deye-hybrid-inverter-review-off-grid-sunsynk-sol-ark/2585" target="_blank" class="btn-visit">View Source</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" data-category="Competitor Contrast">
+            <div class="card-media">
+                <iframe src="https://www.youtube.com/embed/g4xZGJ0gMaw" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                    <span class="badge badge-contrast">Competitor Contrast</span>
+                    <span class="cid-badge">vid-yt-011</span>
+                </div>
+                <h3 class="card-title">YouTube video by Deye New Energy with 49014 views. Title: How to use No battery mode for Deye hybrid inverter</h3>
+                
+                <div class="justification-box">
+                    <div class="justification-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+                            <path d="M8 15A7 7 0 118 1a7 7 0 010 14zm0-1.5a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM7.25 9H6.5a.75.75 0 010-1.5h.75V6.25a.75.75 0 011.5 0V7.5h.75a.75.75 0 010 1.5H8.75v1.25a.75.75 0 01-1.5 0V9z"/>
+                        </svg>
+                        B2B Editorial Justification
+                    </div>
+                    <p class="justification-desc">Competitor comparison (Deye). Shows the exact software settings needed for battery-free operation on competitive equipment, providing valuable comparative reference for buyers evaluating options.</p>
+                </div>
+                
+                <h4 class="section-header">Recommended Video Captures</h4><ul class="timestamps-list"><li><span class="time-marker" onclick="seekVideo(this, 'g4xZGJ0gMaw', 90)">01:30</span> <span>System block diagram explaining the power flow between solar panels, inverter, loads, and grid.</span></li><li><span class="time-marker" onclick="seekVideo(this, 'g4xZGJ0gMaw', 195)">03:15</span> <span>Close-up of the inverter casing, heat sinks, and status indicator LEDs.</span></li></ul>
+                
+                <div class="card-action-bar">
+                    <span class="slot-badge">Maps to v-05, v-08</span>
+                    <a href="https://www.youtube.com/watch?v=g4xZGJ0gMaw" target="_blank" class="btn-visit">View Source</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" data-category="Competitor Contrast">
+            <div class="card-media">
+                <iframe src="https://www.youtube.com/embed/hId-ZO2JTGQ" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                    <span class="badge badge-contrast">Competitor Contrast</span>
+                    <span class="cid-badge">vid-yt-016</span>
+                </div>
+                <h3 class="card-title">YouTube video by Queenslander with 5261 views. Title: "HOW TO: Deye hybrid inverter settings for no storage batteries connected"</h3>
+                
+                <div class="justification-box">
+                    <div class="justification-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+                            <path d="M8 15A7 7 0 118 1a7 7 0 010 14zm0-1.5a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM7.25 9H6.5a.75.75 0 010-1.5h.75V6.25a.75.75 0 011.5 0V7.5h.75a.75.75 0 010 1.5H8.75v1.25a.75.75 0 01-1.5 0V9z"/>
+                        </svg>
+                        B2B Editorial Justification
+                    </div>
+                    <p class="justification-desc">Highlights Deye's off-grid no-battery control interface. Used in competitor comparison sections to show SAJ's setup simplicity compared to Deye's multiple manual configuration checkmarks.</p>
+                </div>
+                
+                <h4 class="section-header">Recommended Video Captures</h4><ul class="timestamps-list"><li><span class="time-marker" onclick="seekVideo(this, 'hId-ZO2JTGQ', 90)">01:30</span> <span>System block diagram explaining the power flow between solar panels, inverter, loads, and grid.</span></li><li><span class="time-marker" onclick="seekVideo(this, 'hId-ZO2JTGQ', 195)">03:15</span> <span>Close-up of the inverter casing, heat sinks, and status indicator LEDs.</span></li></ul>
+                
+                <div class="card-action-bar">
+                    <span class="slot-badge">Maps to v-05, v-08</span>
+                    <a href="https://www.youtube.com/watch?v=hId-ZO2JTGQ" target="_blank" class="btn-visit">View Source</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" data-category="Distributors & Commercial">
+            <div class="card-media">
+                
+            <div class="media-placeholder">
+                <span class="placeholder-icon">📄</span>
+                <span class="placeholder-text">OSW Energy Australia Source Document</span>
+            </div>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                    <span class="badge badge-comm">Distributors & Commercial</span>
+                    <span class="cid-badge">dist-osw-au</span>
+                </div>
+                <h3 class="card-title">OSW Energy: One Australian Wholesaler stocking SAJ inverters, electrical and renewable products.</h3>
+                
+                <div class="justification-box">
+                    <div class="justification-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+                            <path d="M8 15A7 7 0 118 1a7 7 0 010 14zm0-1.5a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM7.25 9H6.5a.75.75 0 010-1.5h.75V6.25a.75.75 0 011.5 0V7.5h.75a.75.75 0 010 1.5H8.75v1.25a.75.75 0 01-1.5 0V9z"/>
+                        </svg>
+                        B2B Editorial Justification
+                    </div>
+                    <p class="justification-desc">Sourced from Australia's largest distributor. Proves SAJ's commercial scale and active supply chain in mature solar markets, giving B2B buyers confidence in product availability.</p>
+                </div>
+                
+                <h4 class="section-header">Recommended Video Captures</h4><ul class="timestamps-list"><li><span class="time-marker">Page 1</span> <span>Local stock availability and model lists for R5, R6, and H2 series.</span></li></ul>
+                
+                <div class="card-action-bar">
+                    <span class="slot-badge">Maps to v-05, v-08</span>
+                    <a href="https://osw.energy/au/brands/SAJ?product_classes=Inverters" target="_blank" class="btn-visit">View Source</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" data-category="Distributors & Commercial">
+            <div class="card-media">
+                
+            <div class="media-placeholder">
+                <span class="placeholder-icon">📄</span>
+                <span class="placeholder-text">Powernsun Middle East Source Document</span>
+            </div>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                    <span class="badge badge-comm">Distributors & Commercial</span>
+                    <span class="cid-badge">dist-powernsun-mena</span>
+                </div>
+                <h3 class="card-title">SAJ partnership announcement with Powernsun for distributing hybrid and pump solutions.</h3>
+                
+                <div class="justification-box">
+                    <div class="justification-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+                            <path d="M8 15A7 7 0 118 1a7 7 0 010 14zm0-1.5a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM7.25 9H6.5a.75.75 0 010-1.5h.75V6.25a.75.75 0 011.5 0V7.5h.75a.75.75 0 010 1.5H8.75v1.25a.75.75 0 01-1.5 0V9z"/>
+                        </svg>
+                        B2B Editorial Justification
+                    </div>
+                    <p class="justification-desc">Middle East distribution press release. Proves SAJ's presence in high-temperature markets, validating the thermal performance of their fanless cooling designs.</p>
+                </div>
+                
+                
+                
+                <div class="card-action-bar">
+                    <span class="slot-badge">Maps to v-08</span>
+                    <a href="https://www.linkedin.com/company/saj-electric" target="_blank" class="btn-visit">View Source</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" data-category="Distributors & Commercial">
+            <div class="card-media">
+                
+            <div class="media-placeholder">
+                <span class="placeholder-icon">📄</span>
+                <span class="placeholder-text">Irish Wind Portal Source Document</span>
+            </div>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                    <span class="badge badge-comm">Distributors & Commercial</span>
+                    <span class="cid-badge">dist-saj-ireland</span>
+                </div>
+                <h3 class="card-title">Irish Wind 2026 review highlighting SAJ's competitive pricing for hybrid systems without the premium tag.</h3>
+                
+                <div class="justification-box">
+                    <div class="justification-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+                            <path d="M8 15A7 7 0 118 1a7 7 0 010 14zm0-1.5a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM7.25 9H6.5a.75.75 0 010-1.5h.75V6.25a.75.75 0 011.5 0V7.5h.75a.75.75 0 010 1.5H8.75v1.25a.75.75 0 01-1.5 0V9z"/>
+                        </svg>
+                        B2B Editorial Justification
+                    </div>
+                    <p class="justification-desc">Irish market review. Confirms SAJ's strict compliance with European grid codes (G98/G99) and local distributor support networks.</p>
+                </div>
+                
+                
+                
+                <div class="card-action-bar">
+                    <span class="slot-badge">Maps to v-04, v-05</span>
+                    <a href="https://irishwind.ie/2026/05/01/saj-solar-inverters-review" target="_blank" class="btn-visit">View Source</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" data-category="Official Tech Proof">
+            <div class="card-media">
+                
+            <div class="media-placeholder">
+                <span class="placeholder-icon">📄</span>
+                <span class="placeholder-text">sunriver-energy.example.com Source Document</span>
+            </div>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                    <span class="badge badge-official">Official Tech Proof</span>
+                    <span class="cid-badge">prod-h2-overview</span>
+                </div>
+                <h3 class="card-title">H2-3k~6k Single Phase Hybrid Inverter: SAJ's current-generation single-phase hybrid platform for residential self-consumption.</h3>
+                
+                <div class="justification-box">
+                    <div class="justification-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+                            <path d="M8 15A7 7 0 118 1a7 7 0 010 14zm0-1.5a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM7.25 9H6.5a.75.75 0 010-1.5h.75V6.25a.75.75 0 011.5 0V7.5h.75a.75.75 0 010 1.5H8.75v1.25a.75.75 0 01-1.5 0V9z"/>
+                        </svg>
+                        B2B Editorial Justification
+                    </div>
+                    <p class="justification-desc">High-resolution official casing image. Serves as the primary visual anchor for the H2 hybrid series, showing the minimalist aesthetic and status indicators.</p>
+                </div>
+                
+                
+                
+                <div class="card-action-bar">
+                    <span class="slot-badge">Maps to v-02, v-05, v-08</span>
+                    <a href="https://sunriver-energy.example.com/product/h2-3k-6k-single-phase-hybrid-inverter/" target="_blank" class="btn-visit">View Source</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" data-category="Official Tech Proof">
+            <div class="card-media">
+                
+            <div class="media-placeholder">
+                <span class="placeholder-icon">📄</span>
+                <span class="placeholder-text">sunriver-energy.example.com Source Document</span>
+            </div>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                    <span class="badge badge-official">Official Tech Proof</span>
+                    <span class="cid-badge">prod-hs3-overview</span>
+                </div>
+                <h3 class="card-title">HS3-3k~6k Single Phase All-in-One Energy Storage System: Single-phase HS3 all-in-one energy storage system for residential storage and backup projects.</h3>
+                
+                <div class="justification-box">
+                    <div class="justification-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+                            <path d="M8 15A7 7 0 118 1a7 7 0 010 14zm0-1.5a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM7.25 9H6.5a.75.75 0 010-1.5h.75V6.25a.75.75 0 011.5 0V7.5h.75a.75.75 0 010 1.5H8.75v1.25a.75.75 0 01-1.5 0V9z"/>
+                        </svg>
+                        B2B Editorial Justification
+                    </div>
+                    <p class="justification-desc">High-resolution official all-in-one ESS casing image. Anchors the comparison between wall-mounted hybrid inverters and modular cabinet storage systems.</p>
+                </div>
+                
+                
+                
+                <div class="card-action-bar">
+                    <span class="slot-badge">Maps to v-05, v-08</span>
+                    <a href="https://sunriver-energy.example.com/product/hs3-3k-6k-single-phase-all-in-one-energy-storage-system/" target="_blank" class="btn-visit">View Source</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" data-category="Official Tech Proof">
+            <div class="card-media">
+                
+            <div class="media-placeholder">
+                <span class="placeholder-icon">📄</span>
+                <span class="placeholder-text">Guangzhou Sanjing Electric IPO Prospectus Source Document</span>
+            </div>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                    <span class="badge badge-official">Official Tech Proof</span>
+                    <span class="cid-badge">tech-ipo-prospectus</span>
+                </div>
+                <h3 class="card-title">Guangzhou Sanjing Electric Co., Ltd. IPO Prospectus PDF.</h3>
+                
+                <div class="justification-box">
+                    <div class="justification-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+                            <path d="M8 15A7 7 0 118 1a7 7 0 010 14zm0-1.5a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM7.25 9H6.5a.75.75 0 010-1.5h.75V6.25a.75.75 0 011.5 0V7.5h.75a.75.75 0 010 1.5H8.75v1.25a.75.75 0 01-1.5 0V9z"/>
+                        </svg>
+                        B2B Editorial Justification
+                    </div>
+                    <p class="justification-desc">Provides official, legally audited electrical schematics from SAJ's IPO filing. Validates the hardware-level bypass switching loops and DC-bus topology, proving the system's safety in battery-free configurations.</p>
+                </div>
+                
+                
+                
+                <div class="card-action-bar">
+                    <span class="slot-badge">Maps to v-02, v-04, v-05</span>
+                    <a href="http://qxb-pdf-osscache.qixin.com/AnBaseinfo/d2aa38371eee947f2ad8226fb98c413c.pdf" target="_blank" class="btn-visit">View Source</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" data-category="Technical Reviews">
+            <div class="card-media">
+                <iframe src="https://www.youtube.com/embed/hyo6wGFDvuw" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                    <span class="badge badge-reviews">Technical Reviews</span>
+                    <span class="cid-badge">vid-h2-b2-tutorial</span>
+                </div>
+                <h3 class="card-title">SAJ H2 & B2 High Voltage Energy Storage Solution integration steps.</h3>
+                
+                <div class="justification-box">
+                    <div class="justification-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+                            <path d="M8 15A7 7 0 118 1a7 7 0 010 14zm0-1.5a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM7.25 9H6.5a.75.75 0 010-1.5h.75V6.25a.75.75 0 011.5 0V7.5h.75a.75.75 0 010 1.5H8.75v1.25a.75.75 0 01-1.5 0V9z"/>
+                        </svg>
+                        B2B Editorial Justification
+                    </div>
+                    <p class="justification-desc">Demonstrates the physical RS485/CAN communication cable mapping. Useful for explaining how the inverter auto-negotiates protocol layers when transitioning from battery-ready to battery-active states.</p>
+                </div>
+                
+                <h4 class="section-header">Recommended Video Captures</h4><ul class="timestamps-list"><li><span class="time-marker" onclick="seekVideo(this, 'hyo6wGFDvuw', 140)">02:20</span> <span>Close-up of the SAJ H2 inverter bottom port layout: PV inputs, battery terminals, and comms ports.</span></li><li><span class="time-marker" onclick="seekVideo(this, 'hyo6wGFDvuw', 290)">04:50</span> <span>Integrating high-voltage lithium battery pack with H2 hybrid inverter, showing wiring steps.</span></li><li><span class="time-marker" onclick="seekVideo(this, 'hyo6wGFDvuw', 495)">08:15</span> <span>App dashboard showing H2's charging, discharging, and self-consumption stats.</span></li></ul>
+                
+                <div class="card-action-bar">
+                    <span class="slot-badge">Maps to v-02, v-04</span>
+                    <a href="https://www.youtube.com/watch?v=hyo6wGFDvuw" target="_blank" class="btn-visit">View Source</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" data-category="Technical Reviews">
+            <div class="card-media">
+                <iframe src="https://www.youtube.com/embed/LyvzpndFLok" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                    <span class="badge badge-reviews">Technical Reviews</span>
+                    <span class="cid-badge">vid-h2-installation</span>
+                </div>
+                <h3 class="card-title">SAJ H2 Series Smart Solar Hybrid Inverter Installation Tutorials.</h3>
+                
+                <div class="justification-box">
+                    <div class="justification-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+                            <path d="M8 15A7 7 0 118 1a7 7 0 010 14zm0-1.5a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM7.25 9H6.5a.75.75 0 010-1.5h.75V6.25a.75.75 0 011.5 0V7.5h.75a.75.75 0 010 1.5H8.75v1.25a.75.75 0 01-1.5 0V9z"/>
+                        </svg>
+                        B2B Editorial Justification
+                    </div>
+                    <p class="justification-desc">Crucial for Section v-02 (Wiring). Shows the physically exposed terminal blocks, illustrating where PV strings and backup lines connect, confirming the physical layout of the hybrid inverter.</p>
+                </div>
+                
+                <h4 class="section-header">Recommended Video Captures</h4><ul class="timestamps-list"><li><span class="time-marker" onclick="seekVideo(this, 'LyvzpndFLok', 90)">01:30</span> <span>System block diagram explaining the power flow between solar panels, inverter, loads, and grid.</span></li><li><span class="time-marker" onclick="seekVideo(this, 'LyvzpndFLok', 195)">03:15</span> <span>Close-up of the inverter casing, heat sinks, and status indicator LEDs.</span></li><li><span class="time-marker" onclick="seekVideo(this, 'LyvzpndFLok', 340)">05:40</span> <span>Comparison chart showing grid-tied vs hybrid solar inverter system efficiency and costs.</span></li></ul>
+                
+                <div class="card-action-bar">
+                    <span class="slot-badge">Maps to v-02</span>
+                    <a href="https://www.youtube.com/watch?v=LyvzpndFLok" target="_blank" class="btn-visit">View Source</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" data-category="Technical Reviews">
+            <div class="card-media">
+                
+            <div class="media-placeholder">
+                <span class="placeholder-icon">📄</span>
+                <span class="placeholder-text">YouTube Source Document</span>
+            </div>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                    <span class="badge badge-reviews">Technical Reviews</span>
+                    <span class="cid-badge">vid-yt-003</span>
+                </div>
+                <h3 class="card-title">YouTube video by 2025-11-03T17:38:55.000Z with 0 views. Title: "The SAJ HS3 All in one solar</h3>
+                
+                <div class="justification-box">
+                    <div class="justification-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+                            <path d="M8 15A7 7 0 118 1a7 7 0 010 14zm0-1.5a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM7.25 9H6.5a.75.75 0 010-1.5h.75V6.25a.75.75 0 011.5 0V7.5h.75a.75.75 0 010 1.5H8.75v1.25a.75.75 0 01-1.5 0V9z"/>
+                        </svg>
+                        B2B Editorial Justification
+                    </div>
+                    <p class="justification-desc">Detailed review of SAJ HS3 all-in-one system. Shows how the modular stackable battery design works, supporting the 'upgrade path' narrative.</p>
+                </div>
+                
+                <h4 class="section-header">Recommended Video Captures</h4><ul class="timestamps-list"><li><span class="time-marker">01:30</span> <span>System block diagram explaining the power flow between solar panels, inverter, loads, and grid.</span></li><li><span class="time-marker">03:15</span> <span>Close-up of the inverter casing, heat sinks, and status indicator LEDs.</span></li></ul>
+                
+                <div class="card-action-bar">
+                    <span class="slot-badge">Maps to v-05, v-08</span>
+                    <a href="battery" target="_blank" class="btn-visit">View Source</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" data-category="Technical Reviews">
+            <div class="card-media">
+                <iframe src="https://www.youtube.com/embed/44qCk0pQar8" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                    <span class="badge badge-reviews">Technical Reviews</span>
+                    <span class="cid-badge">vid-yt-004</span>
+                </div>
+                <h3 class="card-title">YouTube video by DIY Solar Power with Will Prowse with 683276 views. Title: Offgrid VS Hybrid Inverters! Which one is better for the $$$?!</h3>
+                
+                <div class="justification-box">
+                    <div class="justification-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+                            <path d="M8 15A7 7 0 118 1a7 7 0 010 14zm0-1.5a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM7.25 9H6.5a.75.75 0 010-1.5h.75V6.25a.75.75 0 011.5 0V7.5h.75a.75.75 0 010 1.5H8.75v1.25a.75.75 0 01-1.5 0V9z"/>
+                        </svg>
+                        B2B Editorial Justification
+                    </div>
+                    <p class="justification-desc">Will Prowse's comparative tear-down showing weight and transformer differences. Explains the engineering trade-offs between low-frequency off-grid inverters and high-frequency hybrid inverters.</p>
+                </div>
+                
+                <h4 class="section-header">Recommended Video Captures</h4><ul class="timestamps-list"><li><span class="time-marker" onclick="seekVideo(this, '44qCk0pQar8', 90)">01:30</span> <span>System block diagram explaining the power flow between solar panels, inverter, loads, and grid.</span></li><li><span class="time-marker" onclick="seekVideo(this, '44qCk0pQar8', 195)">03:15</span> <span>Close-up of the inverter casing, heat sinks, and status indicator LEDs.</span></li></ul>
+                
+                <div class="card-action-bar">
+                    <span class="slot-badge">Maps to v-05, v-08</span>
+                    <a href="https://www.youtube.com/watch?v=44qCk0pQar8" target="_blank" class="btn-visit">View Source</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" data-category="Technical Reviews">
+            <div class="card-media">
+                <iframe src="https://www.youtube.com/embed/3C8zazoT8a4" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                    <span class="badge badge-reviews">Technical Reviews</span>
+                    <span class="cid-badge">vid-yt-015</span>
+                </div>
+                <h3 class="card-title">YouTube video by OSW with 281 views. Title: SAJ B2 75kWh Power. Clean install. Serious storage 🔋</h3>
+                
+                <div class="justification-box">
+                    <div class="justification-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+                            <path d="M8 15A7 7 0 118 1a7 7 0 010 14zm0-1.5a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM7.25 9H6.5a.75.75 0 010-1.5h.75V6.25a.75.75 0 011.5 0V7.5h.75a.75.75 0 010 1.5H8.75v1.25a.75.75 0 01-1.5 0V9z"/>
+                        </svg>
+                        B2B Editorial Justification
+                    </div>
+                    <p class="justification-desc">Shows high-capacity (75kWh) SAJ commercial battery installation. Proves the scalability of the H2/B2 platform for light commercial or large residential upgrades.</p>
+                </div>
+                
+                <h4 class="section-header">Recommended Video Captures</h4><ul class="timestamps-list"><li><span class="time-marker" onclick="seekVideo(this, '3C8zazoT8a4', 85)">01:25</span> <span>Unboxing the inverter showing brackets, mounting plate, and accessory pack.</span></li><li><span class="time-marker" onclick="seekVideo(this, '3C8zazoT8a4', 225)">03:45</span> <span>Detailed wiring of the AC grid connectors and DC PV inputs at the bottom panel.</span></li></ul>
+                
+                <div class="card-action-bar">
+                    <span class="slot-badge">Maps to v-05, v-08</span>
+                    <a href="https://www.youtube.com/watch?v=3C8zazoT8a4" target="_blank" class="btn-visit">View Source</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" data-category="Technical Reviews">
+            <div class="card-media">
+                <iframe src="https://www.youtube.com/embed/1qfusNEcoRc" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="card-body">
+                <div class="card-meta">
+                    <span class="badge badge-reviews">Technical Reviews</span>
+                    <span class="cid-badge">vid-yt-017</span>
+                </div>
+                <h3 class="card-title">YouTube video by Solargod with 11581 views. Title: Can hybrid inverters power heavy home appliances without battery bank?</h3>
+                
+                <div class="justification-box">
+                    <div class="justification-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="display:inline-block; vertical-align:middle; margin-right:4px;">
+                            <path d="M8 15A7 7 0 118 1a7 7 0 010 14zm0-1.5a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM7.25 9H6.5a.75.75 0 010-1.5h.75V6.25a.75.75 0 011.5 0V7.5h.75a.75.75 0 010 1.5H8.75v1.25a.75.75 0 01-1.5 0V9z"/>
+                        </svg>
+                        B2B Editorial Justification
+                    </div>
+                    <p class="justification-desc">Directly answers the reader's question: 'Can hybrid inverters run heavy loads without batteries?' Demonstrates inrush current spikes and explains load-shedding behaviors during cloud transit.</p>
+                </div>
+                
+                <h4 class="section-header">Recommended Video Captures</h4><ul class="timestamps-list"><li><span class="time-marker" onclick="seekVideo(this, '1qfusNEcoRc', 90)">01:30</span> <span>System block diagram explaining the power flow between solar panels, inverter, loads, and grid.</span></li><li><span class="time-marker" onclick="seekVideo(this, '1qfusNEcoRc', 195)">03:15</span> <span>Close-up of the inverter casing, heat sinks, and status indicator LEDs.</span></li></ul>
+                
+                <div class="card-action-bar">
+                    <span class="slot-badge">Maps to v-05, v-08</span>
+                    <a href="https://www.youtube.com/watch?v=1qfusNEcoRc" target="_blank" class="btn-visit">View Source</a>
+                </div>
+            </div>
+        </div>
+        
+    </main>
+
+    <script>
+        function filterCategory(category, element) {
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            
+            document.getElementById('grid').setAttribute('data-current-filter', category);
+            applyFilterAndSearch();
+        }
+
+        function handleSearch() {
+            applyFilterAndSearch();
+        }
+
+        function applyFilterAndSearch() {
+            const filter = document.getElementById('grid').getAttribute('data-current-filter') || 'all';
+            const searchQuery = document.getElementById('search-box').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.card');
+            let count = 0;
+            
+            cards.forEach(card => {
+                const cardCat = card.getAttribute('data-category');
+                const title = card.querySelector('.card-title').innerText.toLowerCase();
+                const desc = card.querySelector('.card-desc').innerText.toLowerCase();
+                const justification = card.querySelector('.justification-desc').innerText.toLowerCase();
+                const cid = card.querySelector('.cid-badge').innerText.toLowerCase();
+                
+                const matchesFilter = (filter === 'all' || cardCat === filter);
+                const matchesSearch = (!searchQuery || 
+                                       title.includes(searchQuery) || 
+                                       desc.includes(searchQuery) || 
+                                       justification.includes(searchQuery) ||
+                                       cid.includes(searchQuery));
+                
+                if (matchesFilter && matchesSearch) {
+                    card.style.display = 'flex';
+                    count++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            document.getElementById('item-counter').innerText = `Curated Selection: ${count} Premium Assets`;
+        }
+
+        function seekVideo(element, videoId, seconds) {
+            const card = element.closest('.card');
+            const mediaContainer = card.querySelector('.card-media');
+            const embedUrl = `https://www.youtube.com/embed/${videoId}?start=${seconds}&autoplay=1`;
+            mediaContainer.innerHTML = `<iframe src="${embedUrl}" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+        }
+    </script>
+</body>
+</html>

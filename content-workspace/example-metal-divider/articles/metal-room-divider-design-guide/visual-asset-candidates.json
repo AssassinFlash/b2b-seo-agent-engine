@@ -1,0 +1,375 @@
+{
+  "article_slug": "metal-room-divider-design-guide",
+  "generated_at": "2026-06-18",
+  "skill": "visual-material-hunt",
+  "scope": "candidate_discovery_only",
+  "search_brief": {
+    "query_intent": [
+      "stainless steel decorative screen",
+      "hotel lobby",
+      "project photo",
+      "manufacturer",
+      "metal room divider"
+    ],
+    "existing_image_plan": [
+      {
+        "placement": "Opening Anchor",
+        "need": "Open lobby with metal screen divider"
+      },
+      {
+        "placement": "Case study",
+        "need": "Toronto co-working install detail; keep unavailable until a verified Toronto asset exists"
+      },
+      {
+        "placement": "Checklist",
+        "need": "Material samples on a designer table"
+      }
+    ]
+  },
+  "route_smoke_tests": [
+    {
+      "route": "You MCP search",
+      "status": "works",
+      "evidence": "Returned Made-in-China, Unox Metal, Dekoar, and Pinterest-like visual leads with snippets and thumbnails.",
+      "current_role": "primary broad discovery"
+    },
+    {
+      "route": "Tavily image search",
+      "status": "works",
+      "evidence": "Returned direct image URLs and project/source pages for stainless steel hotel lobby screens.",
+      "current_role": "fast image URL discovery"
+    },
+    {
+      "route": "Exa semantic search",
+      "status": "works",
+      "evidence": "Returned project/case pages including Nextop Vietnam Silla Hotel, Dekoar Marriott Hotel, Sunsong, and Perfect Metal.",
+      "current_role": "project-case discovery"
+    },
+    {
+      "route": "Made-in-China via Scrapling",
+      "status": "works",
+      "evidence": "Product search returned concrete product URLs and direct image.made-in-china.com asset URLs.",
+      "current_role": "marketplace image extraction"
+    },
+    {
+      "route": "1688 via Apify zen-studio/1688-wholesale-scraper",
+      "status": "works",
+      "run_id": "dCeaqRY5MII2Ag95v",
+      "dataset_id": "oQHfw7n3TnKB3xcko",
+      "evidence": "Returned 5 product records with gallery images, supplier names, detail URLs, price, city, and province.",
+      "current_role": "repeatable Chinese marketplace extraction"
+    },
+    {
+      "route": "Alibaba via Apify devcake/alibaba-products-scraper",
+      "status": "failed",
+      "run_id": "ONnZ0NWLOinAuLUMB",
+      "dataset_id": "w5I6Ryu0XybzVn6Cm",
+      "evidence": "Failed quickly with 0 dataset items and exit code 91.",
+      "current_role": "not reliable in current setup"
+    },
+    {
+      "route": "Alibaba via Apify happitap/alibaba-product-scraper",
+      "status": "empty",
+      "run_id": "oNBH0SujVm8AwH418",
+      "dataset_id": "U0l5zywfP8FWFd8aG",
+      "evidence": "Succeeded after 125 seconds but returned 0 dataset items.",
+      "current_role": "not a main route"
+    },
+    {
+      "route": "Alibaba via Apify getdataforme/alibaba-category-scraper",
+      "status": "cost_capped",
+      "run_id": "MiABSN9tZiss0Oo3B",
+      "dataset_id": "8EdVCLWiN4f5Ggcfq",
+      "evidence": "Aborted by the smoke-test cost cap before producing items.",
+      "current_role": "cap was too low for this actor"
+    },
+    {
+      "route": "Alibaba via Apify getdataforme/alibaba-category-scraper",
+      "status": "works",
+      "run_id": "bEq6te2l3Chdg35MQ",
+      "dataset_id": "Yu5phDOsvUlh6XfN6",
+      "cost_cap_usd": 1,
+      "evidence": "Returned 5 products in 15.486 seconds with product URLs, supplier data, MOQ, price, mainImage, and additionalImages.",
+      "current_role": "usable paid Alibaba route after image URL normalization"
+    },
+    {
+      "route": "Alibaba via authenticated browser assets",
+      "status": "works",
+      "evidence": "After operator login, the product page loaded real product content with title, supplier, price, MOQ, customization notes, 106 image assets, and 1 video asset through Codex Chrome pageAssets. A portable python3.12 + rookiepy + requests probe also read logged-in product HTML and extracted Alibaba media URLs without printing cookie values.",
+      "current_role": "strongest Alibaba route when logged-in browser state is available, with adapter depending on agent"
+    }
+  ],
+  "candidates": [
+    {
+      "candidate_id": "opening-b-01",
+      "source_url": "https://stainco.en.made-in-china.com/product/cCOQbFdllnka/China-Hotel-Lobby-Waiting-Room-Divider-Stainless-Steel-Decoration-Art-Screen-Partition-Manufacturer.html",
+      "asset_url": "https://image.made-in-china.com/2f0j00sAEaUBitJVoL/Hotel-Lobby-Waiting-Room-Divider-Stainless-Steel-Decoration-Art-Screen-Partition-Manufacturer.jpg",
+      "platform": "Made-in-China via You MCP",
+      "image_type_fit": [
+        "Opening Anchor",
+        "Context"
+      ],
+      "fit_reason": "The title and snippet match a hotel lobby waiting-room stainless steel decoration screen, which is close to the current opening/context image need.",
+      "risk_flags": [
+        "marketplace_source",
+        "license_uncertainty",
+        "needs_visual_crop_check"
+      ],
+      "recommended_route": "backup route",
+      "fit_judgment": "usable",
+      "source_evidence": "Hotel Lobby Waiting Room Divider Stainless Steel Decoration Art Screen Partition Manufacturer; supplier page references stainless steel decorative screen fabrication."
+    },
+    {
+      "candidate_id": "context-b-01",
+      "source_url": "https://683e60024175ee54.en.made-in-china.com/product/HETYIDpUvXkM/China-Aluminum-Fence-Custom-Decorative-Metal-Stainless-Steel-Restaurant-Room-Hotel-Lobby-Floor-to-Ceiling-Soundproof-Dividers-Wall-Metal-Screen.html",
+      "asset_url": "https://image.made-in-china.com/43f34j00pcGqgeosZTbJ/Aluminum-Fence-Custom-Decorative-Metal-Stainless-Steel-Restaurant-Room-Hotel-Lobby-Floor-to-Ceiling-Soundproof-Dividers-Wall-Metal-Screen.webp",
+      "platform": "Made-in-China via Scrapling",
+      "image_type_fit": [
+        "Context",
+        "Proof"
+      ],
+      "fit_reason": "The listing explicitly combines restaurant, room, hotel lobby, floor-to-ceiling divider, and stainless steel screen language.",
+      "risk_flags": [
+        "marketplace_source",
+        "may_be_catalog_image",
+        "license_uncertainty"
+      ],
+      "recommended_route": "backup route",
+      "fit_judgment": "usable",
+      "source_evidence": "Aluminum Fence Custom Decorative Metal Stainless Steel Restaurant Room Hotel Lobby Floor-to-Ceiling Soundproof Dividers Wall Metal Screen."
+    },
+    {
+      "candidate_id": "detail-b-01",
+      "source_url": "https://bmw2020.en.made-in-china.com/product/zmArWRSEuCkx/China-Metal-Room-Divider-Laser-Cutting-Screen-Stainless-Steel-Hanging-Decorative-Screen-Partition.html",
+      "asset_url": "https://image.made-in-china.com/43f34j00JotcQKbafjqy/Metal-Room-Divider-Laser-Cutting-Screen-Stainless-Steel-Hanging-Decorative-Screen-Partition.webp",
+      "platform": "Made-in-China via Scrapling",
+      "image_type_fit": [
+        "Detail",
+        "Proof"
+      ],
+      "fit_reason": "The listing is directly about metal room divider laser-cut stainless steel hanging decorative screen partitions.",
+      "risk_flags": [
+        "marketplace_source",
+        "needs_resolution_check",
+        "needs_watermark_check"
+      ],
+      "recommended_route": "backup route",
+      "fit_judgment": "usable",
+      "source_evidence": "Metal Room Divider Laser Cutting Screen Stainless Steel Hanging Decorative Screen Partition."
+    },
+    {
+      "candidate_id": "detail-c-01",
+      "source_url": "https://detail.1688.com/offer/1057102394744.html",
+      "asset_url": "https://cbu01.alicdn.com/img/ibank/O1CN01UPHoDi1GfI9UuRJLb_!!2221137500649-0-cib.jpg",
+      "platform": "1688 via Apify",
+      "image_type_fit": [
+        "Detail",
+        "Context"
+      ],
+      "fit_reason": "The 1688 record targets stainless steel screen partitions for hotels, villas, entrances, luxury grille patterns, and metal lattice use.",
+      "risk_flags": [
+        "chinese_marketplace_source",
+        "likely_catalog_image",
+        "license_uncertainty"
+      ],
+      "recommended_route": "reserve route",
+      "fit_judgment": "usable",
+      "source_evidence": "不锈钢屏风隔断酒店别墅玄关轻奢格栅镂空屏风庭院玄关金属花格; supplier 佛山市鑫采岩金属材料有限公司."
+    },
+    {
+      "candidate_id": "comparison-c-01",
+      "source_url": "https://detail.1688.com/offer/926289406869.html",
+      "asset_url": "https://cbu01.alicdn.com/img/ibank/O1CN01O1NKko1ZM29Nt8VKD_!!2219809483179-0-cib.jpg",
+      "platform": "1688 via Apify",
+      "image_type_fit": [
+        "Detail",
+        "Comparison"
+      ],
+      "fit_reason": "The source record references high-end mirror stainless steel, hollow screen, aluminum carving, living-room entrance, hotel, restaurant, and metal partition applications.",
+      "risk_flags": [
+        "chinese_marketplace_source",
+        "may_need_crop_or_background_cleanup",
+        "license_uncertainty"
+      ],
+      "recommended_route": "reserve route",
+      "fit_judgment": "usable",
+      "source_evidence": "高端镜面不锈钢镂空屏风铝板雕花客厅装饰墙玄关酒店餐厅金属隔断; supplier 佛山市金宏悦不锈钢有限公司."
+    },
+    {
+      "candidate_id": "proof-c-01",
+      "source_url": "https://detail.1688.com/offer/927610602184.html",
+      "asset_url": "https://cbu01.alicdn.com/img/ibank/O1CN01tUjFgl27MDFoNCtNR_!!2219858447782-0-cib.jpg",
+      "platform": "1688 via Apify",
+      "image_type_fit": [
+        "Proof",
+        "Detail"
+      ],
+      "fit_reason": "The source record mentions stainless steel metal grid screens for living rooms, restaurants, hotels, villas, hollow decoration walls.",
+      "risk_flags": [
+        "chinese_marketplace_source",
+        "scene_quality_unknown",
+        "license_uncertainty"
+      ],
+      "recommended_route": "reserve route",
+      "fit_judgment": "weak",
+      "source_evidence": "八铁不锈钢金属网格屏风隔断客厅家用餐厅酒店别墅花格镂空装饰墙; supplier 泉州八铁家居有限公司."
+    },
+    {
+      "candidate_id": "alibaba-b-01",
+      "source_url": "https://www.alibaba.com/product-detail/Luxury-Stainless-Steel-Crystal-Glass-Partition_1601608966559.html?priceId=099ad8837bbc4c459b92249ee1ab22a3",
+      "asset_url": "https://s.alicdn.com/@sc04/kf/Hbd6ea44415cc4512844f1c55e3c57c13H.jpg",
+      "raw_actor_asset_url": "https://s.alicdn.com/@sc04/kf/Hbd6ea44415cc4512844f1c55e3c57c13H.jpg.jpg",
+      "platform": "Alibaba via Apify",
+      "image_type_fit": [
+        "Opening Anchor",
+        "Context"
+      ],
+      "fit_reason": "The product title directly matches luxury stainless steel crystal glass partition screens for hotel lobby and villa entrance decoration.",
+      "risk_flags": [
+        "alibaba_page_may_show_anti_bot_marker",
+        "raw_actor_url_required_duplicate_extension_cleanup",
+        "license_uncertainty"
+      ],
+      "recommended_route": "backup route",
+      "fit_judgment": "usable",
+      "source_evidence": "Luxury Stainless Steel Crystal Glass Partition Screen for Hotel Lobby and Villa Entrance Decoration; supplier Foshan Shunhengli Import & Export Co., Ltd.; price $300; MOQ 2 square meters; Gold and Trusted supplier flags were true.",
+      "access_check": {
+        "method": "curl -I -L",
+        "normalized_asset_status": 200,
+        "normalized_asset_content_type": "image/jpeg",
+        "normalized_asset_content_length": 164336
+      }
+    },
+    {
+      "candidate_id": "alibaba-c-01",
+      "source_url": "https://www.alibaba.com/product-detail/Stainless-Steel-Decorative-Perforated-Sheet-Punching_1601808214546.html?priceId=099ad8837bbc4c459b92249ee1ab22a3",
+      "asset_url": "https://s.alicdn.com/@sc04/kf/H24b2023ec44a4ed59505c39227cb78e2A.jpg",
+      "raw_actor_asset_url": "https://s.alicdn.com/@sc04/kf/H24b2023ec44a4ed59505c39227cb78e2A.jpg.jpg",
+      "platform": "Alibaba via Apify",
+      "image_type_fit": [
+        "Detail",
+        "Comparison"
+      ],
+      "fit_reason": "The product is decorative perforated stainless steel sheet and can support material/detail discussion, but it is less directly a room divider scene.",
+      "risk_flags": [
+        "more_material_sheet_than_room_divider",
+        "raw_actor_url_required_duplicate_extension_cleanup",
+        "license_uncertainty"
+      ],
+      "recommended_route": "reserve route",
+      "fit_judgment": "usable",
+      "source_evidence": "Stainless Steel Decorative Perforated Sheet/Punching Metal Mesh; supplier Binzhou Xuhengsheng Wire Mesh Co., Ltd.; price $35-50; MOQ 10 square meters; Gold and Trusted supplier flags were true.",
+      "access_check": {
+        "method": "curl -I -L",
+        "normalized_asset_status": 200,
+        "normalized_asset_content_type": "image/jpeg",
+        "normalized_asset_content_length": 124819
+      }
+    },
+    {
+      "candidate_id": "alibaba-browser-a-01",
+      "source_url": "https://www.alibaba.com/product-detail/Luxury-Stainless-Steel-Crystal-Glass-Partition_1601608966559.html?priceId=099ad8837bbc4c459b92249ee1ab22a3",
+      "asset_url": "https://s.alicdn.com/@sc01/kf/Hf08041b80c3f44b1817e5b0151275cfbl.jpg",
+      "platform": "Alibaba authenticated browser assets",
+      "image_type_fit": [
+        "Opening Anchor",
+        "Context",
+        "Proof"
+      ],
+      "fit_reason": "The logged-in Alibaba product page exposes detail-page product imagery beyond the Actor card images, giving stronger visual material for installed or detail proof sections.",
+      "risk_flags": [
+        "requires_logged_in_browser_session_for_discovery",
+        "license_uncertainty",
+        "needs_visual_judgment"
+      ],
+      "recommended_route": "primary route",
+      "fit_judgment": "strong",
+      "source_evidence": "Logged-in Chrome page showed the real product title, Foshan Shunhengli supplier context, price $300, MOQ 2 square meters, and product detail media assets.",
+      "access_check": {
+        "method": "curl -I -L",
+        "asset_status": 200,
+        "asset_content_type": "image/jpeg",
+        "asset_content_length": 322487
+      }
+    },
+    {
+      "candidate_id": "alibaba-browser-b-01",
+      "source_url": "https://www.alibaba.com/product-detail/Luxury-Stainless-Steel-Crystal-Glass-Partition_1601608966559.html?priceId=099ad8837bbc4c459b92249ee1ab22a3",
+      "asset_url": "https://s.alicdn.com/@sc01/kf/H752bd0ac798f48f887601ff84a54fb972.jpg",
+      "platform": "Alibaba authenticated browser assets",
+      "image_type_fit": [
+        "Detail",
+        "Proof"
+      ],
+      "fit_reason": "The logged-in product page identified this as a product detail image with 1000x1000 natural dimensions in the rendered page.",
+      "risk_flags": [
+        "requires_logged_in_browser_session_for_discovery",
+        "smaller_file_than_primary_detail_candidate",
+        "license_uncertainty"
+      ],
+      "recommended_route": "backup route",
+      "fit_judgment": "usable",
+      "source_evidence": "Rendered Alibaba page asset inventory and DOM image probe showed this URL as a product image.",
+      "access_check": {
+        "method": "curl -I -L",
+        "asset_status": 200,
+        "asset_content_type": "image/jpeg",
+        "asset_content_length": 43189
+      }
+    },
+    {
+      "candidate_id": "alibaba-browser-video-01",
+      "source_url": "https://www.alibaba.com/product-detail/Luxury-Stainless-Steel-Crystal-Glass-Partition_1601608966559.html?priceId=099ad8837bbc4c459b92249ee1ab22a3",
+      "asset_url": "https://gv.videocdn.alibaba.com/icbu_vod_video/video_target/gv9a-10365124-a1ab2d16-99e6a8af-20d8/trans/aidc/ji2uxh-h264-hd.mp4?bizCode=icbu_vod_video",
+      "platform": "Alibaba authenticated browser assets",
+      "image_type_fit": [
+        "Context",
+        "Proof"
+      ],
+      "fit_reason": "The logged-in product page exposes a concrete product video, which may be useful for installation/proof review or extracting still-frame candidates later.",
+      "risk_flags": [
+        "video_asset",
+        "requires_editorial_decision",
+        "license_uncertainty"
+      ],
+      "recommended_route": "primary route",
+      "fit_judgment": "strong",
+      "source_evidence": "Rendered Alibaba page contained a VIDEO element for this product media asset.",
+      "access_check": {
+        "method": "curl -I -L",
+        "asset_status": 200,
+        "asset_content_type": "video/mp4",
+        "asset_content_length": 3260498
+      }
+    }
+  ],
+  "source_only_leads": [
+    {
+      "lead_id": "case-lead-01",
+      "source_url": "https://nextopsolutions.com/projects/vietnam-silla-hotel/",
+      "why_it_matters": "Exa found a real project page for stainless steel main gate and decorative lobby screens.",
+      "next_action": "Extract page images with browser or Scrapling and visually inspect."
+    },
+    {
+      "lead_id": "case-lead-02",
+      "source_url": "https://dekoar.com/luxury-metal-decoration-for-marriott-hotel/",
+      "why_it_matters": "Project-specific hospitality metal decoration lead, likely stronger than generic marketplace imagery if images are usable.",
+      "next_action": "Extract images and check whether source context matches article claims."
+    },
+    {
+      "lead_id": "case-lead-03",
+      "source_url": "https://www.mxlbxg.com/cases/hotel-project-stainless-steel-custom-screen-enhances-the-perfect-combination-of-luxury-and-functiona-29504.html",
+      "why_it_matters": "Tavily and Exa both surfaced this as a hotel project case.",
+      "next_action": "Extract images and reject if watermarked or too promotional."
+    }
+  ],
+  "workflow_recommendation": [
+    "Use You MCP first for discovery and thumbnails.",
+    "Use Exa for project/case pages that can outperform marketplace product images on authenticity.",
+    "Use Tavily image search to expand direct image URLs.",
+    "Use Made-in-China and 1688 for concrete marketplace image pools.",
+    "Use Alibaba authenticated browser asset extraction when the operator is logged in; Codex pageAssets is one adapter, while shell-capable agents can use the cookie probe script or generic Playwright DOM extraction.",
+    "Use Alibaba through getdataforme/alibaba-category-scraper when browser login is unavailable, then normalize duplicated image extensions and verify asset URLs before promotion."
+  ],
+  "next_step": "Run lightweight relevance checks on candidate asset URLs, then choose only the visuals that improve the article's explanation, proof, or comparison moments in image-plan.md."
+}

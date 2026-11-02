@@ -1,0 +1,39 @@
+{
+  "projectSlug": "example-metal-divider",
+  "companyName": "Metal Divider",
+  "canonicalDomain": "https://archmetal-screens.example.com",
+  "domain": "archmetal-screens.example.com",
+  "productCategory": "Decorative metal room dividers and laser-cut screens",
+  "targetBuyer": "Interior designers, architects, and commercial procurement managers",
+  "primaryMarket": "North American commercial interiors",
+  "publishingPlatform": "WordPress",
+  "contentGoal": "Build topical authority around metal room divider keywords with benchmark-led, evidence-rich guides.",
+  "voiceNotes": "Scene-driven, technically credible, no AI clichés.",
+  "tier1EvidenceSources": [
+    "Factory process photos",
+    "Installation case studies",
+    "Material certification sheets"
+  ],
+  "sourceLibraryPath": "content-workspace/example-metal-divider/source-library",
+  "competitors": [
+    "ModernMetalScreens.example",
+    "LuxePartition.example"
+  ],
+  "lockedProfile": true,
+  "allowedMaterials": [
+    "Stainless Steel (304 / 316)"
+  ],
+  "forbiddenTerms": [
+    "product",
+    "products",
+    "order",
+    "cart",
+    "pattern list"
+  ],
+  "preferredTerms": {
+    "product": "pattern",
+    "products": "patterns",
+    "order": "inquiry",
+    "cart": "inquiry"
+  }
+}

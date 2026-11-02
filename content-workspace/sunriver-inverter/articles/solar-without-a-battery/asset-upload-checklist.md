@@ -1,0 +1,25 @@
+# Asset Upload Checklist — solar-without-a-battery
+
+**Stage:** `/article-visual` → operator upload step  
+**Date:** 2026-06-26  
+**Article:** `solar-without-a-battery`
+
+This checklist tracks every locally generated or downloaded asset that must be uploaded to WordPress before the article can be published. Once the operator uploads the assets, paste the final WordPress media URLs back into the `Uploaded URL` column so the article source files can be updated.
+
+| Filename | Used in article | Format | Suggested WordPress Title | Suggested Alt Text | Suggested Caption | Suggested Description | Uploaded URL |
+|---|---|---|---|---|---|---|---|
+| `saj-h2-lcd-monitor-screen.webp` | H2-02 | WebP | SAJ H2 LCD Monitoring Panel | SAJ H2 hybrid inverter LCD monitoring panel showing solar, battery, grid, and load status | The H2 LCD screen shows solar, grid, battery, and load status in one view. | Used in H2-02 to support the definition of battery-ready solar. Local image asset showing the SAJ H2 LCD monitoring interface. | `https://sunriver-energy.example.com/wp-content/uploads/2026/06/saj-h2-lcd-monitor-screen.webp` |
+| `saj-h2-grid-on-off-flow.webp` | H2-02 | WebP | SAJ H2 Grid On Off Power Flow Diagram | SAJ H2 hybrid inverter power flow diagram showing Grid On and Grid Off operating modes | Grid On and Grid Off modes clarify how the H2 behaves with and without battery backup. | Used in H2-02 as a technical explainer for normal and backup operating modes. | `https://sunriver-energy.example.com/wp-content/uploads/2026/06/saj-h2-grid-on-off-flow.webp` |
+| `saj-net-metering-vs-net-billing-calculator.gif` | H2-03 | GIF | Net Metering vs Net Billing Calculator Animation | Animated comparison of net metering versus net billing credit values for a solar system without a battery | This animation shows why battery value changes when export credits fall from net metering to net billing. | Used in H2-03. Custom animated GIF generated from HTML visual to illustrate tariff-driven battery value differences. | `https://sunriver-energy.example.com/wp-content/uploads/2026/06/saj-net-metering-vs-net-billing-calculator.gif` |
+| `saj-dc-vs-ac-coupling-retrofit.gif` | H2-04 | GIF | DC vs AC Coupled Retrofit Comparison | Animated schematic comparing DC-coupled battery expansion with AC-coupled retrofit for a solar inverter system | DC-coupled expansion is cleaner and cheaper; AC-coupled retrofit adds extra hardware and conversion loss. | Used in H2-04. Custom animated GIF generated from HTML visual to explain the retrofit trap and coupling differences. | `https://sunriver-energy.example.com/wp-content/uploads/2026/06/saj-dc-vs-ac-coupling-retrofit.gif` |
+| `saj-three-solar-pathways.webp` | H2-05 | WebP | Three Solar Storage Pathways Comparison | Comparison diagram showing Path A grid-tied string inverter, Path B battery-ready hybrid inverter, and Path C all-in-one energy storage system | Path A, B, and C show the three hardware routes for solar without a battery. | Used in H2-05 to visually compare string, hybrid, and all-in-one ESS pathways. | `https://sunriver-energy.example.com/wp-content/uploads/2026/06/saj-three-solar-pathways.webp` |
+| `saj-h2-outdoor-wall-installation.webp` | H2-08 | WebP | SAJ H2 Outdoor Wall Installation | Outdoor wall installation of an SAJ H2 hybrid inverter between residential windows | A real outdoor wall-mounted H2 installation makes the battery-ready path feel tangible. | Used in H2-08 as a real-world installation proof image for Path B battery-ready hybrid routing. | `https://sunriver-energy.example.com/wp-content/uploads/2026/06/saj-h2-outdoor-wall-installation.webp` |
+| `saj-inverter-patio-covered-installation.webp` | FAQ Group 1 | WebP | SAJ Hybrid Inverter Patio Installation | Residential patio-covered wall installation of an SAJ hybrid inverter | A typical residential installation shows how compact the inverter footprint can be. | Used inside FAQ Group 1 to support installation-time and real-world setup explanations. | `https://sunriver-energy.example.com/wp-content/uploads/2026/06/saj-inverter-patio-covered-installation.webp` |
+| `saj-ess-generator-charging-sync.webp` | FAQ Group 1 | WebP | SAJ ESS Generator Charging Synchronization Diagram | Generator charging synchronization diagram for an SAJ hybrid inverter or energy storage system | Generator support depends on stable synchronization, not just physical connection. | Used inside FAQ Group 1 to explain backup generator compatibility and synchronization requirements. | `https://sunriver-energy.example.com/wp-content/uploads/2026/06/saj-ess-generator-charging-sync.webp` |
+
+## Rules
+
+- Do not leave the final article with local `visual/...` paths.
+- Upload every locally referenced asset before publish.
+- The final WordPress URL should replace the local path in `enriched-draft.md`, `image-plan.md`, `visual-spec.md`, `publish-package.md`, and `wordpress-preview-check.md`.
+- If an uploaded asset is later deleted or renamed in WordPress, update this checklist and the source files together.

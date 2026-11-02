@@ -1,0 +1,171 @@
+{
+  "articles": {
+    "solar-without-a-battery": {
+      "slug": "solar-without-a-battery",
+      "title": "Is It a Mistake to Run Solar Panels Without a Battery?",
+      "url_path": "/solar-without-a-battery/",
+      "keywords": [
+        "900",
+        "aforenergy",
+        "also",
+        "ask",
+        "backup",
+        "battery",
+        "briggs",
+        "but",
+        "card",
+        "charger",
+        "cluster",
+        "com",
+        "combined",
+        "commercially",
+        "competition",
+        "difficulty",
+        "energysage",
+        "energyscape",
+        "evaluating",
+        "explainers",
+        "export",
+        "features",
+        "field",
+        "franklinwh",
+        "generic"
+      ],
+      "outbound_links": [
+        {
+          "anchor": "SAJ Solar Inverter and Energy Storage System Lineup",
+          "url": "https://sunriver-energy.example.com/wp-content/uploads/2025/09/SAJ-R5-R6-C6-On-Grid-Inverter-Series-Overview.webp",
+          "title": "SAJ Solar Inverter Series Overview"
+        },
+        {
+          "anchor": "Batteries add over $10,000 to a typical residential quote",
+          "url": "https://www.energysage.com/energy-storage/how-much-do-batteries-cost",
+          "title": ""
+        },
+        {
+          "anchor": "SAJ HS3, 5–40 kWh modular, sub-20 ms UPS",
+          "url": "https://energify.se/en/produkter/batterilagring/hs3",
+          "title": ""
+        },
+        {
+          "anchor": "battery-ready, not battery-required",
+          "url": "/can-hybrid-inverter-work-without-battery/",
+          "title": ""
+        },
+        {
+          "anchor": "Modern Hybrid Solar Systems Explained",
+          "url": "/modern-hybrid-solar-systems/",
+          "title": ""
+        },
+        {
+          "anchor": "SAJ H2 Hybrid Inverter Product Overview",
+          "url": "https://sunriver-energy.example.com/wp-content/uploads/2025/08/H2-3k-6k-hybrid-inverter-product-overview.webp",
+          "title": "SAJ H2 Single-Phase Hybrid Inverter"
+        },
+        {
+          "anchor": "SAJ H2 Hybrid Inverter LCD Monitoring Panel",
+          "url": "https://sunriver-energy.example.com/wp-content/uploads/2026/06/saj-h2-lcd-monitor-screen.webp",
+          "title": "SAJ H2 Hybrid Inverter LCD Monitoring Panel showing solar, battery, grid and load status"
+        },
+        {
+          "anchor": "SAJ H2 Hybrid Inverter Normal vs Backup Power Flow Diagram",
+          "url": "https://sunriver-energy.example.com/wp-content/uploads/2026/06/saj-h2-grid-on-off-flow.webp",
+          "title": "SAJ H2 Normal vs. Backup Power Flow Diagram explaining Grid On and Grid Off operations"
+        },
+        {
+          "anchor": "A pure grid-tied string inverter (SAJ R6) at up to 98.8% peak efficiency",
+          "url": "https://us.saj-electric.com/en-us/r6-series",
+          "title": ""
+        },
+        {
+          "anchor": "Net Metering vs. Net Billing Interactive Calculator",
+          "url": "https://sunriver-energy.example.com/wp-content/uploads/2026/06/saj-net-metering-vs-net-billing-calculator.gif",
+          "title": "Net Metering vs. Net Billing credit comparison animated calculator"
+        },
+        {
+          "anchor": "DC-Coupled vs. AC-Coupled Retrofit Schematic",
+          "url": "https://sunriver-energy.example.com/wp-content/uploads/2026/06/saj-dc-vs-ac-coupling-retrofit.gif",
+          "title": "DC-Coupled vs. AC-Coupled retrofit animated flow schematic"
+        },
+        {
+          "anchor": "adds roughly $3,000–$5,000 on top of the battery",
+          "url": "https://duracellpowercenter.com/what-to-know-before-retrofitting-solar-with-storage",
+          "title": ""
+        },
+        {
+          "anchor": "Real-world adder: $5,000–$9,000",
+          "url": "https://www.linkedin.com/pulse/solar-string-inverter-real-world-5-uses-youll-actually-akzif",
+          "title": ""
+        },
+        {
+          "anchor": "5 Solar Battery Specs to Avoid — the Solar Rush Mistake",
+          "url": "/5-solar-battery-specs-to-avoid-solar-rush-mistake/",
+          "title": ""
+        },
+        {
+          "anchor": "The Three Solar Storage Configurations (Path A vs Path B vs Path C)",
+          "url": "https://sunriver-energy.example.com/wp-content/uploads/2026/06/saj-three-solar-pathways.webp",
+          "title": "Visual comparison of Grid-Tied (String), Battery-Ready (Hybrid), and All-in-One ESS configurations"
+        },
+        {
+          "anchor": "All-in-One Energy Storage System Comparison",
+          "url": "/all-in-one-energy-storage-system-comparison/",
+          "title": ""
+        },
+        {
+          "anchor": "the 30% federal residential clean energy credit applies to a battery added later, as long as the battery is charged by your solar system",
+          "url": "https://www.bostonsolar.us/solar-blog-resource-center/blog/how-to-claim-the-30-federal-solar-tax-credit-itc-for-a-massachusetts-battery-onl",
+          "title": ""
+        },
+        {
+          "anchor": "The credit is currently 30% through 2032, stepping down afterward",
+          "url": "https://solarbycentauri.com/understanding-the-30-federal-solar-tax-credit-itc",
+          "title": ""
+        },
+        {
+          "anchor": "![SAJ R6 On-Grid Inverter",
+          "url": "https://sunriver-energy.example.com/wp-content/uploads/2025/08/R6-15k-25k-T2-product-view.webp",
+          "title": ""
+        },
+        {
+          "anchor": "SAJ R6 15K-25K Three-Phase On-Grid Inverter",
+          "url": "/product/r6-15k-25k-three-phase-on-grid-inverter/",
+          "title": ""
+        },
+        {
+          "anchor": "SAJ H2 Hybrid Inverter Outdoor Wall Installation",
+          "url": "https://sunriver-energy.example.com/wp-content/uploads/2026/06/saj-h2-outdoor-wall-installation.webp",
+          "title": "Real-world outdoor wall installation of SAJ H2 hybrid inverter between windows"
+        },
+        {
+          "anchor": "SAJ H2 3K-6K Single-Phase Hybrid Inverter",
+          "url": "/product/h2-3k-6k-single-phase-hybrid-inverter/",
+          "title": ""
+        },
+        {
+          "anchor": "![SAJ HS3 All-in-One ESS",
+          "url": "https://sunriver-energy.example.com/wp-content/uploads/2025/08/HS3-3-6K-S2-all-in-one-energy-storage-solution-product-overview.webp",
+          "title": ""
+        },
+        {
+          "anchor": "SAJ HS3 3K-6K Single-Phase All-in-One ESS",
+          "url": "/product/hs3-3k-6k-single-phase-all-in-one-energy-storage-system/",
+          "title": ""
+        },
+        {
+          "anchor": "SAJ H2 with dual 50 A battery ports",
+          "url": "https://hnnrg.com/wp-content/uploads/2025/02/SAJ-H2-10K-30K-T2T3_User_Manual_V0.0_en_AU.pdf",
+          "title": ""
+        },
+        {
+          "anchor": "Contact Sunriver",
+          "url": "/contact/",
+          "title": ""
+        }
+      ]
+    }
+  },
+  "retro_link_recommendations": {
+    "solar-without-a-battery": []
+  }
+}

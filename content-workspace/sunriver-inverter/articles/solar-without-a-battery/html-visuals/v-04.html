@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DC-Coupled vs. AC-Coupled Solar Integration</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        solar: {
+                            yellow: '#ffb703',
+                            orange: '#fb8500',
+                            dark: '#070a13',
+                            card: '#0f1424',
+                            border: '#1f293d',
+                            green: '#10b981',
+                            red: '#ef4444',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #070a13;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(251, 133, 0, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(255, 183, 3, 0.05) 0px, transparent 50%);
+        }
+        @keyframes flow {
+            to {
+                stroke-dashoffset: -40;
+            }
+        }
+        .flow-line-green {
+            stroke-dasharray: 10, 5;
+            animation: flow 1.2s linear infinite;
+        }
+        .flow-line-red {
+            stroke-dasharray: 10, 5;
+            animation: flow 2.5s linear infinite; /* Slower, showing inefficiency */
+        }
+    </style>
+</head>
+<body class="font-sans text-slate-200 min-h-screen p-4 md:p-8 flex flex-col items-center justify-center">
+
+    <div class="w-full max-w-5xl bg-solar-card/85 backdrop-blur-md border border-solar-border rounded-2xl p-6 md:p-8 shadow-2xl">
+        <!-- Header -->
+        <div class="mb-8 border-b border-solar-border pb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-solar-yellow to-solar-orange bg-clip-text text-transparent">
+                    DC vs. AC Coupled Retrofits
+                </h1>
+                <p class="text-sm text-slate-400 mt-1">
+                    See why adding a battery later to a standard string inverter costs $4,000–$8,000 more (The Retrofit Trap).
+                </p>
+            </div>
+            <div class="flex gap-2">
+                <button id="btn-dc" onclick="toggleMode('dc')" class="bg-gradient-to-r from-solar-yellow to-solar-orange text-solar-dark font-semibold px-4 py-2 rounded-xl text-xs md:text-sm shadow-lg transition-all duration-300 transform scale-105">
+                    DC-Coupled (Day 1 Hybrid)
+                </button>
+                <button id="btn-ac" onclick="toggleMode('ac')" class="bg-solar-border hover:bg-solar-border/80 text-slate-300 font-semibold px-4 py-2 rounded-xl text-xs md:text-sm border border-solar-border/50 transition-all duration-300">
+                    AC-Coupled (Retrofit Trap)
+                </button>
+            </div>
+        </div>
+
+        <!-- Layout Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            <!-- Left Side: Interactive SVG Schematic (7 cols) -->
+            <div class="lg:col-span-7 bg-[#05070e] border border-solar-border/50 rounded-2xl p-6 relative overflow-hidden flex justify-center items-center" style="min-height: 420px;">
+                
+                <!-- SVG Container for absolute overlays (smooth transitions) -->
+                <div class="relative w-full max-w-md aspect-[400/420]">
+                    
+                    <!-- DC-COUPLED DIAGRAM -->
+                    <svg id="svg-dc" class="absolute inset-0 w-full h-full transition-all duration-500 opacity-100 scale-100" viewBox="0 0 400 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="grad-yellow" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ffb703" />
+                                <stop offset="100%" stop-color="#fb8500" />
+                            </linearGradient>
+                            <linearGradient id="grad-green" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#10b981" />
+                                <stop offset="100%" stop-color="#059669" />
+                            </linearGradient>
+                            <linearGradient id="grad-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#3b82f6" />
+                                <stop offset="100%" stop-color="#1d4ed8" />
+                            </linearGradient>
+                            <filter id="glow-green-filter" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="4" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
+                            <filter id="glow-yellow-filter" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="4" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
+                        </defs>
+
+                        <!-- Solar Panels -->
+                        <rect x="140" y="20" width="120" height="70" rx="8" fill="#1f293d" stroke="url(#grad-yellow)" stroke-width="2.5" filter="url(#glow-yellow-filter)"/>
+                        <path d="M150 30h30v20h-30zm40 0h30v20h-30zm40 0h20v20h-20zM150 60h30v20h-30zm40 0h30v20h-30zm40 0h20v20h-20z" fill="#070a13" opacity="0.6"/>
+                        <text x="200" y="110" fill="#f0f6fc" font-size="12" font-family="Outfit" text-anchor="middle" font-weight="600">Solar Panels (DC)</text>
+
+                        <!-- Hybrid Inverter -->
+                        <rect x="120" y="170" width="160" height="100" rx="12" fill="#0f1424" stroke="url(#grad-green)" stroke-width="2.5" filter="url(#glow-green-filter)"/>
+                        <circle cx="200" cy="220" r="22" fill="#10b981" opacity="0.15"/>
+                        <path d="M195 220l5-10 1 10h5l-7 12z" fill="#10b981"/>
+                        <text x="200" y="245" fill="#f0f6fc" font-size="12" font-family="Outfit" text-anchor="middle" font-weight="600">SAJ H2 Hybrid Inverter</text>
+                        <text x="200" y="260" fill="#8b949e" font-size="9" font-family="Space Mono" text-anchor="middle">Single Box on Wall</text>
+
+                        <!-- Battery Stack -->
+                        <rect x="30" y="320" width="120" height="70" rx="8" fill="#0f1424" stroke="url(#grad-yellow)" stroke-width="2.5" filter="url(#glow-yellow-filter)"/>
+                        <rect x="42" y="335" width="22" height="40" fill="#10b981" opacity="0.6" rx="2"/>
+                        <rect x="69" y="335" width="22" height="40" fill="#10b981" opacity="0.6" rx="2"/>
+                        <rect x="96" y="335" width="22" height="40" fill="#10b981" opacity="0.6" rx="2"/>
+                        <text x="90" y="390" fill="#f0f6fc" font-size="11" font-family="Outfit" text-anchor="middle" font-weight="600">Battery Stack</text>
+
+                        <!-- Home Load -->
+                        <rect x="250" y="320" width="120" height="70" rx="8" fill="#0f1424" stroke="url(#grad-blue)" stroke-width="2.5"/>
+                        <path d="M310 335l15 15h-30zM295 350h30v15h-30z" fill="#3b82f6" opacity="0.4"/>
+                        <text x="310" y="390" fill="#f0f6fc" font-size="11" font-family="Outfit" text-anchor="middle" font-weight="600">Home Loads (AC)</text>
+
+                        <!-- Flow lines -->
+                        <!-- Solar to Hybrid Inverter -->
+                        <path d="M200 90v80" stroke="#fb8500" stroke-width="3" stroke-linecap="round" opacity="0.3"/>
+                        <path d="M200 90v80" stroke="#10b981" stroke-width="3" stroke-linecap="round" class="flow-line-green"/>
+
+                        <!-- Inverter to Battery -->
+                        <path d="M160 270c-20 20-50 20-70 50" stroke="#fb8500" stroke-width="3" stroke-linecap="round" opacity="0.3"/>
+                        <path d="M160 270c-20 20-50 20-70 50" stroke="#10b981" stroke-width="3" stroke-linecap="round" class="flow-line-green"/>
+
+                        <!-- Inverter to Loads -->
+                        <path d="M240 270c20 20 50 20 70 50" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" opacity="0.3"/>
+                        <path d="M240 270c20 20 50 20 70 50" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" class="flow-line-green"/>
+                    </svg>
+
+                    <!-- AC-COUPLED DIAGRAM -->
+                    <svg id="svg-ac" class="absolute inset-0 w-full h-full transition-all duration-500 opacity-0 scale-95 pointer-events-none" viewBox="0 0 400 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="grad-yellow-ac" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ffb703" />
+                                <stop offset="100%" stop-color="#fb8500" />
+                            </linearGradient>
+                            <linearGradient id="grad-orange-ac" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#fb8500" />
+                                <stop offset="100%" stop-color="#d97706" />
+                            </linearGradient>
+                            <linearGradient id="grad-red-ac" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ef4444" />
+                                <stop offset="100%" stop-color="#dc2626" />
+                            </linearGradient>
+                            <linearGradient id="grad-blue-ac" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#3b82f6" />
+                                <stop offset="100%" stop-color="#1d4ed8" />
+                            </linearGradient>
+                            <filter id="glow-orange-filter" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="4" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
+                            <filter id="glow-red-filter" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="4" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
+                        </defs>
+
+                        <!-- Solar Panels -->
+                        <rect x="140" y="10" width="120" height="60" rx="8" fill="#1f293d" stroke="url(#grad-yellow-ac)" stroke-width="2.5"/>
+                        <path d="M150 18h20v15h-20zm30 0h20v15h-20zm30 0h15v15h-15zM150 40h20v15h-20zm30 0h20v15h-20zm30 0h15v15h-15z" fill="#070a13" opacity="0.6"/>
+                        <text x="200" y="90" fill="#f0f6fc" font-size="11" font-family="Outfit" text-anchor="middle" font-weight="600">Solar Panels (DC)</text>
+
+                        <!-- String Inverter -->
+                        <rect x="130" y="120" width="140" height="60" rx="8" fill="#0f1424" stroke="url(#grad-orange-ac)" stroke-width="2.5" filter="url(#glow-orange-filter)"/>
+                        <circle cx="200" cy="150" r="14" fill="#fb8500" opacity="0.15"/>
+                        <path d="M196 150l3-6 1 6h3l-5 8z" fill="#fb8500"/>
+                        <text x="200" y="145" fill="#f0f6fc" font-size="11" font-family="Outfit" text-anchor="middle" font-weight="600">String Inverter (AC)</text>
+                        <text x="200" y="165" fill="#8b949e" font-size="8" font-family="Space Mono" text-anchor="middle">Box 1: Solar Only</text>
+
+                        <!-- Main Electrical Panel -->
+                        <rect x="130" y="220" width="140" height="50" rx="8" fill="#0f1424" stroke="url(#grad-blue-ac)" stroke-width="2.5"/>
+                        <text x="200" y="240" fill="#f0f6fc" font-size="11" font-family="Outfit" text-anchor="middle" font-weight="600">Main AC Bus Panel</text>
+                        <text x="200" y="255" fill="#8b949e" font-size="8" font-family="Space Mono" text-anchor="middle">AC Power Grid Intersect</text>
+
+                        <!-- Battery Inverter (Retrofit Box) -->
+                        <rect x="240" y="310" width="140" height="60" rx="8" fill="#0f1424" stroke="url(#grad-red-ac)" stroke-width="2.5" filter="url(#glow-red-filter)"/>
+                        <circle cx="310" cy="340" r="14" fill="#ef4444" opacity="0.15"/>
+                        <path d="M306 340l3-6 1 6h3l-5 8z" fill="#ef4444"/>
+                        <text x="310" y="335" fill="#f0f6fc" font-size="11" font-family="Outfit" text-anchor="middle" font-weight="600">Battery Inverter</text>
+                        <text x="310" y="355" fill="#8b949e" font-size="8" font-family="Space Mono" text-anchor="middle">Box 2: Retrofit Added</text>
+
+                        <!-- Battery Stack -->
+                        <rect x="20" y="310" width="120" height="60" rx="8" fill="#0f1424" stroke="url(#grad-yellow-ac)" stroke-width="2.5"/>
+                        <rect x="30" y="325" width="20" height="30" fill="#fb8500" opacity="0.4" rx="1"/>
+                        <rect x="55" y="325" width="20" height="30" fill="#fb8500" opacity="0.4" rx="1"/>
+                        <rect x="80" y="325" width="20" height="30" fill="#fb8500" opacity="0.4" rx="1"/>
+                        <text x="80" y="360" fill="#f0f6fc" font-size="11" font-family="Outfit" text-anchor="middle" font-weight="600">Battery Stack</text>
+
+                        <!-- Flow lines -->
+                        <!-- Solar to String Inv -->
+                        <path d="M200 70v50" stroke="#fb8500" stroke-width="2" opacity="0.3"/>
+                        <path d="M200 70v50" stroke="#10b981" stroke-width="2" class="flow-line-green"/>
+
+                        <!-- String Inv to AC Bus -->
+                        <path d="M200 180v40" stroke="#3b82f6" stroke-width="2" opacity="0.3"/>
+                        <path d="M200 180v40" stroke="#10b981" stroke-width="2" class="flow-line-green"/>
+
+                        <!-- AC Bus to Battery Inverter -->
+                        <path d="M240 245h70v65" stroke="#3b82f6" stroke-width="2" opacity="0.3"/>
+                        <path d="M240 245h70v65" stroke="#ef4444" stroke-width="2.5" class="flow-line-red"/>
+
+                        <!-- Battery Inverter to Battery -->
+                        <path d="M240 340H140" stroke="#fb8500" stroke-width="2" opacity="0.3"/>
+                        <path d="M240 340H140" stroke="#ef4444" stroke-width="2.5" class="flow-line-red"/>
+                    </svg>
+                </div>
+
+                <!-- Floating Warning/Info badge -->
+                <div id="diagram-badge" class="absolute bottom-4 left-4 bg-solar-green/10 border border-solar-green/30 text-solar-green px-3 py-1 rounded-lg text-xs font-mono">
+                    System Efficiency: ~98% (Low Loss)
+                </div>
+            </div>
+
+            <!-- Right Side: Details and Pricing Math (5 cols) -->
+            <div class="lg:col-span-5 flex flex-col gap-6">
+                <div>
+                    <h2 id="panel-title" class="text-xl font-bold text-solar-yellow">DC-Coupled Storage</h2>
+                    <p id="panel-desc" class="text-sm text-slate-400 mt-2 leading-relaxed">
+                        Installing a battery-ready hybrid inverter (SAJ H2) on Day 1 is the cleanest pathway. The inverter natively manages battery charge/discharge directly from the DC solar panels.
+                    </p>
+                </div>
+
+                <!-- Integration Math List -->
+                <div class="bg-solar-border/30 border border-solar-border rounded-xl p-5 flex flex-col gap-4 font-mono text-sm">
+                    <h3 class="text-xs uppercase text-slate-400 font-semibold border-b border-solar-border pb-2 tracking-wider">
+                        Upgrade Cost Breakdown
+                    </h3>
+                    <div class="flex justify-between">
+                        <span id="label-item1">Existing SAJ H2 Hybrid</span>
+                        <span class="text-solar-yellow" id="cost-item1">$0 (Day 1 spec)</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span id="label-item2">SAJ B2 Battery Stack</span>
+                        <span class="text-slate-300" id="cost-item2">Market Price Only</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span id="label-item3">Installer Labor (Plug & Play)</span>
+                        <span class="text-slate-300" id="cost-item3">~$300–$500</span>
+                    </div>
+                    <div class="flex justify-between border-t border-solar-border pt-3 font-semibold text-base text-slate-200">
+                        <span>Total Addition Cost</span>
+                        <span class="text-solar-green font-bold" id="cost-total">~$300–$500 + Battery</span>
+                    </div>
+                </div>
+
+                <!-- Actionable Insight Callout -->
+                <div id="callout-card" class="bg-solar-green/5 border border-solar-green/20 rounded-xl p-4 flex gap-3 items-start">
+                    <span class="text-solar-green text-xl">✓</span>
+                    <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                        <strong>Day 1 Advantage:</strong> Specifying an SAJ H2 inverter means you avoid paying for a second inverter, extra wall space, double permits, and additional wiring. The upgrade remains simple and highly efficient.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMode(mode) {
+            const btnDc = document.getElementById('btn-dc');
+            const btnAc = document.getElementById('btn-ac');
+            const svgDc = document.getElementById('svg-dc');
+            const svgAc = document.getElementById('svg-ac');
+            
+            const badge = document.getElementById('diagram-badge');
+            const title = document.getElementById('panel-title');
+            const desc = document.getElementById('panel-desc');
+            const callout = document.getElementById('callout-card');
+
+            const labelItem1 = document.getElementById('label-item1');
+            const costItem1 = document.getElementById('cost-item1');
+            const labelItem2 = document.getElementById('label-item2');
+            const costItem2 = document.getElementById('cost-item2');
+            const labelItem3 = document.getElementById('label-item3');
+            const costItem3 = document.getElementById('cost-item3');
+            const costTotal = document.getElementById('cost-total');
+
+            if (mode === 'dc') {
+                btnDc.className = "bg-gradient-to-r from-solar-yellow to-solar-orange text-solar-dark font-semibold px-4 py-2 rounded-xl text-xs md:text-sm shadow-lg transition-all duration-300 transform scale-105";
+                btnAc.className = "bg-solar-border hover:bg-solar-border/80 text-slate-300 font-semibold px-4 py-2 rounded-xl text-xs md:text-sm border border-solar-border/50 transition-all duration-300";
+                
+                // Cross-fade transitions
+                svgDc.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+                svgDc.classList.add('opacity-100', 'scale-100');
+                svgAc.classList.remove('opacity-100', 'scale-100');
+                svgAc.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+
+                badge.className = "absolute bottom-4 left-4 bg-solar-green/10 border border-solar-green/30 text-solar-green px-3 py-1 rounded-lg text-xs font-mono";
+                badge.innerText = "System Efficiency: ~98% (Low Loss)";
+
+                title.innerText = "DC-Coupled Storage";
+                desc.innerText = "Installing a battery-ready hybrid inverter (SAJ H2) on Day 1 is the cleanest pathway. The inverter natively manages battery charge/discharge directly from the DC solar panels, avoiding multiple conversion stages.";
+
+                labelItem1.innerText = "Existing SAJ H2 Hybrid";
+                costItem1.innerText = "$0 (Day 1 spec)";
+                labelItem2.innerText = "SAJ B2 Battery Stack";
+                costItem2.innerText = "Market Price Only";
+                labelItem3.innerText = "Installer Labor (Plug & Play)";
+                costItem3.innerText = "~$300–$500";
+                
+                costTotal.className = "text-solar-green font-bold";
+                costTotal.innerText = "~$300–$500 + Battery";
+
+                callout.className = "bg-solar-green/5 border border-solar-green/20 rounded-xl p-4 flex gap-3 items-start";
+                callout.innerHTML = `
+                    <span class="text-solar-green text-xl">✓</span>
+                    <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                        <strong>Day 1 Advantage:</strong> Specifying an SAJ H2 inverter means you avoid paying for a second inverter, extra wall space, double permits, and additional wiring. The upgrade remains simple and highly efficient.
+                    </p>
+                `;
+            } else {
+                btnDc.className = "bg-solar-border hover:bg-solar-border/80 text-slate-300 font-semibold px-4 py-2 rounded-xl text-xs md:text-sm border border-solar-border/50 transition-all duration-300";
+                btnAc.className = "bg-gradient-to-r from-solar-yellow to-solar-orange text-solar-dark font-semibold px-4 py-2 rounded-xl text-xs md:text-sm shadow-lg transition-all duration-300 transform scale-105";
+                
+                // Cross-fade transitions
+                svgAc.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+                svgAc.classList.add('opacity-100', 'scale-100');
+                svgDc.classList.remove('opacity-100', 'scale-100');
+                svgDc.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+
+                badge.className = "absolute bottom-4 left-4 bg-solar-red/10 border border-solar-red/30 text-solar-red px-3 py-1 rounded-lg text-xs font-mono";
+                badge.innerText = "System Efficiency: ~88% (Double Inversion)";
+
+                title.innerText = "AC-Coupled (Retrofit Trap)";
+                desc.innerText = "If you spec a pure string inverter (SAJ R6) on Day 1, adding a battery later requires an AC-coupled patch. This adds a second inverter (battery inverter) to convert the AC power back to DC to charge the battery. Power is converted multiple times, wasting up to 10% efficiency.";
+
+                labelItem1.innerText = "New Battery Inverter Box";
+                costItem1.innerText = "+$2,000–$3,500";
+                labelItem2.innerText = "SAJ B2 Battery Stack";
+                costItem2.innerText = "Market Price Only";
+                labelItem3.innerText = "Complex Labor & Permitting";
+                costItem3.innerText = "+$1,500–$2,500";
+                
+                costTotal.className = "text-solar-red font-bold";
+                costTotal.innerText = "+$3,500–$6,000 + Battery";
+
+                callout.className = "bg-solar-red/5 border border-solar-red/20 rounded-xl p-4 flex gap-3 items-start";
+                callout.innerHTML = `
+                    <span class="text-solar-red text-xl">⚠️</span>
+                    <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                        <strong>The Retrofit Trap:</strong> Buying a cheap string inverter today silently locks you into a double-inverter setup later. You pay for the second inverter's hardware, extra labor, double the wall space, and permits.
+                    </p>
+                `;
+            }
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('demo') === 'true') {
+            // Adjust styles slightly for crisp recording
+            document.body.style.margin = '0';
+            document.body.style.padding = '0';
+            document.body.style.overflow = 'hidden';
+            document.body.style.display = 'block';
+            document.body.style.minHeight = 'auto';
+            
+            const container = document.querySelector('.max-w-5xl');
+            if (container) {
+                container.style.margin = '0';
+                container.style.borderRadius = '0';
+                container.style.border = 'none';
+                container.style.maxWidth = 'none';
+                container.style.width = '100%';
+            }
+
+            let currentMode = 'dc';
+            // Toggle modes every 4.5 seconds for a complete loop
+            setInterval(() => {
+                currentMode = currentMode === 'dc' ? 'ac' : 'dc';
+                toggleMode(currentMode);
+            }, 4500);
+        }
+    </script>
+</body>
+</html>

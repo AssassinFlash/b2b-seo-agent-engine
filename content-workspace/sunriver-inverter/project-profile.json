@@ -1,0 +1,107 @@
+{
+  "projectSlug": "sunriver-inverter",
+  "companyName": "Sunriver Electric",
+  "canonicalDomain": "https://sunriver-energy.example.com",
+  "company": "Sunriver Electric",
+  "domain": "https://sunriver-energy.example.com",
+  "productCategory": "SAJ-focused solar inverters, hybrid inverters, and all-in-one energy storage systems (ESS)",
+  "primaryMarket": "Global",
+  "buyerPersona": {
+    "primary": "Residential end-users / homeowners",
+    "secondary": [
+      "Distributors / wholesalers",
+      "EPCs / installers",
+      "C&I procurement managers"
+    ]
+  },
+  "firstArticle": {
+    "angle": "Solar Without a Battery (Counter-Intent)",
+    "workingTitle": "Solar Without a Battery: The Battery Industry Hopes You Never Read This",
+    "primaryKeywordCluster": [
+      "solar charger without battery",
+      "solar system without battery",
+      "solar panel without battery",
+      "home battery backup without solar"
+    ],
+    "clusterReachMonthly": 2900,
+    "kdRange": "5-10",
+    "aioCoverage": "100%",
+    "tone": "Very close to 饼干哥哥AGI / 颜Sir说 — conversational, contrarian, rant-with-lessons",
+    "conversionGoal": "Build brand awareness and route readers to related Sunriver content"
+  },
+  "contentGoals": [
+    "Maximize organic traffic and engagement through sticky, human-readable prose",
+    "Earn Google AI Overview placement",
+    "Align tightly with Sunriver product lineup"
+  ],
+  "evidenceConstraints": {
+    "directSunriverAssetsAvailable": false,
+    "sourceStrategy": "Public web research + Sunriver website + competitor datasheets + industry standards"
+  },
+  "regulatoryAnchors": [
+    "NEC 2023",
+    "IRA tax credits",
+    "EU Battery Regulation / Net Zero Industry Act"
+  ],
+  "productLines": {
+    "onGridInverters": ["R5", "R6", "C6"],
+    "hybridInverters": ["H1", "H2"],
+    "allInOneESS": ["HS2", "HS3", "CHS2"],
+    "smartAccessories": ["Data Collector", "eManager", "Elekeeper"]
+  },
+  "confirmedProductEvidence": {
+    "h2-3k-6k-single-phase": {
+      "acPowerKw": "3-6",
+      "maxEfficiency": "97.8%",
+      "mpptVoltage": "90-500 V",
+      "batteryVoltage": "90-520 V LiFePO4",
+      "atsSwitchoverMs": "<20",
+      "enclosure": "IP65",
+      "warranty": "5 years extendable to 20 years"
+    },
+    "hs3-3k-6k-single-phase": {
+      "acPowerKw": "3-6",
+      "roundTripEfficiency": "93%",
+      "batteryChemistry": "next-gen LFP",
+      "cyclesAt80DoD": "6000+",
+      "atsSwitchoverMs": "<20",
+      "enclosure": "IP65",
+      "warranty": "10 years"
+    },
+    "r6-15k-25k-three-phase": {
+      "acPowerKw": "15-25",
+      "maxEfficiency": "98.6%",
+      "mpptVoltage": "180-1000 V",
+      "stringCurrent": "2 x 32 A",
+      "warranty": "5 years extendable to 20 years"
+    }
+  },
+  "competitorBenchmarks": [
+    "EnergySage",
+    "SolarReviews",
+    "Solar.com",
+    "Aforenergy",
+    "FranklinWH",
+    "Briggs & Stratton"
+  ],
+  "crossIndustryReferences": [
+    "WeChat 饼干哥哥AGI",
+    "WeChat 颜Sir说",
+    "Thomasnet",
+    "Xometry",
+    "Protolabs",
+    "Jingsourcing",
+    "PakFactory",
+    "HubSpot",
+    "Kickstarter"
+  ],
+  "researchDeliverables": [
+    "research-deep/regulatory-policy-anchors.md",
+    "research-deep/writing-style-reference.md",
+    "research-deep/serp-competitor-research.md",
+    "research-deep/sunriver-product-evidence.md"
+  ],
+  "serpGap": "No top-ranking page combines contrarian editorial voice, manufacturer-informed technical depth, and a clear battery-ready product decision path.",
+  "lockedProfile": true,
+  "lastUpdated": "2026-06-23T17:26:33Z"
+}
