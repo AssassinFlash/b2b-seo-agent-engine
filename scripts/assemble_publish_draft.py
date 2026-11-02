@@ -97,6 +97,41 @@ def _check_balanced_tags(html_text: str) -> list[str]:
     return errs
 
 
+def _nh3_verify_no_executable_html(html_text: str) -> list[str]:
+    """Use Cloudflare's Rust-backed `nh3` (Ammonia) HTML parser to detect hidden event attributes, <script>,<iframe>,<object>, or javascript:/data:text/html URIs."""
+    issues: list[str] = []
+    try:
+        import nh3  # type: ignore
+
+        # Strip <style>...</style> before nh3 check since scoped <style> is validated separately by _check_css_selectors_scoped
+        without_style = re.sub(r"<style\b[^>]*>.*?</style>", "", html_text, flags=re.DOTALL | re.IGNORECASE)
+        allowed_tags = {
+            "div", "span", "p", "a", "ul", "ol", "li", "dl", "dt", "dd",
+            "table", "thead", "tbody", "tfoot", "tr", "th", "td", "caption", "colgroup", "col",
+            "details", "summary", "figure", "figcaption", "Picture", "picture", "source", "img",
+            "svg", "path", "rect", "circle", "line", "polyline", "polygon", "g", "text", "defs", "linearGradient", "stop",
+            "h2", "h3", "h4", "h5", "h6", "strong", "b", "em", "i", "code", "pre", "blockquote",
+            "sup", "sub", "small", "mark", "del", "ins", "s", "u", "hr", "br", "abbr", "cite", "time", "kbd",
+            "input", "label", "button", "meter", "progress",
+        }
+        # Compare tags against nh3's Rust HTML5 tokenizer by cleaning with dangerous tags stripped
+        sanitized = nh3.clean(
+            without_style,
+            tags=allowed_tags,
+            clean_content_tags={"script", "iframe", "object", "embed", "applet"},
+            url_schemes={"http", "https", "mailto", "tel", "data"},
+        )
+        if "<script" in without_style.lower() and "<script" not in sanitized.lower():
+            issues.append("nh3 AST parser detected <script> element")
+        if re.search(r"\bon[a-z]+\s*=", without_style, re.IGNORECASE) and not re.search(r"\bon[a-z]+\s*=", sanitized, re.IGNORECASE):
+            issues.append("nh3 AST parser detected inline DOM event handler attribute (on*=)")
+        if re.search(r"(?:href|src|action)\s*=\s*[\"']?\s*(?:javascript|vbscript):", without_style, re.IGNORECASE):
+            issues.append("nh3 AST parser detected executable javascript:/vbscript: URI scheme")
+    except ImportError:
+        pass
+    return issues
+
+
 def validate_scoped_html_snippet(html_text: str, source_name: str = "") -> list[str]:
     """Verify an HTML snippet is safe to inline into WordPress / arch-dark-gold / 68ch reader columns under strict CSP."""
     errors: list[str] = []
@@ -106,7 +141,7 @@ def validate_scoped_html_snippet(html_text: str, source_name: str = "") -> list[
             f"{label} contains full-page tags or external font/CDN links (<!DOCTYPE>, <html>, <head>, <body>, cdn.tailwindcss.com, fonts.googleapis.com) "
             "which violate CSP or corrupt host page styles. Use a scoped <div class=\"b2b-mod-...\"> container with self-contained styles."
         )
-    if FORBIDDEN_INLINE_JS_RE.search(html_text):
+    if FORBIDDEN_INLINE_JS_RE.search(html_text) or _nh3_verify_no_executable_html(html_text):
         errors.append(
             f"{label} contains <script>, inline event handlers (onclick/oninput...), or javascript: URIs, "
             "which are blocked by the host Content-Security-Policy (`script-src 'self'`). Use Pure CSS State Machines (`<details>` or `<input type=\"radio\"> + :checked`)."

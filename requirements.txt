@@ -1,0 +1,12 @@
+# Core workflow & schema validation
+PyYAML>=6.0
+jsonschema>=4.20.0
+
+# SOTA main-content HTML-to-Markdown extraction (for /article-benchmark-extract)
+trafilatura>=2.0.0
+
+# Rust-backed (Ammonia) HTML AST sanitizer & Zero-JS CSP verification
+nh3>=0.2.15
+
+# Test runner
+pytest>=8.0.0

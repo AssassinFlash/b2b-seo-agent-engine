@@ -594,11 +594,11 @@ class SpecValidationTests(unittest.TestCase):
 
         ws = load_workflow_status_module()
         self.assertIsNone(ws.validate_state(state, schema_path))
-        # Also verify stdlib validator catches invalid enum/pattern/oneOf/nested status
+        # Verify jsonschema validator catches invalid enum and pattern
         bad_enum = dict(state, profileStatus="INVALID_ENUM")
-        self.assertIsNotNone(ws._validate_schema_node(bad_enum, json.loads(schema_path.read_text(encoding="utf-8"))))
+        self.assertIsNotNone(ws.validate_state(bad_enum, schema_path))
         bad_pattern = dict(state, lastUpdated="not-a-date")
-        self.assertIsNotNone(ws._validate_schema_node(bad_pattern, json.loads(schema_path.read_text(encoding="utf-8"))))
+        self.assertIsNotNone(ws.validate_state(bad_pattern, schema_path))
 
     def test_validation_script_passes(self) -> None:
         result = subprocess.run(

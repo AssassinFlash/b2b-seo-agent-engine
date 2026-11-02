@@ -167,13 +167,21 @@ def fix_permissions_and_deps(install_deps: bool = False) -> list[str]:
 
     if install_deps:
         missing_pkgs = []
-        if not check_python_module("yaml"):
-            missing_pkgs.append("pyyaml")
-        if not check_python_module("pytest"):
-            missing_pkgs.append("pytest")
+        for mod_name, pkg_name in (
+            ("yaml", "pyyaml"),
+            ("jsonschema", "jsonschema"),
+            ("trafilatura", "trafilatura"),
+            ("nh3", "nh3"),
+            ("pytest", "pytest"),
+        ):
+            if not check_python_module(mod_name):
+                missing_pkgs.append(pkg_name)
         if missing_pkgs:
             cmd = [sys.executable, "-m", "pip", "install", "--quiet", *missing_pkgs]
             res = subprocess.run(cmd, capture_output=True, text=True)
+            if res.returncode != 0 and "--break-system-packages" not in cmd:
+                cmd_bsp = [sys.executable, "-m", "pip", "install", "--break-system-packages", "--quiet", *missing_pkgs]
+                res = subprocess.run(cmd_bsp, capture_output=True, text=True)
             if res.returncode == 0:
                 actions.append(f"Installed Python packages: {', '.join(missing_pkgs)}")
             else:
@@ -211,6 +219,9 @@ def run_doctor(verify_apify_live: bool = True) -> dict:
 
     chrome_bin = find_chrome_binary()
     pyyaml_ok = check_python_module("yaml")
+    jsonschema_ok = check_python_module("jsonschema")
+    trafilatura_ok = check_python_module("trafilatura")
+    nh3_ok = check_python_module("nh3")
     playwright_ok = check_python_module("playwright")
     pytest_ok = check_python_module("pytest")
 
@@ -220,9 +231,9 @@ def run_doctor(verify_apify_live: bool = True) -> dict:
             "Configure Apify token(s): paste your `apify_api_...` key(s) in chat or run "
             "`python3 scripts/apify_research.py set-tokens <apify_api_...>`"
         )
-    if not pyyaml_ok:
+    if not (pyyaml_ok and jsonschema_ok and trafilatura_ok and nh3_ok):
         next_actions.append(
-            "Install PyYAML: run `python3 scripts/setup_env.py --fix` or `pip install pyyaml`"
+            "Install core open-source libraries: run `python3 scripts/setup_env.py --fix` or `pip install -r requirements.txt`"
         )
     if not chrome_bin:
         next_actions.append(
@@ -230,11 +241,14 @@ def run_doctor(verify_apify_live: bool = True) -> dict:
         )
 
     return {
-        "ready": bool(apify_ready and pyyaml_ok and hook_registered),
+        "ready": bool(apify_ready and pyyaml_ok and jsonschema_ok and trafilatura_ok and nh3_ok and hook_registered),
         "platform": f"{platform.system()} {platform.release()} ({platform.machine()})",
         "python": sys.version.split()[0],
         "dependencies": {
             "pyyaml": pyyaml_ok,
+            "jsonschema": jsonschema_ok,
+            "trafilatura": trafilatura_ok,
+            "nh3": nh3_ok,
             "pytest": pytest_ok,
             "playwright_python": playwright_ok,
             "real_chrome_binary": chrome_bin,

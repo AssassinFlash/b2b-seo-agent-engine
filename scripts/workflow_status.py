@@ -139,92 +139,34 @@ def save_state_atomic(state: dict[str, Any], path: Path) -> None:
         raise e
 
 
-def _check_json_type(val: Any, expected_type: str) -> bool:
-    if expected_type == "string":
-        return isinstance(val, str)
-    if expected_type == "boolean":
-        return isinstance(val, bool)
-    if expected_type == "integer":
-        return isinstance(val, int) and not isinstance(val, bool)
-    if expected_type == "number":
-        return isinstance(val, (int, float)) and not isinstance(val, bool)
-    if expected_type == "array":
-        return isinstance(val, list)
-    if expected_type == "object":
-        return isinstance(val, dict)
-    if expected_type == "null":
-        return val is None
-    return True
-
-
-def _validate_schema_node(instance: Any, schema: dict[str, Any], path: str = "$") -> str | None:
-    """Zero-dependency recursive JSON Schema validator supporting required, additionalProperties, type, enum, pattern, oneOf, anyOf, items, and properties."""
-    if "oneOf" in schema:
-        if not any(_validate_schema_node(instance, sub, path) is None for sub in schema["oneOf"]):
-            return f"{path}: value {instance!r} does not match any allowed oneOf schema"
-    if "anyOf" in schema:
-        if not any(_validate_schema_node(instance, sub, path) is None for sub in schema["anyOf"]):
-            return f"{path}: value {instance!r} does not match any allowed anyOf schema"
-
-    expected_type = schema.get("type")
-    if isinstance(expected_type, str):
-        if not _check_json_type(instance, expected_type):
-            return f"{path}: expected type '{expected_type}', got {type(instance).__name__}"
-    elif isinstance(expected_type, list):
-        if not any(_check_json_type(instance, t) for t in expected_type):
-            return f"{path}: expected one of types {expected_type}, got {type(instance).__name__}"
-
-    if "enum" in schema and instance not in schema["enum"]:
-        return f"{path}: value {instance!r} is not in allowed enum {schema['enum']}"
-
-    if isinstance(instance, str) and "pattern" in schema:
-        if not re.search(schema["pattern"], instance):
-            return f"{path}: string {instance!r} does not match pattern {schema['pattern']!r}"
-
-    if isinstance(instance, dict):
-        for req in schema.get("required", []):
-            if req not in instance:
-                return f"{path}: missing required field '{req}'"
-        props = schema.get("properties", {})
-        add_props = schema.get("additionalProperties", True)
-        for k, v in instance.items():
-            if k in props:
-                err = _validate_schema_node(v, props[k], f"{path}.{k}")
-                if err:
-                    return err
-            elif add_props is False:
-                return f"{path}: additional property '{k}' is not allowed"
-            elif isinstance(add_props, dict):
-                err = _validate_schema_node(v, add_props, f"{path}.{k}")
-                if err:
-                    return err
-
-    if isinstance(instance, list) and "items" in schema and isinstance(schema["items"], dict):
-        for idx, item in enumerate(instance):
-            err = _validate_schema_node(item, schema["items"], f"{path}[{idx}]")
-            if err:
-                return err
-
-    return None
-
-
 def validate_state(state: dict[str, Any], schema_path: Path) -> str | None:
+    """Validate state.json or project-profile.json using official `jsonschema` (Draft 2020-12)."""
     if not schema_path.exists():
         return f"Schema file not found at {schema_path}"
     try:
-        with open(schema_path, "r", encoding="utf-8") as f:
-            schema = json.load(f)
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
     except Exception as e:
         return f"Failed to load schema JSON: {e}"
 
     try:
-        import jsonschema
-        jsonschema.validate(instance=state, schema=schema)
+        import jsonschema  # type: ignore
+
+        validator_cls = jsonschema.validators.validator_for(schema)
+        validator = validator_cls(schema)
+        errors = sorted(validator.iter_errors(state), key=lambda err: list(err.absolute_path))
+        if errors:
+            first = errors[0]
+            loc = "$" + "".join(f".{p}" if isinstance(p, str) else f"[{p}]" for p in first.absolute_path)
+            return f"{loc}: {first.message}"
+        return None
     except ImportError:
-        return _validate_schema_node(state, schema)
+        # Minimal fallback if jsonschema is not yet installed
+        for req in schema.get("required", []):
+            if req not in state:
+                return f"$: missing required field '{req}'"
+        return None
     except Exception as e:
         return str(e)
-    return None
 
 
 STAGE_TO_ARTICLE_STATUS: dict[str, str] = {
