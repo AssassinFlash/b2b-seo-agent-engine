@@ -82,6 +82,45 @@ class SetupAndTokenPoolTestCase(unittest.TestCase):
                 self.assertFalse(state["lockedProfile"])
                 self.assertIn("/profile-discover", res["next_command"])
 
+    def test_preset_matrix_and_payload_builders(self) -> None:
+        self.assertGreaterEqual(len(apify_research.PRESET_MATRIX), 15)
+        expected_presets = {
+            "rag-browser",
+            "google-serp",
+            "website-crawler",
+            "reddit-search",
+            "reddit-fast",
+            "youtube-search",
+            "youtube-transcript",
+            "youtube-comments",
+            "google-maps-b2b",
+            "google-maps-reviews",
+            "google-trends",
+            "linkedin-posts",
+            "alibaba-suppliers",
+            "amazon-reviews",
+            "tiktok-installs",
+        }
+        self.assertTrue(expected_presets.issubset(set(apify_research.PRESET_MATRIX.keys())))
+
+        actor, payload = apify_research.build_preset_payload("reddit-fast", "laser cut screen, PVD coating", 5)
+        self.assertEqual(actor, "fatihtahta/reddit-scraper-search-fast")
+        self.assertEqual(payload["queries"], ["laser cut screen", "PVD coating"])
+        self.assertTrue(payload["scrapeComments"])
+
+        actor_m, payload_m = apify_research.build_preset_payload(
+            "google-maps-b2b", "architectural metal fabricator @ Houston, TX", 10
+        )
+        self.assertEqual(actor_m, "compass/crawler-google-places")
+        self.assertEqual(payload_m["searchStringsArray"], ["architectural metal fabricator"])
+        self.assertEqual(payload_m["locationQuery"], "Houston, TX")
+
+        actor_yt, payload_yt = apify_research.build_preset_payload(
+            "youtube-transcript", "https://www.youtube.com/watch?v=dQw4w9WgXcQ", 1
+        )
+        self.assertEqual(actor_yt, "pintostudio/youtube-transcript-scraper")
+        self.assertEqual(payload_yt["videoUrl"], "https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+
 
 if __name__ == "__main__":
     unittest.main()

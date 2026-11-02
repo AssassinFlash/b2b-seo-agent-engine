@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
-"""Project-local Apify research & persistent token-pool manager; Python standard library only.
+"""Project-local Apify research, Multi-Angle Actor Store matrix & token-pool manager.
 
+Python standard library only (zero third-party dependencies).
 Loads tokens from project `.env.apify.local`, `~/.config/b2b-seo-agent/apify.env`,
 or `~/.config/b2b-seo-agent/apify.env` (supporting APIFY_TOKEN, APIFY_TOKEN_FALLBACK_1..9,
 and APIFY_TOKEN_SPARE1..9), automatically selects an authenticated slot with remaining
 monthly USD quota, and supports:
   - check: verify all configured token slots and show masked tokens + remaining USD quota
-  - set-tokens: overwrite persistent token pool with 1..N tokens (writes 0600 to global + local env)
-  - add-token: append/promote 1..N tokens into the persistent pool (optionally --prune-dead)
-  - remove-token: remove a token by slot index (1, 2, ...) or token substring/suffix
-  - prune-dead: test all slots and automatically remove invalid (401/403) or exhausted tokens
-  - discover: search Apify Actor Store for specialized actors
-  - schema: inspect an Actor's default build input schema
-  - run: run apify/rag-web-browser (or any --actor / --preset with --input-json) and fetch dataset
+  - set-tokens / add-token / remove-token / prune-dead: persistent 0600 token pool lifecycle
+  - matrix: display the curated 12-Preset B2B Multi-Angle Actor Store Matrix
+  - discover: search Apify Actor Store (with optional --with-schemas to auto-inspect top schemas)
+  - schema: inspect any Actor's default build input schema before invoking
+  - run: run any of the 12 built-in B2B presets (--preset) or any Store Actor (--actor)
 """
 
 from __future__ import annotations
@@ -47,6 +46,100 @@ SLOT_KEYS: tuple[tuple[str, ...], ...] = (
     ("APIFY_TOKEN_FALLBACK_8", "APIFY_TOKEN_SPARE8"),
     ("APIFY_TOKEN_FALLBACK_9", "APIFY_TOKEN_SPARE9"),
 )
+
+# Verified against live Apify Actor Store default-build inputSchemas
+PRESET_MATRIX: dict[str, dict[str, str]] = {
+    "rag-browser": {
+        "actor": "apify/rag-web-browser",
+        "angle": "General Web Search & Clean Markdown Extraction",
+        "stage_fit": "All stages (baseline web/doc verification)",
+        "query_hint": "Natural-language search query or target URL",
+    },
+    "google-serp": {
+        "actor": "apify/google-search-scraper",
+        "angle": "Google SERP Top 10, People Also Ask (PAA), & Related Queries",
+        "stage_fit": "/article-cluster, /article-intent-research, /article-benchmark",
+        "query_hint": "One search query (or newline-separated queries)",
+    },
+    "website-crawler": {
+        "actor": "apify/website-content-crawler",
+        "angle": "Deep Multi-Page Competitor & Benchmark Site Markdown Crawler",
+        "stage_fit": "/profile-research-deep, /article-benchmark-extract",
+        "query_hint": "Comma-separated start URL(s), e.g. https://example.com/guide",
+    },
+    "reddit-search": {
+        "actor": "trudax/reddit-scraper-lite",
+        "angle": "Contractor / Architect / Engineer Raw Field Complaints & Subreddit Threads",
+        "stage_fit": "/article-intent-research, /article-evidence-opinions, /article-faq",
+        "query_hint": "Search phrase (or comma-separated phrases / reddit URLs)",
+    },
+    "reddit-fast": {
+        "actor": "fatihtahta/reddit-scraper-search-fast",
+        "angle": "High-Speed Multi-Query Reddit Thread & Comment Harvester",
+        "stage_fit": "/article-intent-research, /article-evidence-opinions",
+        "query_hint": "Comma-separated search queries",
+    },
+    "youtube-search": {
+        "actor": "streamers/youtube-scraper",
+        "angle": "Installation Walkthrough Videos, Factory Tours & Jobsite Subtitles",
+        "stage_fit": "/article-intent-research, /article-benchmark, /article-visual",
+        "query_hint": "Search query or comma-separated YouTube video URLs",
+    },
+    "youtube-transcript": {
+        "actor": "pintostudio/youtube-transcript-scraper",
+        "angle": "Full Spoken Transcript Extraction from Technical/Install YouTube Video",
+        "stage_fit": "/article-benchmark-extract, /article-evidence-opinions",
+        "query_hint": "Single YouTube video URL (https://www.youtube.com/watch?v=...)",
+    },
+    "youtube-comments": {
+        "actor": "streamers/youtube-comments-scraper",
+        "angle": "Installer & Buyer Questions/Objections in YouTube Comment Sections",
+        "stage_fit": "/article-intent-research, /article-faq",
+        "query_hint": "Comma-separated YouTube video URL(s)",
+    },
+    "google-maps-b2b": {
+        "actor": "compass/crawler-google-places",
+        "angle": "Real B2B Fabricators, Distributors, Contractors & Customer Review Pain Points",
+        "stage_fit": "/profile-discover, /profile-research-deep, /article-evidence-opinions",
+        "query_hint": "Business category query (optionally 'query @ location', e.g. 'architectural metal fabricator @ Houston')",
+    },
+    "google-maps-reviews": {
+        "actor": "compass/Google-Maps-Reviews-Scraper",
+        "angle": "Forensic 1-3 Star B2B Buyer Complaints on Competitor/Supplier Google Maps Listings",
+        "stage_fit": "/profile-research-deep, /article-evidence-opinions, /article-faq",
+        "query_hint": "Comma-separated Google Maps place URL(s)",
+    },
+    "google-trends": {
+        "actor": "apify/google-trends-scraper",
+        "angle": "Search Demand Trajectory, Seasonality & Regional Breakout Queries",
+        "stage_fit": "/article-cluster, /article-review",
+        "query_hint": "Comma-separated search terms",
+    },
+    "linkedin-posts": {
+        "actor": "harvestapi/linkedin-post-search",
+        "angle": "No-Cookie LinkedIn B2B Decision-Maker, Architect & EPC Engineer Posts",
+        "stage_fit": "/article-intent-research, /article-benchmark, /article-evidence-opinions",
+        "query_hint": "Comma-separated B2B topic queries",
+    },
+    "alibaba-suppliers": {
+        "actor": "devcake/alibaba-products-scraper",
+        "angle": "B2B Wholesale Price Ranges, MOQ, Lead-Time Claims & Spec-Sheet Baselines",
+        "stage_fit": "/profile-research-deep, /article-evidence-opinions, visual-material-hunt",
+        "query_hint": "Comma-separated product search queries",
+    },
+    "amazon-reviews": {
+        "actor": "junglee/amazon-reviews-scraper",
+        "angle": "B2C/Off-the-Shelf Product Failure Modes (Why Cheap Alternatives Fail)",
+        "stage_fit": "/article-evidence-opinions (April Dunford Status-Quo Teardown)",
+        "query_hint": "Comma-separated Amazon product URL(s)",
+    },
+    "tiktok-installs": {
+        "actor": "clockworks/tiktok-scraper",
+        "angle": "Short-Form Jobsite Installation Clips & Workshop Process Visuals",
+        "stage_fit": "visual-material-hunt, /article-intent-research",
+        "query_hint": "Comma-separated hashtags (without #)",
+    },
+}
 
 
 def mask_token(token: str) -> str:
@@ -143,7 +236,6 @@ def write_persistent_tokens(token_list: list[str], sync_global: bool = True) -> 
         except OSError:
             continue
 
-    # Refresh in-process environment variables so immediate check/run uses the updated pool
     for candidates in SLOT_KEYS:
         for k in candidates:
             os.environ.pop(k, None)
@@ -331,19 +423,37 @@ def save_compact_summary(json_path: Path, items: list | dict) -> Path:
         f"- **Total items**: {len(rows)}",
         "",
     ]
-    for idx, item in enumerate(rows[:25], start=1):
+    for idx, item in enumerate(rows[:30], start=1):
         if not isinstance(item, dict):
             continue
         title = (
             item.get("title")
             or (item.get("metadata") or {}).get("title")
             or item.get("name")
+            or item.get("channelName")
+            or item.get("authorName")
+            or item.get("keyword")
             or f"Item {idx}"
         )
-        url = item.get("url") or (item.get("metadata") or {}).get("url") or ""
-        md = str(item.get("markdown") or item.get("text") or item.get("description") or "")
+        url = (
+            item.get("url")
+            or (item.get("metadata") or {}).get("url")
+            or item.get("postUrl")
+            or item.get("videoUrl")
+            or ""
+        )
+        md = str(
+            item.get("markdown")
+            or item.get("text")
+            or item.get("body")
+            or item.get("comment")
+            or item.get("subtitles")
+            or item.get("transcript")
+            or item.get("description")
+            or ""
+        )
         headings = re.findall(r"(?m)^#{1,3}\s+(.+)$", md)[:8]
-        snippet = re.sub(r"\s+", " ", md)[:280].strip()
+        snippet = re.sub(r"\s+", " ", md)[:320].strip()
         lines.append(f"## {idx}. {title}")
         if url:
             lines.append(f"- **URL**: {url}")
@@ -372,10 +482,167 @@ def _verify_all_tokens(tokens: list[tuple[int, str]]) -> list[dict]:
     return results
 
 
+def build_preset_payload(preset: str, query: str, max_results: int, browser: bool = False) -> tuple[str, dict]:
+    """Construct verified Actor ID and input payload for any of the 15 curated B2B presets."""
+    if preset not in PRESET_MATRIX:
+        raise ValueError(f"Unknown preset: {preset}")
+    actor = PRESET_MATRIX[preset]["actor"]
+    q_clean = query.strip()
+    if not q_clean:
+        raise RuntimeError(f"Provide a query or URL argument for --preset {preset}")
+
+    items_list = [x.strip() for x in re.split(r"[,;\n]+", q_clean) if x.strip()]
+
+    if preset == "google-serp":
+        return actor, {
+            "queries": "\n".join(items_list),
+            "resultsPerPage": max(10, max_results),
+            "maxPagesPerQuery": 1,
+        }
+    if preset == "website-crawler":
+        return actor, {
+            "startUrls": [{"url": u} for u in items_list],
+            "maxCrawlPages": max_results,
+            "saveMarkdown": True,
+        }
+    if preset == "reddit-search":
+        if all(u.startswith("http") for u in items_list):
+            return actor, {
+                "startUrls": [{"url": u} for u in items_list],
+                "maxItems": max_results,
+                "skipComments": False,
+            }
+        return actor, {
+            "searches": items_list,
+            "searchPosts": True,
+            "searchComments": False,
+            "skipComments": False,
+            "maxItems": max_results,
+        }
+    if preset == "reddit-fast":
+        return actor, {
+            "queries": items_list,
+            "sort": "relevance",
+            "timeframe": "all",
+            "scrapeComments": True,
+            "maxComments": min(15, max_results * 2),
+        }
+    if preset == "youtube-search":
+        if all(u.startswith("http") for u in items_list):
+            return actor, {
+                "startUrls": [{"url": u} for u in items_list],
+                "maxResults": max_results,
+                "downloadSubtitles": True,
+            }
+        return actor, {
+            "searchQueries": items_list,
+            "maxResults": max_results,
+            "maxResultsShorts": 0,
+            "maxResultStreams": 0,
+            "downloadSubtitles": True,
+        }
+    if preset == "youtube-transcript":
+        return actor, {
+            "videoUrl": items_list[0],
+            "targetLanguage": "en",
+        }
+    if preset == "youtube-comments":
+        return actor, {
+            "startUrls": [{"url": u} for u in items_list],
+            "maxComments": max(20, max_results * 5),
+        }
+    if preset == "google-maps-b2b":
+        if "@" in q_clean and not q_clean.startswith("http"):
+            search_part, loc_part = q_clean.split("@", 1)
+            searches = [s.strip() for s in search_part.split(",") if s.strip()]
+            return actor, {
+                "searchStringsArray": searches,
+                "locationQuery": loc_part.strip(),
+                "maxCrawledPlacesPerSearch": max_results,
+                "language": "en",
+            }
+        return actor, {
+            "searchStringsArray": items_list,
+            "maxCrawledPlacesPerSearch": max_results,
+            "language": "en",
+        }
+    if preset == "google-maps-reviews":
+        return actor, {
+            "startUrls": [{"url": u} for u in items_list],
+            "maxReviews": max(20, max_results * 4),
+            "reviewsSort": "lowestRanking",
+            "language": "en",
+        }
+    if preset == "google-trends":
+        return actor, {
+            "searchTerms": items_list,
+            "timeRange": "today 12-m",
+            "isMultiple": len(items_list) > 1,
+        }
+    if preset == "linkedin-posts":
+        return actor, {
+            "searchQueries": items_list,
+            "maxPosts": max_results,
+            "sortBy": "relevance",
+        }
+    if preset == "alibaba-suppliers":
+        return actor, {
+            "queries": items_list,
+            "max_pages": 1,
+            "full_details": True,
+        }
+    if preset == "amazon-reviews":
+        return actor, {
+            "productUrls": [{"url": u} for u in items_list],
+            "maxReviews": max(20, max_results * 4),
+            "filterByRatings": ["oneStar", "twoStar", "threeStar"],
+        }
+    if preset == "tiktok-installs":
+        tags = [t.lstrip("#") for t in items_list]
+        return actor, {
+            "hashtags": tags,
+            "resultsPerPage": max_results,
+        }
+    # Default: rag-browser
+    return actor, {
+        "query": q_clean,
+        "maxResults": max_results,
+        "outputFormats": ["markdown"],
+        "requestTimeoutSecs": 90,
+        "desiredConcurrency": 2,
+        "scrapingTool": "browser-playwright" if browser else "raw-http",
+    }
+
+
+def _extract_compact_schema_props(token: str, actor_full_name: str) -> dict:
+    actor_ref = actor_full_name.replace("/", "~")
+    try:
+        resp = api(token, f"/acts/{actor_ref}/builds/default")
+        data = resp.get("data", {})
+        input_schema = data.get("inputSchema") or (data.get("actorDefinition") or {}).get("input") or {}
+        if isinstance(input_schema, str):
+            input_schema = json.loads(input_schema)
+        props = input_schema.get("properties") or {}
+        return {
+            "required": input_schema.get("required") or [],
+            "properties": {
+                k: {
+                    "type": v.get("type"),
+                    "default": v.get("default"),
+                    "description": str(v.get("description") or v.get("title") or "")[:120],
+                }
+                for k, v in list(props.items())[:15]
+            },
+        }
+    except Exception as exc:
+        return {"error": str(exc)[:120]}
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("check", help="Verify all configured Apify token slots without printing secrets")
+    sub.add_parser("matrix", help="Print the 15 curated B2B Actor Store presets, angles, and stage mappings")
 
     set_tok = sub.add_parser("set-tokens", help="Overwrite persistent Apify token pool (writes 0600 to local & global env)")
     set_tok.add_argument("tokens", nargs="+", help="One or more Apify API tokens (e.g. apify_api_...)")
@@ -399,19 +666,24 @@ def main(argv: list[str] | None = None) -> int:
     discover = sub.add_parser("discover", help="Search Apify Actor Store for task-specific actors")
     discover.add_argument("query")
     discover.add_argument("--limit", type=int, default=8)
+    discover.add_argument(
+        "--with-schemas",
+        action="store_true",
+        help="Automatically fetch default-build inputSchema for top 3 discovered Actors in one call",
+    )
     discover.add_argument("--output", type=Path, required=True)
 
     schema = sub.add_parser("schema", help="Inspect an Actor's default build input schema")
     schema.add_argument("actor", help="username/name or Actor ID")
     schema.add_argument("--output", type=Path, required=True)
 
-    run = sub.add_parser("run", help="Run apify/rag-web-browser or a specified --actor / --preset")
-    run.add_argument("query", nargs="?", default="", help="Search query or URL")
+    run = sub.add_parser("run", help="Run any of the 15 B2B Actor Store presets (--preset) or any --actor")
+    run.add_argument("query", nargs="?", default="", help="Search query or URL(s)")
     run.add_argument("--actor", default="apify/rag-web-browser", help="Actor username/name (default: apify/rag-web-browser)")
     run.add_argument(
         "--preset",
-        choices=("rag-browser", "google-serp", "website-crawler"),
-        help="Optional preset recipe that selects actor + default payload shape",
+        choices=tuple(PRESET_MATRIX.keys()),
+        help="Select a verified B2B multi-angle Actor Store preset (run `matrix` to inspect all 15 presets)",
     )
     run.add_argument("--input-json", help="Custom JSON payload string or @path for non-default actors")
     run.add_argument("--max-results", type=int, default=5)
@@ -422,6 +694,10 @@ def main(argv: list[str] | None = None) -> int:
     run.add_argument("--slot", type=int, choices=tuple(range(1, len(SLOT_KEYS) + 1)), help="Force a specific credential slot")
 
     args = parser.parse_args(argv)
+
+    if args.command == "matrix":
+        print(json.dumps(PRESET_MATRIX, ensure_ascii=False, indent=2))
+        return 0
 
     if args.command == "set-tokens":
         meta = write_persistent_tokens(args.tokens, sync_global=not args.local_only)
@@ -496,13 +772,33 @@ def main(argv: list[str] | None = None) -> int:
             path = "/store?" + urllib.parse.urlencode({"search": args.query, "limit": args.limit})
             slot, token, resp = call_with_failover(tokens, path)
             data = resp["data"]
-            fields = ("id", "username", "name", "title", "description", "url", "categories")
+            raw_items = data.get("items", [])
+            actors_out = []
+            for idx, item in enumerate(raw_items):
+                uname = item.get("username", "")
+                name = item.get("name", "")
+                full_actor = f"{uname}/{name}" if uname and name else item.get("name", "")
+                stats = item.get("stats") or {}
+                pricing = (item.get("currentPricingInfo") or {}).get("pricingModel", "FREE/USAGE")
+                entry = {
+                    "id": item.get("id"),
+                    "actor": full_actor,
+                    "title": item.get("title"),
+                    "description": item.get("description"),
+                    "totalRuns": stats.get("totalRuns", 0),
+                    "totalUsers": stats.get("totalUsers", 0),
+                    "pricingModel": pricing,
+                    "categories": item.get("categories"),
+                }
+                if args.with_schemas and idx < 3 and full_actor:
+                    entry["compactSchema"] = _extract_compact_schema_props(token, full_actor)
+                actors_out.append(entry)
             result = {
                 "source": BASE + path,
                 "query": args.query,
                 "total": data.get("total"),
                 "status": "discovered-not-adopted",
-                "actors": [{k: item.get(k) for k in fields} for item in data.get("items", [])],
+                "actors": actors_out,
             }
         else:
             actor_ref = args.actor.replace("/", "~")
@@ -543,54 +839,34 @@ def main(argv: list[str] | None = None) -> int:
         if not tokens:
             raise RuntimeError("Requested credential slot is not configured")
 
-    if getattr(args, "preset", None) == "google-serp" and args.actor == "apify/rag-web-browser":
-        args.actor = "apify/google-search-scraper"
-    elif getattr(args, "preset", None) == "website-crawler" and args.actor == "apify/rag-web-browser":
-        args.actor = "apify/website-content-crawler"
-    actor_ref = args.actor.replace("/", "~")
-
     if args.resume:
+        actor_ref = args.actor.replace("/", "~")
         slot, token, resp = call_with_failover(tokens, "/actor-runs/" + urllib.parse.quote(args.resume, safe=""))
         meta = resp["data"]
     else:
         if args.input_json:
+            if getattr(args, "preset", None) and args.actor == "apify/rag-web-browser":
+                args.actor = PRESET_MATRIX[args.preset]["actor"]
             if args.input_json.startswith("@"):
                 input_path = _resolve_repo_path(Path(args.input_json[1:]))
                 payload = json.loads(input_path.read_text(encoding="utf-8"))
             else:
                 payload = json.loads(args.input_json)
-        elif getattr(args, "preset", None) == "google-serp":
-            if not args.query:
-                raise RuntimeError("Provide query for --preset google-serp")
-            payload = {
-                "queries": args.query,
-                "resultsPerPage": args.max_results,
-                "maxPagesPerQuery": 1,
-            }
-        elif getattr(args, "preset", None) == "website-crawler":
-            if not args.query:
-                raise RuntimeError("Provide start URL in query for --preset website-crawler")
-            payload = {
-                "startUrls": [{"url": u.strip()} for u in args.query.split(",") if u.strip()],
-                "maxCrawlPages": args.max_results,
-                "saveMarkdown": True,
-            }
+        elif getattr(args, "preset", None):
+            preset_actor, payload = build_preset_payload(args.preset, args.query, args.max_results, args.browser)
+            if args.actor == "apify/rag-web-browser":
+                args.actor = preset_actor
         else:
             if not args.query:
                 raise RuntimeError("Provide query or --input-json")
-            payload = {
-                "query": args.query,
-                "maxResults": args.max_results,
-                "outputFormats": ["markdown"],
-                "requestTimeoutSecs": 90,
-                "desiredConcurrency": 2,
-                "scrapingTool": "browser-playwright" if args.browser else "raw-http",
-            }
+            _, payload = build_preset_payload("rag-browser", args.query, args.max_results, args.browser)
+        actor_ref = args.actor.replace("/", "~")
         slot, token, meta = launch_run_with_failover(tokens, actor_ref, payload, args.max_charge_usd)
 
     journal = args.output.with_suffix(".run.json")
     record = {
         "actor": args.actor,
+        "preset": getattr(args, "preset", None),
         "slot": slot,
         "query": args.query,
         "runId": meta["id"],
@@ -626,6 +902,8 @@ def main(argv: list[str] | None = None) -> int:
         json.dumps(
             {
                 "status": meta["status"],
+                "actor": args.actor,
+                "preset": getattr(args, "preset", None),
                 "items": len(items) if isinstance(items, list) else 1,
                 "usageTotalUsd": meta.get("usageTotalUsd"),
                 "output": str(args.output),

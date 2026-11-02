@@ -25,20 +25,29 @@ Whenever any workflow step requires **search, external fact verification, compet
 ### Credentials & Entry Point
 - Three rotating monthly Apify API tokens are pre-configured in `.env.apify.local` (and `~/.config/b2b-seo-agent/apify.env`) as `APIFY_TOKEN`, `APIFY_TOKEN_FALLBACK_1`, and `APIFY_TOKEN_FALLBACK_2`.
 - Tokens are rotated monthly (purchased via low-cost monthly plans); **do not question token rotation and do not throttle or avoid Actor calls to "save money"** — unused monthly quota expires anyway.
-- **Primary CLI / Script Entry** (always available, auto-loads `.env.apify.local` and `~/.config/b2b-seo-agent/apify.env` with N-slot automatic failover and persistent token management):
+- **Primary CLI / Script Entry** (always available, auto-loads `.env.apify.local` and `~/.config/b2b-seo-agent/apify.env` with N-slot automatic failover, 15 built-in B2B Actor Store presets, and dynamic Actor Store schema introspection):
   ```bash
-  # Check all slots & remaining monthly USD quota:
+  # 1. Check all token slots & print the 15-preset B2B Actor Store matrix:
   python3 scripts/apify_research.py check
-  # First-time setup or full replacement of persistent Apify token pool (writes 0600 to local & global env):
-  python3 scripts/apify_research.py set-tokens <apify_api_...> [<apify_api_...>]
-  # Mid-workflow hot-swap: prepend new token(s) to Slot #1 and prune dead/exhausted tokens:
-  python3 scripts/apify_research.py add-token <apify_api_...> --prepend --prune-dead
-  # Actor discovery, schema inspection, and execution:
-  python3 scripts/apify_research.py discover "<keyword>" --limit 8 --output .scratch/apify/candidates.json
-  python3 scripts/apify_research.py schema "<username/actor-name>" --output .scratch/apify/schema.json
-  python3 scripts/apify_research.py run "<search query or URL>" --max-results 5 --output .scratch/apify/result.json
-  python3 scripts/apify_research.py run "<URL>" --browser --output .scratch/apify/rendered.json
-  python3 scripts/apify_research.py run --actor "<username/actor-name>" --input-json '<json>' --output .scratch/apify/custom.json
+  python3 scripts/apify_research.py matrix
+
+  # 2. Run any of the 15 verified B2B multi-angle Actor Store presets directly:
+  python3 scripts/apify_research.py run --preset google-serp "custom stainless steel room divider" --output .scratch/apify/serp.json
+  python3 scripts/apify_research.py run --preset reddit-search "stainless steel partition weld warping" --output .scratch/apify/reddit.json
+  python3 scripts/apify_research.py run --preset reddit-fast "metal screen divider, laser cut panel installation" --output .scratch/apify/reddit-fast.json
+  python3 scripts/apify_research.py run --preset youtube-search "laser cut metal screen installation" --output .scratch/apify/yt.json
+  python3 scripts/apify_research.py run --preset youtube-transcript "https://www.youtube.com/watch?v=VIDEO_ID" --output .scratch/apify/yt-transcript.json
+  python3 scripts/apify_research.py run --preset youtube-comments "https://www.youtube.com/watch?v=VIDEO_ID" --output .scratch/apify/yt-comments.json
+  python3 scripts/apify_research.py run --preset linkedin-posts "architectural metalwork specification, PVD stainless steel" --output .scratch/apify/linkedin.json
+  python3 scripts/apify_research.py run --preset google-maps-b2b "architectural metal fabricator @ Houston" --output .scratch/apify/maps-b2b.json
+  python3 scripts/apify_research.py run --preset google-maps-reviews "https://www.google.com/maps/place/..." --output .scratch/apify/maps-reviews.json
+  python3 scripts/apify_research.py run --preset alibaba-suppliers "316 stainless steel laser cut screen" --output .scratch/apify/alibaba.json
+  python3 scripts/apify_research.py run --preset amazon-reviews "https://www.amazon.com/dp/B0..." --output .scratch/apify/amazon-failures.json
+  python3 scripts/apify_research.py run --preset google-trends "metal room divider, perforated metal screen" --output .scratch/apify/trends.json
+
+  # 3. Dynamic Actor Store Discovery + Auto-Schema Introspection (for Houzz, ArchDaily, Thomasnet, G2, Trustpilot, Pinterest, 1688, etc.):
+  python3 scripts/apify_research.py discover "houzz" --limit 5 --with-schemas --output .scratch/apify/store-houzz.json
+  python3 scripts/apify_research.py run --actor "<username/actor-name>" --input-json '<json-matching-compactSchema>' --output .scratch/apify/custom.json
   ```
 - **Native MCP Entry** (when loaded in the session): `mcp__apify__search_actors`, `mcp__apify__fetch_actor_details`, `mcp__apify__call_actor`, `mcp__apify__get_dataset_items`, `mcp__apify__apify__rag_web_browser`.
 
@@ -109,18 +118,34 @@ Apify specialized Actors (Google Images, Alibaba, 1688, Pinterest, Instagram, Yo
 
 ---
 
-## 3. Per-Workflow-Stage Assignments
+## 3. The 15-Preset B2B Multi-Angle Intelligence Matrix & Per-Stage Assignments
 
-| Stage | Task Type | Primary Entry (Mandatory) | Combinatorial / Secondary Support |
+Never treat Apify as a single generic web scraper (`rag-web-browser`). Every research stage MUST combine **at least 3 distinct Actor Store angles** (e.g., Search/SERP + Practitioner Community/Reddit/LinkedIn + Video/Transcript/Comments + Supplier/Maps/Review Teardown) so our articles capture real-world engineering friction that Google SERP pages never mention:
+
+| Preset (`--preset`) | Verified Store Actor | B2B Intelligence Angle Unlocked | Primary Workflow Stages |
 |---|---|---|---|
-| `/profile-discover` & `/profile-research-deep` | Competitor & industry deep research | `scripts/apify_research.py` (`rag-web-browser` + specialized Actors) | Crawl4AI / Firecrawl / Scrapling / Exa / You.com |
-| `/article-cluster` | SERP & competitor gap analysis | Apify Google SERP / Web Browser Actor | You.com + Tavily + Exa cross-check |
-| `/article-intent-research` | Live PAA, Autocomplete, Reddit/forum intent | Apify Actors + `scripts/extract_google_paa.py` (real Chrome) | `agent-reach` Reddit/B站/微信 + Tavily/Exa |
-| `/article-benchmark` | Best-in-class content discovery | Apify search + Actor discovery | Exa semantic search + You.com + Tavily |
-| `/article-benchmark-extract` | Full-text benchmark extraction | Apify (`--browser` when needed) | Crawl4AI → Scrapling → Firecrawl → Jina |
-| `/article-evidence-opinions` | Verify technical/regulatory claims (2-source min) | Apify primary extraction + 2nd independent index | Exa / Tavily / You.com + Crawl4AI / Scrapling / Firecrawl |
-| `/article-visual` | External visual asset hunting | Apify platform Actors (Alibaba/1688/Images) | Scrapling stealth → Playwright real Chrome |
-| `/article-truth-qa` | Strict external fact & safety verification | Apify authoritative source extraction | Independent 2nd backend (Exa / Tavily / Firecrawl) |
+| `google-serp` | `apify/google-search-scraper` | Live Google Top 10, PAA, related queries, SERP Consensus audit | `/article-cluster`, `/article-intent-research`, `/article-benchmark` |
+| `website-crawler` | `apify/website-content-crawler` | Deep multi-page clean Markdown crawl of exemplar or competitor guides | `/profile-research-deep`, `/article-benchmark-extract` |
+| `reddit-search` | `trudax/reddit-scraper-lite` | Raw contractor, architect & engineer complaints and thread discussions | `/article-intent-research`, `/article-evidence-opinions`, `/article-faq` |
+| `reddit-fast` | `fatihtahta/reddit-scraper-search-fast` | High-speed multi-query Reddit post + comment harvesting | `/article-intent-research`, `/article-evidence-opinions` |
+| `youtube-search` | `streamers/youtube-scraper` | Jobsite installation walkthroughs, factory tours & subtitle metadata | `/article-intent-research`, `/article-benchmark`, `/article-visual` |
+| `youtube-transcript` | `pintostudio/youtube-transcript-scraper` | Full spoken transcript extraction from technical/install videos | `/article-benchmark-extract`, `/article-evidence-opinions` |
+| `youtube-comments` | `streamers/youtube-comments-scraper` | Unfiltered installer & buyer objections in video comment sections | `/article-intent-research`, `/article-faq` |
+| `linkedin-posts` | `harvestapi/linkedin-post-search` | No-cookie LinkedIn posts by B2B specifiers, architects & EPC directors | `/article-intent-research`, `/article-benchmark`, `/article-evidence-opinions` |
+| `google-maps-b2b` | `compass/crawler-google-places` | Regional B2B fabricators, contractors, distributors & service positioning | `/profile-discover`, `/profile-research-deep` |
+| `google-maps-reviews` | `compass/Google-Maps-Reviews-Scraper` | 1–3 star B2B buyer complaints (late lead times, warping, bad crating) | `/profile-research-deep`, `/article-evidence-opinions`, `/article-faq` |
+| `alibaba-suppliers` | `devcake/alibaba-products-scraper` | Wholesale FOB price bands, MOQ, lead-time claims & spec baselines | `/profile-research-deep`, `/article-evidence-opinions`, `visual-material-hunt` |
+| `amazon-reviews` | `junglee/amazon-reviews-scraper` | 1–3 star failure teardowns of cheap off-the-shelf/B2C alternatives | `/article-evidence-opinions` (April Dunford Status-Quo Teardown) |
+| `google-trends` | `apify/google-trends-scraper` | 12-month search demand trajectory & regional breakout queries | `/article-cluster`, `/article-review` |
+| `tiktok-installs` | `clockworks/tiktok-scraper` | Short-form jobsite installation clips & workshop process visuals | `visual-material-hunt`, `/article-intent-research` |
+| `rag-browser` | `apify/rag-web-browser` | General web search & single-URL Markdown extraction (`--browser` for JS) | All stages (baseline verification) |
+
+### Beyond the 15 Presets: Dynamic Actor Store Exploration (`discover --with-schemas`)
+Whenever a topic touches a specialized industry portal (e.g., **Houzz, ArchDaily, Thomasnet, G2, Trustpilot, Capterra, Pinterest, Instagram, Quora, 1688, Made-in-China, GitHub, Patent databases**), do NOT stop at the 15 presets. Run:
+```bash
+python3 scripts/apify_research.py discover "<platform or domain keyword>" --limit 5 --with-schemas --output .scratch/apify/discovered.json
+```
+This queries the live Apify Store, ranks Actors by `totalRuns` / `totalUsers`, and automatically embeds `compactSchema` (`required` + top `properties`) for the top 3 Actors so you can immediately invoke `python3 scripts/apify_research.py run --actor "<username/name>" --input-json '<payload>'`.
 
 ---
 

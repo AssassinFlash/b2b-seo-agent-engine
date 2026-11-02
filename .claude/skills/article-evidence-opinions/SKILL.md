@@ -162,12 +162,17 @@ Mark each fact as:
 
 Run the four required searches every time. Use subagents in parallel, one per bounded search category or per product/model. Main context synthesizes.
 
-**Required searches:**
+**Required searches (Mandatory Multi-Angle Apify Actor Store Matrix — never rely on generic web search alone):**
 
-1. **Technical claim verification**: material properties, engineering specs, performance claims — engineering databases, spec guides, materials handbooks, manufacturer datasheets
-2. **Buyer voice**: Reddit, Quora, architecture/design forums, LinkedIn, and relevant Chinese platforms for real questions, fears, misconceptions, wishes
-3. **SERP refresh**: confirm current top-ranking content matches topic-cluster research; note ranking shifts and new content
-4. **Certification / regulatory scope**: what cited certifications (ISO, ASTM, EN, UL, etc.) guarantee vs. exclude, in plain language
+1. **Technical claim & supplier baseline verification**: material properties, engineering specs, performance claims, and wholesale MOQ/lead-time baselines — combine `python3 scripts/apify_research.py run --preset rag-browser` / `--preset website-crawler` (engineering databases, manufacturer datasheets) with `--preset alibaba-suppliers` (for industry-wide FOB pricing, MOQ, and lead-time reference baselines).
+2. **Buyer & Practitioner Voice (Multi-Platform Store Actors)**: extract unfiltered specifier, contractor, and installer pain points across:
+   - **Reddit threads & comments**: `python3 scripts/apify_research.py run --preset reddit-fast "<query1>, <query2>" --output .scratch/apify/ev-reddit.json`
+   - **LinkedIn B2B practitioner posts (No Cookies)**: `python3 scripts/apify_research.py run --preset linkedin-posts "<B2B topic>" --output .scratch/apify/ev-linkedin.json`
+   - **YouTube installation transcripts & comment objections**: `python3 scripts/apify_research.py run --preset youtube-transcript "<video_url>"` and `--preset youtube-comments "<video_url>"`
+   - **Status-Quo / Cheap Alternative 1–3 Star Failure Teardowns**: `python3 scripts/apify_research.py run --preset amazon-reviews "<product_url>"` or `--preset google-maps-reviews "<place_url>"`
+   - **Vertical Trade Portals**: `python3 scripts/apify_research.py discover "<houzz / thomasnet / trustpilot / g2>" --with-schemas --output .scratch/apify/ev-store.json`
+3. **SERP refresh & Consensus check**: run `python3 scripts/apify_research.py run --preset google-serp "<primary keyword>" --output .scratch/apify/ev-serp.json` to confirm current top-ranking content matches topic-cluster research; note ranking shifts and SERP Consensus platitudes.
+4. **Certification / regulatory scope**: verify what cited certifications (ISO, ASTM, EN, UL, NEC, etc.) guarantee vs. exclude in plain language across at least 2 independent authoritative sources.
 
 Use the `search-toolbox` skill for tool selection and fallbacks. Cross-reference at least two independent sources for any technical claim.
 

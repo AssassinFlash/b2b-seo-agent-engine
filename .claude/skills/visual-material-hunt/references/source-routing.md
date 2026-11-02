@@ -29,14 +29,16 @@ Use Apify when a platform-specific Actor is stronger than generic browser automa
 
 Verified useful Actor families from live discovery:
 
-| Platform | Example Actor | Use |
+| Platform | Example Actor / Preset | Use |
 |---|---|---|
-| Alibaba | `devcake/alibaba-products-scraper` | Product listings, supplier signals, image URLs |
-| Alibaba | `happitap/alibaba-product-scraper` | Product and supplier data by search query |
-| Alibaba | `getdataforme/alibaba-category-scraper` | Verified on 2026-06-18 with `maxTotalChargeUsd: 1`, returned product URLs, supplier data, MOQ, price, `mainImage`, and `additionalImages` |
+| Alibaba (`--preset alibaba-suppliers`) | `devcake/alibaba-products-scraper` | Product listings, supplier signals, MOQ/price, high-res image URLs (`python3 scripts/apify_research.py run --preset alibaba-suppliers "<query>"`) |
+| Alibaba | `getdataforme/alibaba-category-scraper` | Verified with `maxTotalChargeUsd: 1`, returned product URLs, supplier data, MOQ, price, `mainImage`, and `additionalImages` |
+| YouTube (`--preset youtube-search`) | `streamers/youtube-scraper` | Installation walkthroughs, factory tours, timestamps & subtitles (`python3 scripts/apify_research.py run --preset youtube-search "<query>"`) |
+| TikTok (`--preset tiktok-installs`) | `clockworks/tiktok-scraper` | Short-form jobsite installation clips & workshop process visuals (`python3 scripts/apify_research.py run --preset tiktok-installs "<hashtag>"`) |
 | 1688 | `zen-studio/1688-wholesale-scraper` | Rich 1688 product records, galleries, supplier data |
 | 1688 | `devcake/1688-com-products-scraper` | Simpler 1688 product search |
 | Reverse image | `dev00/alibaba-1688-aliexpress-reverse-image-search-api` | Find similar supplier listings from an existing image |
+| Any vertical portal (Houzz, Pinterest, Instagram) | `python3 scripts/apify_research.py discover "<platform>" --with-schemas` | Auto-discover top Store Actors and inspect `compactSchema` in one call |
 
 Before calling a new Actor, run `fetch_actor_details` and inspect the input schema. Keep `maxResults`, `max_pages`, or equivalent low for smoke tests.
 

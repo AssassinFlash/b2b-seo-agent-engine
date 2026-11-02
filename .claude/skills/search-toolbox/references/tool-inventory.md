@@ -4,16 +4,17 @@ Search, scrape, and browser automation tools for this project. **Apify is the ma
 
 ---
 
-## Tier 0 — Mandatory Primary Entry: Apify
+## Tier 0 — Mandatory Primary Entry: Apify & Multi-Angle Actor Store Matrix
 
 | Tool / Command | Mode | Best At | Use when... |
 |---|---|---|---|
-| `python3 scripts/apify_research.py check` | Local CLI (3-slot failover) | Verify token slots (`.env.apify.local` / `~/.config/b2b-seo-agent/apify.env`) | Diagnosing auth or slot status |
-| `python3 scripts/apify_research.py run "<query/URL>"` | Local CLI (`apify/rag-web-browser`) | Web search + full markdown page extraction (`--browser` for Playwright mode) | **Default starting point for any search or URL extraction** |
-| `python3 scripts/apify_research.py discover "<query>"` | Local CLI (Actor Store) | Discover specialized Actors (SERP, Reddit, Alibaba, 1688, YouTube, Maps, etc.) | Default browser Actor is blocked or a platform-native scraper fits better |
-| `python3 scripts/apify_research.py schema "<actor>"` | Local CLI | Inspect exact Actor input schema before calling `--input-json` | Running any specialized Actor |
-| `mcp__apify__apify__rag_web_browser` | Apify MCP | Direct MCP call to RAG web browser | Native MCP alternative to `scripts/apify_research.py run` |
-| `mcp__apify__search_actors` / `call_actor` / `get_dataset_items` | Apify MCP | Search, run, and fetch datasets from any Apify Actor | Native MCP workflow |
+| `python3 scripts/apify_research.py check` | Local CLI (N-slot failover) | Verify token slots (`.env.apify.local` / `~/.config/b2b-seo-agent/apify.env`) | Diagnosing auth, slot status, or remaining USD quota |
+| `python3 scripts/apify_research.py set-tokens / add-token` | Local CLI (`0600` persistence) | Save or hot-swap Apify API tokens across local & global env files | Initial setup on a new computer or mid-workflow token rotation |
+| `python3 scripts/apify_research.py matrix` | Local CLI | List all 15 built-in B2B Actor Store presets and their payload hints | Selecting multi-angle research channels for any stage |
+| `python3 scripts/apify_research.py run --preset <preset> "<query>"` | Local CLI (15 verified Store Actors) | One-command execution of specialized Actors (`google-serp`, `website-crawler`, `reddit-search`, `reddit-fast`, `youtube-search`, `youtube-transcript`, `youtube-comments`, `linkedin-posts`, `google-maps-b2b`, `google-maps-reviews`, `alibaba-suppliers`, `amazon-reviews`, `google-trends`, `tiktok-installs`, `rag-browser`) | **Primary multi-angle research across SERP, Reddit, YouTube, LinkedIn, Google Maps, Alibaba, Amazon & Trends** |
+| `python3 scripts/apify_research.py discover "<query>" --with-schemas` | Local CLI (Actor Store + Auto-Schema) | Search live Apify Store (1,000+ Actors) and auto-fetch `compactSchema` for top 3 matches | Discovering vertical Actors (Houzz, ArchDaily, Thomasnet, G2, Trustpilot, Pinterest, 1688, etc.) |
+| `python3 scripts/apify_research.py schema "<actor>"` | Local CLI | Inspect full Actor default-build input schema before `--input-json` | Running any newly discovered Store Actor |
+| `mcp__apify__search_actors` / `call_actor` / `get_dataset_items` | Apify MCP | Native MCP interface to Apify Actor Store | Native MCP workflow |
 
 ---
 

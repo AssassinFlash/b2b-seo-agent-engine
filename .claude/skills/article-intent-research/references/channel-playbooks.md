@@ -19,27 +19,35 @@ Detailed extraction instructions per channel. Load the `search-toolbox` skill fi
 - **Evidence:** exact API URL + timestamp.
 - **Tool route:** Bash `curl` or `WebFetch`.
 
-## Reddit / English Forums
+## Reddit / English Forums & B2B Practitioner Posts (LinkedIn / Houzz / Trade Forums)
 
-- **Minimum:** 5 real thread titles.
-- **Method:** Search `site:reddit.com <topic>` or direct subreddit search.
-- **Evidence:** exact search query + thread URLs + timestamp.
-- **Tool route:** `python3 scripts/apify_research.py run "site:reddit.com <topic>"` or Apify Reddit Actor → `agent-reach` Reddit → `mcp__tavily__*` / `you-search` / `WebSearch` cross-check.
+- **Minimum:** 5 real thread titles / practitioner posts.
+- **Method:** Direct Reddit post + comment scraping (`trudax/reddit-scraper-lite` or `fatihtahta/reddit-scraper-search-fast`), LinkedIn B2B practitioner post search (`harvestapi/linkedin-post-search`), or vertical forum Actor discovery (`discover --with-schemas`).
+- **Evidence:** exact search query + thread/post URLs + timestamp.
+- **Tool route (Multi-Actor Store First):**
+  1. `python3 scripts/apify_research.py run --preset reddit-fast "<query1>, <query2>" --output .scratch/apify/reddit-fast.json` (or `--preset reddit-search "<query>"`)
+  2. `python3 scripts/apify_research.py run --preset linkedin-posts "<B2B topic query>" --output .scratch/apify/linkedin.json` (captures real architect/engineer/procurement posts on LinkedIn without cookies)
+  3. Vertical forum discovery when relevant: `python3 scripts/apify_research.py discover "houzz" --with-schemas --output .scratch/apify/houzz.json`
+  4. Secondary cross-check: `agent-reach` Reddit → `mcp__tavily__*` / `you-search`.
 
 ## Chinese Social (Xiaohongshu / WeChat)
 
 - **Minimum:** 3 posts when profile language/market includes Chinese.
 - **Method:** Platform search via Apify / `agent-reach` (xhs / wechat) or equivalent.
 - **Evidence:** platform + search query + post URL(s) + timestamp.
-- **Tool route:** Apify Actor / `scripts/apify_research.py` → `agent-reach` → Scrapling / Playwright real Chrome.
+- **Tool route:** Apify Actor (`discover "xiaohongshu" --with-schemas` / `scripts/apify_research.py`) → `agent-reach` → Scrapling / Playwright real Chrome.
 - **Note:** Failure is acceptable if the channel is irrelevant; it must still be logged.
 
-## Non-Text Question Sources
+## Non-Text & Field-Review Question Sources (YouTube Videos, Comments, Transcripts & Google Maps B2B Reviews)
 
-- **Minimum:** 3 video/podcast episode titles when relevant.
-- **Method:** Platform search for titles that capture real buyer questions.
-- **Evidence:** platform + search query + media URL(s) + timestamp.
-- **Tool route:** Apify YouTube/Video Actor or `scripts/apify_research.py` → `yt-dlp` / `you-search` → transcript extraction only if it adds a unique question angle.
+- **Minimum:** 3 video/podcast episode titles, video comment threads, or B2B review complaints when relevant.
+- **Method:** Use Apify's dedicated YouTube & Maps review Actors to extract not just video titles, but **actual installer questions in YouTube comments (`streamers/youtube-comments-scraper`)**, **spoken troubleshooting steps in transcripts (`pintostudio/youtube-transcript-scraper`)**, and **1–3 star B2B buyer complaints on Google Maps (`compass/Google-Maps-Reviews-Scraper`)**.
+- **Evidence:** platform + search query + media/place URL(s) + timestamp.
+- **Tool route:**
+  1. `python3 scripts/apify_research.py run --preset youtube-search "<query>" --output .scratch/apify/yt-search.json`
+  2. `python3 scripts/apify_research.py run --preset youtube-comments "<video_url>" --output .scratch/apify/yt-comments.json`
+  3. `python3 scripts/apify_research.py run --preset youtube-transcript "<video_url>" --output .scratch/apify/yt-transcript.json`
+  4. `python3 scripts/apify_research.py run --preset google-maps-b2b "<category @ city>" --output .scratch/apify/maps.json`
 
 ## Evidence Quality Rules
 

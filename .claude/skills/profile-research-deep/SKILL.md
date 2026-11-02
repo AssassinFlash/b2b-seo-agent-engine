@@ -46,7 +46,7 @@ Use this skill after `/profile-discover`, `/profile-answer`, and `/article-clust
 
 ## Deep Research Scope
 
-Perform 深度研究 on the selected first-article topic before locking the profile (mandatory **Apify-First** via `python3 scripts/apify_research.py` or `mcp__apify__*`, repairing and escalating across Actors/tools if blocked):
+Perform 深度研究 on the selected first-article topic before locking the profile (mandatory **Multi-Angle Apify Actor Store First** via `python3 scripts/apify_research.py` — combine `--preset google-serp`, `--preset website-crawler`, `--preset reddit-fast`, `--preset linkedin-posts`, `--preset google-maps-b2b`, `--preset google-maps-reviews`, `--preset alibaba-suppliers`, and `discover "<vertical>" --with-schemas` rather than relying on a single web scraper):
 - Competitor websites and SERP patterns for the topic (including **SERP Consensus Platitudes** repeated across top-ranking pages)
 - Product category, technical tolerances, and failure-mode anatomy relevant to the topic
 - Keyword families, Hub-and-Spoke neighbors, and question clusters around the selected topic

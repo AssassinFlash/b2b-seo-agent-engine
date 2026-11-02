@@ -24,13 +24,13 @@
 
 Every live channel must be verifiable. Record the exact query URL, tool, method, and timestamp. Inferred candidates cannot be labeled as live-extracted.
 
-| Channel | Minimum | Tool / URL used (Mandatory Apify-First) | Extraction method | Timestamp | Candidates extracted | Status |
+| Channel | Minimum | Tool / URL used (Mandatory Multi-Actor Store Presets) | Extraction method | Timestamp | Candidates extracted | Status |
 |---|---|---|---|---|---|---|
-| Google PAA | ≥ 4 | `python3 scripts/apify_research.py` (`apify/google-search-scraper`) + `extract_google_paa.py` / Playwright real Chrome | Apify SERP/PAA extraction + Browser DOM (`div[data-q]`) |  |  |  |
-| Google Autocomplete | ≥ 8 | `https://suggestqueries.google.com/complete/search?client=firefox&q=...` (or Apify Autocomplete Actor) | HTTP API / Apify Actor |  |  |  |
-| Reddit / English forums | ≥ 5 | `python3 scripts/apify_research.py` (`apify/google-search-scraper` `site:reddit.com <topic>`) + Crawl4AI/Tavily | Apify Search/Scraper + URL capture |  |  |  |
-| Chinese social (Xiaohongshu / WeChat) | ≥ 3 if relevant | `python3 scripts/apify_research.py` / `agent-reach` / platform search | Apify / Platform scraper + URL capture |  |  |  |
-| Non-text questions (YouTube / podcast titles) | ≥ 3 if relevant | `python3 scripts/apify_research.py` (`streamers/youtube-scraper` or Google `site:youtube.com`) | Apify Scraper / Search API + URL capture |  |  |  |
+| Google PAA & SERP | ≥ 4 | `python3 scripts/apify_research.py run --preset google-serp` + `extract_google_paa.py` / Playwright real Chrome | Apify `apify/google-search-scraper` + Browser DOM (`div[data-q]`) |  |  |  |
+| Google Autocomplete & Trends | ≥ 8 | `https://suggestqueries.google.com/complete/search?client=firefox&q=...` + `apify_research.py run --preset google-trends` | HTTP API + `apify/google-trends-scraper` |  |  |  |
+| Reddit / LinkedIn / Trade Forums | ≥ 5 | `python3 scripts/apify_research.py run --preset reddit-fast` (or `--preset reddit-search` / `--preset linkedin-posts`) | Apify `fatihtahta/reddit-scraper-search-fast` / `trudax/reddit-scraper-lite` / `harvestapi/linkedin-post-search` |  |  |  |
+| Chinese social (Xiaohongshu / WeChat) | ≥ 3 if relevant | `python3 scripts/apify_research.py discover "xiaohongshu" --with-schemas` / `agent-reach` | Apify vertical Actor / Platform scraper + URL capture |  |  |  |
+| Non-text & Field Reviews (YouTube / Comments / Maps B2B) | ≥ 3 if relevant | `python3 scripts/apify_research.py run --preset youtube-search` (+ `--preset youtube-comments` / `--preset google-maps-reviews`) | Apify `streamers/youtube-scraper` / `streamers/youtube-comments-scraper` / `compass/Google-Maps-Reviews-Scraper` |  |  |  |
 | topic-card.md outline sketch | all items | `content-workspace/<project>/articles/<slug>/topic-card.md` | Read file |  |  |  |
 
 ### Failure log
